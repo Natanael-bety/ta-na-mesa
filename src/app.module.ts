@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ClienteModule } from './cliente/cliente.module';
 import { ColaboradorModule } from './colaborador/colaborador.module';
 import { EstabelecimentoModule } from './estabelecimento/estabelecimento.module';
@@ -9,16 +7,20 @@ import { ProdutosModule } from './produtos/produtos.module';
 import { MesaModule } from './mesa/mesa.module';
 import { ContaModule } from './conta/conta.module';
 import { PedidoModule } from './pedido/pedido.module';
-import { UsuarioModule } from './usuario/usuario.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Usuario } from './models/usuario.model';
 import { Colaborador } from './models/colaborador.model';
+import { ConfigModule } from '@nestjs/config';
+import { UsuarioModule } from './modules/usuario/usuario.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'localhost',
+      host: process.env.DATABASE_HOST,
       port: 5432,
       username: 'server',
       password: 'pj2*ML8r76*8',
@@ -27,6 +29,7 @@ import { Colaborador } from './models/colaborador.model';
       synchronize: true,
       models: [Usuario, Colaborador],
     }),
+    UsuarioModule,
     // ClienteModule,
     // ColaboradorModule,
     // EstabelecimentoModule,
@@ -37,7 +40,5 @@ import { Colaborador } from './models/colaborador.model';
     // PedidoModule,
     // UsuarioModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

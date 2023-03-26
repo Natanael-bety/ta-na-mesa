@@ -18,6 +18,7 @@ export class Usuario extends Model<Usuario> {
     type: DataType.STRING,
     defaultValue: '',
     validate: { isEmail: true },
+    unique: true,
   })
   email: string;
 
