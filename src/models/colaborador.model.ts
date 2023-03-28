@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { CARGO } from '../constants/colaborador';
 import { Usuario } from './usuario.model';
+import { Estabelecimento } from './estabelecimento.model';
 
 @Table({ modelName: 'Colaboradores' })
 export class Colaborador extends Model<Colaborador> {
@@ -22,7 +23,7 @@ export class Colaborador extends Model<Colaborador> {
   @Column({
     type: DataType.ENUM,
     values: Object.values(CARGO),
-    defaultValue: CARGO.ADMIN,
+    defaultValue: CARGO,
   })
   cargo: CARGO;
 
@@ -32,4 +33,11 @@ export class Colaborador extends Model<Colaborador> {
 
   @BelongsTo(() => Usuario)
   usuario: Usuario;
+
+  @ForeignKey(() => Estabelecimento)
+  @Column({ type: DataType.UUID })
+  estabelecimentoId: string;
+
+  @BelongsTo(() => Estabelecimento)
+  estabelecimento: Estabelecimento;
 }
