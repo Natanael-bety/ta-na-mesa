@@ -14,6 +14,9 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
 import { PedidoProdutoModule } from './modules/pedido-produto/pedido-produto.module';
 import { IngredienteProdutoModule } from './modules/ingrediente-produto/ingrediente-produto.module';
 import { IngredienteModule } from './modules/ingrediente/ingrediente.module';
+import { Cliente } from './models/cliente.model';
+import { Categoria } from './models/categoria.model';
+import { CategoriasModule } from './modules/categorias/categorias.module';
 
 @Module({
   imports: [
@@ -23,22 +26,22 @@ import { IngredienteModule } from './modules/ingrediente/ingrediente.module';
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DATABASE_HOST,
-      port: 5432,
+      port: process.env.DATABASE_PORT,
       username: 'server',
-      password: 'pj2*ML8r76*8',
+      password: process.env.DATABASE_PASSWORD,
       database: 'ta-na-mesa-dev',
       autoLoadModels: true,
       synchronize: true,
-      models: [Usuario, Colaborador],
+      models: [Usuario, Colaborador, Cliente],
     }),
     UsuarioModule,
     PedidoProdutoModule,
     IngredienteProdutoModule,
     IngredienteModule,
-    // ClienteModule,
+    ClienteModule,
+    // CategoriasModule,
     // ColaboradorModule,
     // EstabelecimentoModule,
-    // CategoriasModule,
     // ProdutosModule,
     // MesaModule,
     // ContaModule,
