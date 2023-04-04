@@ -1,7 +1,7 @@
 import { Model, Table, Column, DataType } from 'sequelize-typescript';
 import { STATUS } from '../constants/pedido';
 
-@Table({ modelName: 'pedidos' })
+@Table({ modelName: 'Pedidos' })
 export class Pedido extends Model<Pedido> {
   @Column({
     type: DataType.UUID,
@@ -23,7 +23,8 @@ export class Pedido extends Model<Pedido> {
   @Column({
     type: DataType.ENUM,
     values: Object.values(STATUS),
-    defaultValue: STATUS,
+    defaultValue: STATUS.TANAMESA,
+    allowNull: false,
   })
   status: string;
 

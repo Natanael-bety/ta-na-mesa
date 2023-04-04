@@ -5,7 +5,7 @@ import {
   DataType,
   ForeignKey,
 } from 'sequelize-typescript';
-@Table({ modelName: 'clientes' })
+@Table({ modelName: 'Clientes' })
 export class Cliente extends Model<Cliente> {
   @Column({
     type: DataType.UUID,

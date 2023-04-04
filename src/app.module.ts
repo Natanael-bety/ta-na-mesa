@@ -17,6 +17,8 @@ import { IngredienteModule } from './modules/ingrediente/ingrediente.module';
 import { Cliente } from './models/cliente.model';
 import { Categoria } from './models/categoria.model';
 import { CategoriasModule } from './modules/categorias/categorias.module';
+import { Estabelecimento } from './models/estabelecimento.model';
+import { Pedido } from './models/pedido.model';
 
 @Module({
   imports: [
@@ -27,26 +29,25 @@ import { CategoriasModule } from './modules/categorias/categorias.module';
       dialect: 'postgres',
       host: process.env.DATABASE_HOST,
       port: process.env.DATABASE_PORT,
-      username: 'server',
+      username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: 'ta-na-mesa-dev',
       autoLoadModels: true,
       synchronize: true,
-      models: [Usuario, Colaborador, Cliente],
+      models: [Usuario, Colaborador, Cliente, Estabelecimento, Pedido],
     }),
     UsuarioModule,
-    PedidoProdutoModule,
-    IngredienteProdutoModule,
-    IngredienteModule,
+    // PedidoProdutoModule,
+    // IngredienteProdutoModule,
+    // IngredienteModule,
     ClienteModule,
     // CategoriasModule,
-    // ColaboradorModule,
-    // EstabelecimentoModule,
+    ColaboradorModule,
+    EstabelecimentoModule,
     // ProdutosModule,
     // MesaModule,
     // ContaModule,
-    // PedidoModule,
-    // UsuarioModule,
+    PedidoModule,
   ],
 })
 export class AppModule {}

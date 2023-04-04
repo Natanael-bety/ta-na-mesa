@@ -23,7 +23,8 @@ export class Colaborador extends Model<Colaborador> {
   @Column({
     type: DataType.ENUM,
     values: Object.values(CARGO),
-    defaultValue: CARGO,
+    defaultValue: CARGO.COZINHA,
+    allowNull: false,
   })
   cargo: CARGO;
 
