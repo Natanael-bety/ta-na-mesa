@@ -3,4 +3,5 @@ export enum STATUS {
   CANCELADO = 'CANCELADO',
   FILA = 'FILA',
   TANAMESA = 'TANAMESA',
+  LIVRE = 'LIVRE',
 }
