@@ -1,5 +1,5 @@
-import { Model } from 'sequelize';
 import {
+  Model,
   BelongsTo,
   Column,
   DataType,
@@ -7,6 +7,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Estabelecimento } from './estabelecimento.model';
+import { Produto } from './produto.model';
 
 @Table({ modelName: 'categorias' })
 export class Categoria extends Model<Categoria> {
@@ -27,4 +28,11 @@ export class Categoria extends Model<Categoria> {
 
   @BelongsTo(() => Estabelecimento)
   estabelecimento: Estabelecimento;
+
+  @ForeignKey(() => Produto)
+  @Column({ type: DataType.UUID })
+  produtoId: string;
+
+  @BelongsTo(() => Produto)
+  produto: Produto;
 }

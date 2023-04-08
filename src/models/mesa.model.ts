@@ -1,5 +1,5 @@
-import { Model } from 'sequelize';
 import {
+  Model,
   Column,
   DataType,
   ForeignKey,
@@ -12,7 +12,7 @@ import { Colaborador } from './colaborador.model';
 import { HasOne } from 'sequelize-typescript';
 import { Conta } from './conta.model';
 
-@Table({ modelName: 'mesas' })
+@Table({ modelName: 'Mesas' })
 export class Mesa extends Model<Mesa> {
   @Column({
     type: DataType.UUID,
