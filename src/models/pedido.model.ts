@@ -1,5 +1,16 @@
-import { Model, Table, Column, DataType } from 'sequelize-typescript';
-import { STATUS } from '../constants/pedido';
+import {
+  Model,
+  Table,
+  Column,
+  DataType,
+  HasOne,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript';
+import { SITUACAO } from '../constants/pedido';
+import { PedidoProduto } from './pedido-produto.model';
+import { Usuario } from './usuario.model';
+import { Conta } from './conta.model';
 
 @Table({ modelName: 'Pedidos' })
 export class Pedido extends Model<Pedido> {
@@ -22,12 +33,29 @@ export class Pedido extends Model<Pedido> {
 
   @Column({
     type: DataType.ENUM,
-    values: Object.values(STATUS),
-    defaultValue: STATUS.TANAMESA,
+    values: Object.values(SITUACAO),
+    defaultValue: SITUACAO.PRONTO,
     allowNull: false,
   })
-  status: string;
+  status: SITUACAO;
 
   @Column({ type: DataType.NUMBER, defaultValue: '' })
   ValorTotal: number;
+
+  @HasOne(() => PedidoProduto)
+  PedidoProduto: PedidoProduto;
+
+  @ForeignKey(() => Usuario)
+  @Column({ type: DataType.UUID })
+  usuarioId: string;
+
+  @BelongsTo(() => Usuario)
+  Usuario: Usuario;
+
+  @ForeignKey(() => Conta)
+  @Column({ type: DataType.UUID })
+  contaId: string;
+
+  @BelongsTo(() => Conta)
+  Conta: Conta;
 }

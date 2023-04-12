@@ -1,4 +1,13 @@
-import { Column, Table, Model, DataType } from 'sequelize-typescript';
+import {
+  Column,
+  Table,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript';
+import { Pedido } from './pedido.model';
+import { Produto } from './produto.model';
 
 @Table({ modelName: 'pedidos-produtos' })
 export class PedidoProduto extends Model<PedidoProduto> {
@@ -13,6 +22,26 @@ export class PedidoProduto extends Model<PedidoProduto> {
   @Column({ type: DataType.NUMBER, defaultValue: '' })
   quantidade: number;
 
+  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  novaQuantidade: number;
+
   @Column({ type: DataType.STRING, defaultValue: '' })
   observacao: string;
+
+  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  precoUnitario: number;
+
+  @ForeignKey(() => Pedido)
+  @Column({ type: DataType.UUID })
+  pedidoId: string;
+
+  @BelongsTo(() => Pedido)
+  Pedido: Pedido;
+
+  @ForeignKey(() => Produto)
+  @Column({ type: DataType.UUID })
+  produtoId: string;
+
+  @BelongsTo(() => Produto)
+  Produto: Produto;
 }

@@ -4,13 +4,13 @@ import {
   DataType,
   ForeignKey,
   Table,
+  HasOne,
   BelongsTo,
 } from 'sequelize-typescript';
-import { STATUS } from 'src/constants/pedido';
+import { STATUS } from 'src/constants/mesa';
 import { Estabelecimento } from './estabelecimento.model';
-import { Colaborador } from './colaborador.model';
-import { HasOne } from 'sequelize-typescript';
 import { Conta } from './conta.model';
+import { Usuario } from './usuario.model';
 
 @Table({ modelName: 'Mesas' })
 export class Mesa extends Model<Mesa> {
@@ -43,12 +43,12 @@ export class Mesa extends Model<Mesa> {
   @BelongsTo(() => Estabelecimento)
   estabelecimento: Estabelecimento;
 
-  @ForeignKey(() => Colaborador)
+  @ForeignKey(() => Usuario)
   @Column({ type: DataType.UUID })
   colaboradorId: string;
 
-  @BelongsTo(() => Colaborador)
-  colaborador: Colaborador;
+  @BelongsTo(() => Usuario)
+  Usuario: Usuario;
 
   @HasOne(() => Conta)
   Conta: Conta;

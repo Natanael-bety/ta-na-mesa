@@ -7,8 +7,9 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { Cliente } from './cliente.model';
 import { Mesa } from './mesa.model';
+import { Usuario } from './usuario.model';
+import { Pedido } from './pedido.model';
 
 @Table({ modelName: 'Contas' })
 export class Conta extends Model<Conta> {
@@ -33,6 +34,9 @@ export class Conta extends Model<Conta> {
   @BelongsTo(() => Mesa)
   Mesa: Mesa;
 
-  @HasOne(() => Cliente)
-  Cliente: Cliente;
+  @HasOne(() => Usuario)
+  Usuario: Usuario;
+
+  @HasOne(() => Pedido)
+  Pedido: Pedido;
 }

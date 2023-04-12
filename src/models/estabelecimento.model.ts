@@ -1,7 +1,6 @@
 import { HasOne, Model, Column, DataType, Table } from 'sequelize-typescript';
-import { ManyToOne } from 'typeorm';
-import { Colaborador } from './colaborador.model';
 import { Categoria } from './categoria.model';
+import { Usuario } from './usuario.model';
 
 @Table
 export class Estabelecimento extends Model<Estabelecimento> {
@@ -16,9 +15,9 @@ export class Estabelecimento extends Model<Estabelecimento> {
   @Column({ type: DataType.STRING, defaultValue: '' })
   nome: string;
 
-  @HasOne(() => Colaborador)
-  colaborador: Colaborador;
+  @HasOne(() => Usuario)
+  Usuario: Usuario;
 
-  @ManyToOne(() => Categoria)
+  @HasOne(() => Categoria)
   categoria: Categoria;
 }

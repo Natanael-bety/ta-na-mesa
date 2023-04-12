@@ -5,8 +5,10 @@ import {
   DataType,
   ForeignKey,
   Table,
+  HasOne,
 } from 'sequelize-typescript';
 import { Categoria } from './categoria.model';
+import { PedidoProduto } from './pedido-produto.model';
 
 @Table({ modelName: 'Produtos' })
 export class Produto extends Model<Produto> {
@@ -39,4 +41,7 @@ export class Produto extends Model<Produto> {
 
   @BelongsTo(() => Categoria)
   Categoria: Categoria;
+
+  @HasOne(() => PedidoProduto)
+  PedidoProduto: PedidoProduto;
 }
