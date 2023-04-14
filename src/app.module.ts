@@ -17,6 +17,7 @@ import { PedidoProduto } from './models/pedido-produto.model';
 import { Mesa } from './models/mesa.model';
 import { Produto } from './models/produto.model';
 import { ProdutosModule } from './modules/produtos/produto.module';
+import { ContaCliente } from './models/conta-cliente.model';
 
 @Module({
   imports: [
@@ -35,20 +36,21 @@ import { ProdutosModule } from './modules/produtos/produto.module';
       models: [
         Usuario,
         Estabelecimento,
+        Mesa,
         Pedido,
         Categoria,
         Conta,
-        Mesa,
         PedidoProduto,
         Produto,
+        ContaCliente,
       ],
     }),
     UsuarioModule,
     PedidoProdutoModule,
     CategoriasModule,
     EstabelecimentoModule,
-    ProdutosModule,
     MesaModule,
+    ProdutosModule,
     ContaModule,
     PedidoModule,
   ],

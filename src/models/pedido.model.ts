@@ -6,8 +6,9 @@ import {
   HasOne,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
-import { SITUACAO } from '../constants/pedido';
+import { STATUS_PEDIDO } from '../constants/pedido';
 import { PedidoProduto } from './pedido-produto.model';
 import { Usuario } from './usuario.model';
 import { Conta } from './conta.model';
@@ -22,40 +23,55 @@ export class Pedido extends Model<Pedido> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  @Column({ type: DataType.NUMBER, defaultValue: 1 })
   numero: number;
-
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
-  hPedido: number;
-
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
-  hPronto: number;
 
   @Column({
     type: DataType.ENUM,
-    values: Object.values(SITUACAO),
-    defaultValue: SITUACAO.PRONTO,
+    values: Object.values(STATUS_PEDIDO),
+    defaultValue: STATUS_PEDIDO.PRONTO,
     allowNull: false,
   })
-  status: SITUACAO;
+  status: STATUS_PEDIDO;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
-  ValorTotal: number;
+  @Column({
+    type: DataType.NUMBER,
+    defaultValue: 0,
+  })
+  valorTotal: number;
 
-  @HasOne(() => PedidoProduto)
-  PedidoProduto: PedidoProduto;
+  @Column({ type: DataType.DATE, allowNull: true })
+  canceladoEm: Date;
+
+  @Column({ type: DataType.DATE, allowNull: true })
+  aceitoEm: Date;
+
+  @Column({ type: DataType.DATE, allowNull: true })
+  preparandoEm: Date;
+
+  @Column({ type: DataType.DATE, allowNull: true })
+  prontoEm: Date;
+
+  @Column({ type: DataType.DATE, allowNull: true })
+  entegueEm: Date;
+
+  @Column({ type: DataType.DATE, allowNull: true })
+  alteradoEm: Date;
+
+  @HasMany(() => PedidoProduto)
+  pedidoProdutos: PedidoProduto[];
 
   @ForeignKey(() => Usuario)
   @Column({ type: DataType.UUID })
   usuarioId: string;
 
   @BelongsTo(() => Usuario)
-  Usuario: Usuario;
+  usuario: Usuario;
 
   @ForeignKey(() => Conta)
   @Column({ type: DataType.UUID })
   contaId: string;
 
   @BelongsTo(() => Conta)
-  Conta: Conta;
+  conta: Conta;
 }

@@ -1,9 +1,7 @@
 /* eslint-disable prettier/prettier */
-export enum COLABORADOR {
+export enum USUARIO_TIPO{
   CLIENTE = 'CLIENTE',
   ADMIN = 'ADMIN',
   GARCOM = 'GARCOM',
   COZINHA = 'COZINHA',
-  CAIXA = 'CAIXA',
-  GESTOR = 'GESTOR',
 }

@@ -6,10 +6,12 @@ import {
   HasOne,
   ForeignKey,
   BelongsTo,
+  AllowNull,
+  HasMany,
 } from 'sequelize-typescript';
 import { Mesa } from './mesa.model';
-import { Usuario } from './usuario.model';
 import { Pedido } from './pedido.model';
+import { ContaCliente } from './conta-cliente.model';
 
 @Table({ modelName: 'Contas' })
 export class Conta extends Model<Conta> {
@@ -21,22 +23,22 @@ export class Conta extends Model<Conta> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  @Column({ type: DataType.NUMBER, defaultValue: 0 })
   valorTotal: number;
 
-  @Column({ type: DataType.BOOLEAN, defaultValue: '' })
-  aberto: boolean;
+  @Column({ type: DataType.DATE, allowNull: true })
+  finalizadoEm: Date;
 
   @ForeignKey(() => Mesa)
   @Column({ type: DataType.UUID })
   mesaId: string;
 
   @BelongsTo(() => Mesa)
-  Mesa: Mesa;
+  mesa: Mesa;
 
-  @HasOne(() => Usuario)
-  Usuario: Usuario;
+  @HasMany(() => ContaCliente)
+  contaClientes: ContaCliente[];
 
-  @HasOne(() => Pedido)
-  Pedido: Pedido;
+  @HasMany(() => Pedido)
+  pedidos: Pedido[];
 }

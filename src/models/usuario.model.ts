@@ -3,15 +3,16 @@ import {
   Table,
   Column,
   DataType,
-  HasOne,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
-import { COLABORADOR } from 'src/constants/colaborador';
+import { USUARIO_TIPO } from 'src/constants/usuario';
 import { Conta } from './conta.model';
 import { Estabelecimento } from './estabelecimento.model';
 import { Mesa } from './mesa.model';
 import { Pedido } from './pedido.model';
+import { ContaCliente } from './conta-cliente.model';
 
 @Table
 export class Usuario extends Model<Usuario> {
@@ -23,55 +24,50 @@ export class Usuario extends Model<Usuario> {
   })
   id: string;
 
-  @Column({ type: DataType.STRING, defaultValue: '' })
+  @Column({ type: DataType.STRING, allowNull: false })
   nome: string;
 
   @Column({
     type: DataType.STRING,
-    defaultValue: '',
+    allowNull: true,
     validate: { isEmail: true },
     unique: true,
   })
-  email: string;
+  email?: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
-  senha: string;
+  senha?: string;
 
   @Column({
-    type: DataType.UUID,
-    defaultValue: DataType.UUIDV4,
-    allowNull: false,
+    type: DataType.STRING,
+    allowNull: true,
   })
-  token: string;
+  token?: string;
 
   @Column({
     type: DataType.ENUM,
-    values: Object.values(COLABORADOR),
-    defaultValue: COLABORADOR.ADMIN,
+    values: Object.values(USUARIO_TIPO),
+    defaultValue: USUARIO_TIPO.CLIENTE,
     allowNull: false,
   })
-  tipo: COLABORADOR;
+  tipo: USUARIO_TIPO;
 
-  @ForeignKey(() => Conta)
-  @Column({ type: DataType.UUID })
-  contaId: string;
-
-  @BelongsTo(() => Conta)
-  Conta: Conta;
+  @HasMany(() => ContaCliente)
+  contaClientes: ContaCliente[];
 
   @ForeignKey(() => Estabelecimento)
-  @Column({ type: DataType.UUID })
+  @Column({ type: DataType.UUID, allowNull: true })
   estabelecimentoId: string;
 
   @BelongsTo(() => Estabelecimento)
-  Estabelecimento: Estabelecimento;
+  estabelecimento: Estabelecimento;
 
-  @HasOne(() => Mesa)
-  Mesa: Mesa;
+  @HasMany(() => Mesa)
+  mesas: Mesa[];
 
-  @HasOne(() => Pedido)
-  Pedido: Pedido;
+  @HasMany(() => Pedido)
+  pedidos: Pedido[];
 }

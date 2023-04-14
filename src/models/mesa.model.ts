@@ -4,10 +4,10 @@ import {
   DataType,
   ForeignKey,
   Table,
-  HasOne,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
-import { STATUS } from 'src/constants/mesa';
+import { MESA_STATUS } from 'src/constants/mesa';
 import { Estabelecimento } from './estabelecimento.model';
 import { Conta } from './conta.model';
 import { Usuario } from './usuario.model';
@@ -22,19 +22,18 @@ export class Mesa extends Model<Mesa> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
-  numero: string;
+  @Column({ type: DataType.NUMBER, allowNull: false })
+  numero: number;
 
-  @Column({ type: DataType.BOOLEAN, defaultValue: '' })
+  @Column({ type: DataType.BOOLEAN, defaultValue: true })
   chamarGarcom: boolean;
 
   @Column({
     type: DataType.ENUM,
-    values: Object.values(STATUS),
-    defaultValue: STATUS.LIVRE,
-    allowNull: false,
+    values: Object.values(MESA_STATUS),
+    defaultValue: MESA_STATUS.LIVRE,
   })
-  status: STATUS;
+  status: MESA_STATUS;
 
   @ForeignKey(() => Estabelecimento)
   @Column({ type: DataType.UUID })
@@ -44,12 +43,12 @@ export class Mesa extends Model<Mesa> {
   estabelecimento: Estabelecimento;
 
   @ForeignKey(() => Usuario)
-  @Column({ type: DataType.UUID })
-  colaboradorId: string;
+  @Column({ type: DataType.UUID, allowNull: true })
+  usuarioId: string;
 
   @BelongsTo(() => Usuario)
-  Usuario: Usuario;
+  usuario: Usuario;
 
-  @HasOne(() => Conta)
-  Conta: Conta;
+  @HasMany(() => Conta)
+  contas: Conta[];
 }

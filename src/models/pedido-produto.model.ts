@@ -19,16 +19,16 @@ export class PedidoProduto extends Model<PedidoProduto> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  @Column({ type: DataType.NUMBER, allowNull: false })
   quantidade: number;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  @Column({ type: DataType.NUMBER, allowNull: true })
   novaQuantidade: number;
 
   @Column({ type: DataType.STRING, defaultValue: '' })
   observacao: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  @Column({ type: DataType.NUMBER, allowNull: false })
   precoUnitario: number;
 
   @ForeignKey(() => Pedido)
@@ -36,12 +36,12 @@ export class PedidoProduto extends Model<PedidoProduto> {
   pedidoId: string;
 
   @BelongsTo(() => Pedido)
-  Pedido: Pedido;
+  pedido: Pedido;
 
   @ForeignKey(() => Produto)
   @Column({ type: DataType.UUID })
   produtoId: string;
 
   @BelongsTo(() => Produto)
-  Produto: Produto;
+  produto: Produto;
 }

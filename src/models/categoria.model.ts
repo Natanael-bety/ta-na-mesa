@@ -5,6 +5,7 @@ import {
   DataType,
   ForeignKey,
   Table,
+  HasMany,
 } from 'sequelize-typescript';
 import { Estabelecimento } from './estabelecimento.model';
 import { Produto } from './produto.model';
@@ -19,7 +20,7 @@ export class Categoria extends Model<Categoria> {
   })
   id: string;
 
-  @Column({ type: DataType.STRING, defaultValue: '' })
+  @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
   @ForeignKey(() => Estabelecimento)
@@ -29,10 +30,6 @@ export class Categoria extends Model<Categoria> {
   @BelongsTo(() => Estabelecimento)
   estabelecimento: Estabelecimento;
 
-  @ForeignKey(() => Produto)
-  @Column({ type: DataType.UUID })
-  produtoId: string;
-
-  @BelongsTo(() => Produto)
-  produto: Produto;
+  @HasMany(() => Produto)
+  produtos: Produto[];
 }

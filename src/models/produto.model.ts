@@ -6,6 +6,7 @@ import {
   ForeignKey,
   Table,
   HasOne,
+  HasMany,
 } from 'sequelize-typescript';
 import { Categoria } from './categoria.model';
 import { PedidoProduto } from './pedido-produto.model';
@@ -20,16 +21,16 @@ export class Produto extends Model<Produto> {
   })
   id: string;
 
-  @Column({ type: DataType.STRING, defaultValue: '' })
+  @Column({ type: DataType.STRING, allowNull: false })
   nome: string;
 
-  @Column({ type: DataType.STRING, defaultValue: '' })
+  @Column({ type: DataType.STRING, allowNull: true })
   imagem: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  @Column({ type: DataType.NUMBER, defaultValue: 0 })
   estoque: number;
 
-  @Column({ type: DataType.NUMBER, defaultValue: '' })
+  @Column({ type: DataType.NUMBER, allowNull: true })
   preco: number;
 
   @Column({ type: DataType.STRING, defaultValue: '' })
@@ -40,8 +41,8 @@ export class Produto extends Model<Produto> {
   categoriaId: string;
 
   @BelongsTo(() => Categoria)
-  Categoria: Categoria;
+  categoria: Categoria;
 
-  @HasOne(() => PedidoProduto)
-  PedidoProduto: PedidoProduto;
+  @HasMany(() => PedidoProduto)
+  pedidoProdutos: PedidoProduto;
 }

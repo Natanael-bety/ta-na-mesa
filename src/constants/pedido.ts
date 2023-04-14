@@ -1,4 +1,4 @@
-export enum SITUACAO {
+export enum STATUS_PEDIDO {
   PRONTO = 'PRONTO',
   CANCELADO = 'CANCELADO',
   FILA = 'FILA',

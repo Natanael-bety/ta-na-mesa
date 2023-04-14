@@ -1,7 +1,7 @@
-import { HasOne, Model, Column, DataType, Table } from 'sequelize-typescript';
+import { Model, Column, DataType, Table, HasMany } from 'sequelize-typescript';
 import { Categoria } from './categoria.model';
 import { Usuario } from './usuario.model';
-
+import { Mesa } from './mesa.model';
 @Table
 export class Estabelecimento extends Model<Estabelecimento> {
   @Column({
@@ -12,12 +12,21 @@ export class Estabelecimento extends Model<Estabelecimento> {
   })
   id: string;
 
-  @Column({ type: DataType.STRING, defaultValue: '' })
+  @Column({ type: DataType.STRING, allowNull: false })
   nome: string;
 
-  @HasOne(() => Usuario)
-  Usuario: Usuario;
+  @Column({ type: DataType.STRING, allowNull: false })
+  immagem: string;
 
-  @HasOne(() => Categoria)
-  categoria: Categoria;
+  @Column({ type: DataType.STRING, defaultValue: '' })
+  descricao: string;
+
+  @HasMany(() => Usuario)
+  usuarios: Usuario[];
+
+  @HasMany(() => Categoria)
+  categorias: Categoria[];
+
+  @HasMany(() => Mesa)
+  mesas: Mesa[];
 }
