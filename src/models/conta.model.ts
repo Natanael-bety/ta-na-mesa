@@ -3,10 +3,8 @@ import {
   Model,
   Column,
   DataType,
-  HasOne,
   ForeignKey,
   BelongsTo,
-  AllowNull,
   HasMany,
 } from 'sequelize-typescript';
 import { Mesa } from './mesa.model';
@@ -23,7 +21,7 @@ export class Conta extends Model<Conta> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: 0 })
+  @Column({ type: DataType.FLOAT, defaultValue: 0 })
   valorTotal: number;
 
   @Column({ type: DataType.DATE, allowNull: true })

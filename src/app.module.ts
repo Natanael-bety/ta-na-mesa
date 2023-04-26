@@ -18,6 +18,10 @@ import { Mesa } from './models/mesa.model';
 import { Produto } from './models/produto.model';
 import { ProdutosModule } from './modules/produtos/produto.module';
 import { ContaCliente } from './models/conta-cliente.model';
+import { JwtService } from '@nestjs/jwt';
+import { AuthService } from './auth/auth.service';
+import { UsuarioService } from './modules/usuario/usuario.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -53,6 +57,8 @@ import { ContaCliente } from './models/conta-cliente.model';
     ProdutosModule,
     ContaModule,
     PedidoModule,
+    AuthModule,
   ],
+  providers: [AuthService, UsuarioService, JwtService],
 })
 export class AppModule {}

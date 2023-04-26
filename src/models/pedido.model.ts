@@ -3,7 +3,6 @@ import {
   Table,
   Column,
   DataType,
-  HasOne,
   ForeignKey,
   BelongsTo,
   HasMany,
@@ -23,7 +22,7 @@ export class Pedido extends Model<Pedido> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: 1 })
+  @Column({ type: DataType.INTEGER, defaultValue: 1 })
   numero: number;
 
   @Column({
@@ -35,7 +34,7 @@ export class Pedido extends Model<Pedido> {
   status: STATUS_PEDIDO;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.FLOAT,
     defaultValue: 0,
   })
   valorTotal: number;

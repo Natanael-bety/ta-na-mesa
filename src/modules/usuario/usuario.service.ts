@@ -6,9 +6,9 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
-
 @Injectable()
 export class UsuarioService {
+  [x: string]: any;
   constructor(@InjectModel(Usuario) private usuarioModel: typeof Usuario) {}
 
   async getUsuarioById(id: string) {

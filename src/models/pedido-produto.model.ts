@@ -19,16 +19,16 @@ export class PedidoProduto extends Model<PedidoProduto> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   quantidade: number;
 
-  @Column({ type: DataType.NUMBER, allowNull: true })
+  @Column({ type: DataType.INTEGER, allowNull: true })
   novaQuantidade: number;
 
   @Column({ type: DataType.STRING, defaultValue: '' })
   observacao: string;
 
-  @Column({ type: DataType.NUMBER, allowNull: false })
+  @Column({ type: DataType.FLOAT, allowNull: false })
   precoUnitario: number;
 
   @ForeignKey(() => Pedido)

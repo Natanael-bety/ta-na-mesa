@@ -4,7 +4,6 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasOne,
   BelongsTo,
 } from 'sequelize-typescript';
 import { Conta } from './conta.model';

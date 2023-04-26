@@ -5,7 +5,6 @@ import {
   DataType,
   ForeignKey,
   Table,
-  HasOne,
   HasMany,
 } from 'sequelize-typescript';
 import { Categoria } from './categoria.model';
@@ -27,10 +26,10 @@ export class Produto extends Model<Produto> {
   @Column({ type: DataType.STRING, allowNull: true })
   imagem: string;
 
-  @Column({ type: DataType.NUMBER, defaultValue: 0 })
+  @Column({ type: DataType.INTEGER, defaultValue: 0 })
   estoque: number;
 
-  @Column({ type: DataType.NUMBER, allowNull: true })
+  @Column({ type: DataType.FLOAT, allowNull: true })
   preco: number;
 
   @Column({ type: DataType.STRING, defaultValue: '' })

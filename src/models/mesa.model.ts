@@ -22,7 +22,7 @@ export class Mesa extends Model<Mesa> {
   })
   id: string;
 
-  @Column({ type: DataType.NUMBER, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   numero: number;
 
   @Column({ type: DataType.BOOLEAN, defaultValue: true })

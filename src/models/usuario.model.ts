@@ -6,16 +6,18 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  BeforeSave,
 } from 'sequelize-typescript';
 import { USUARIO_TIPO } from 'src/constants/usuario';
-import { Conta } from './conta.model';
 import { Estabelecimento } from './estabelecimento.model';
 import { Mesa } from './mesa.model';
 import { Pedido } from './pedido.model';
 import { ContaCliente } from './conta-cliente.model';
+import { genSalt, hash } from 'bcrypt';
 
 @Table
 export class Usuario extends Model<Usuario> {
+  [x: string]: any;
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
@@ -70,4 +72,14 @@ export class Usuario extends Model<Usuario> {
 
   @HasMany(() => Pedido)
   pedidos: Pedido[];
+
+  @BeforeSave
+  static async normalizePassword(instance: Usuario) {
+    if (instance.senha) {
+      const salt = await genSalt(10, 'a');
+      instance.senha = await hash(instance.senha, salt);
+    }
+  }
+
+  // const isPasswordCorrectly = await compare(password, user.password);
 }
