@@ -24,10 +24,7 @@ export class AuthService {
     senha: string,
     email: string,
   ): Promise<Usuario | null> {
-    const usuario = await this.usuarioService.findOneByUsername(username);
-    if (usuario && usuario.senha === senha) {
-      return usuario;
-    }
+    const usuario = await this.usuarioService.findOneByEmail(username);
 
     if (usuario && usuario.email === email) {
       return usuario;
