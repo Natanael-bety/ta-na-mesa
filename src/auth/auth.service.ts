@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Usuario } from 'src/models/usuario.model';
 import { UsuarioService } from 'src/modules/usuario/usuario.service';
+import { UsuarioPayload } from './models/UsuarioPayload';
+import { compare } from 'bcrypt';
+import { UnauthorizedError } from 'src/error/unauthorized.error';
 
 @Injectable()
 export class AuthService {
@@ -10,13 +13,17 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(username: string, senha: string, email: string) {
-    const user = await Usuario.findOne({ where: { username, senha, email } });
-    if (!user) {
-      throw new Error('Credenciais invalidas');
-    }
-    const payload = { username };
-    return this.jwtService.sign(payload);
+  async login(usuario: Usuario) {
+    const payload: UsuarioPayload = {
+      sub: usuario.id,
+      nome: usuario.nome,
+      email: usuario.email,
+      senha: usuario.senha,
+    };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   async validateUsuario(
@@ -24,13 +31,22 @@ export class AuthService {
     senha: string,
     email: string,
   ): Promise<Usuario | null> {
-    const usuario = await this.usuarioService.findOneByEmail(username);
+    const user = await this.usuarioService.findByEmail(email);
 
-    if (usuario && usuario.email === email) {
-      return usuario;
+    if (user) {
+      const isPasswordCorrectly = await compare(senha, user.senha);
+
+      if (isPasswordCorrectly) {
+        return {
+          ...user,
+          senha: undefined,
+        };
+      }
     }
 
-    return null;
+    throw new UnauthorizedError(
+      'O endereço de e-mail ou a senha fornecidos estão incorretos.',
+    );
   }
 
   async generateToken(usuario: Usuario): Promise<string> {

@@ -6,6 +6,8 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import * as bcrypt from 'bcrypt';
+
 @Injectable()
 export class UsuarioService {
   [x: string]: any;
@@ -49,5 +51,23 @@ export class UsuarioService {
         err,
       );
     }
+  }
+
+  async gerarAutenticacao(email: string, senha: string) {
+    const usuario = await this.usuarioModel.findOne({ where: { email } });
+
+    if (!Usuario) {
+      throw new Error('Não existe candidato com esse email');
+    }
+
+    const compararSenha = await bcrypt.compare(senha, usuario.senha);
+
+    if (!compararSenha) {
+      throw new Error('Senha incorreta');
+    }
+
+    const token = this.gerarToken;
+
+    return { id: usuario.id, nome: usuario.nome, token };
   }
 }

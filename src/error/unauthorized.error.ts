@@ -1,3 +1,1 @@
-export class UnauthorizedError {
-  message: any;
-}
+export class UnauthorizedError extends Error {}
