@@ -68,4 +68,15 @@ export class AuthService {
       email: payload.email,
     };
   }
+
+  //   Nest can't resolve dependencies of the UsuarioService (?). Please make sure that the argument UsuarioRepository at index [0] is available
+  // in the AppModule context.
+
+  // Potential solutions:
+  // - Is AppModule a valid NestJS module?
+  // - If UsuarioRepository is a provider, is it part of the current AppModule?
+  // - If UsuarioRepository is exported from a separate @Module, is that module imported within AppModule?
+  //   @Module({
+  //     imports: [ /* the Module containing UsuarioRepository */ ]
+  //   })
 }

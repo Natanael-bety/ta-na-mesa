@@ -1,7 +1,10 @@
+import { USUARIO_TIPO } from '../../../constants/usuario';
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsString,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -19,5 +22,12 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   @MinLength(4)
   @MaxLength(20)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'password too weak',
+  })
   senha: string;
+
+  @IsNotEmpty()
+  @IsEnum(USUARIO_TIPO)
+  tipo: USUARIO_TIPO;
 }

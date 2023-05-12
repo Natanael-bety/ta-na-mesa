@@ -16,7 +16,7 @@ export class Estabelecimento extends Model<Estabelecimento> {
   nome: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  immagem: string;
+  imagem: string;
 
   @Column({ type: DataType.STRING, defaultValue: '' })
   descricao: string;
