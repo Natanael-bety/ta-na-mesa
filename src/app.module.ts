@@ -18,10 +18,9 @@ import { Mesa } from './models/mesa.model';
 import { Produto } from './models/produto.model';
 import { ProdutosModule } from './modules/produtos/produto.module';
 import { ContaCliente } from './models/conta-cliente.model';
-import { JwtService } from '@nestjs/jwt';
-import { AuthService } from './auth/auth.service';
-import { UsuarioService } from './modules/usuario/usuario.service';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -59,6 +58,11 @@ import { AuthModule } from './auth/auth.module';
     PedidoModule,
     AuthModule,
   ],
-  providers: [AuthService, UsuarioService, JwtService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}

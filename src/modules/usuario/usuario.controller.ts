@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { AuthService } from 'src/auth/auth.service';
+import { UsuarioService } from './usuario.service';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -35,6 +35,6 @@ export class UsuarioController {
 
     const token = await this.usuarioService.generateToken(authUsuario);
 
-    return token;
+    return { token };
   }
 }
