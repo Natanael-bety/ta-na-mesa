@@ -26,6 +26,10 @@ export class UsuarioService {
     return user;
   }
 
+  findByEmail(email: string): Promise<Usuario> {
+    return this.usuarioModel.findOne({ where: { email } });
+  }
+
   async createUsuario({ email, nome, senha }: CreateUsuarioDto) {
     try {
       const userExists = await this.usuarioModel.findOne({ where: { email } });
