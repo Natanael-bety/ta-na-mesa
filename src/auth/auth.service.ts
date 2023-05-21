@@ -37,10 +37,8 @@ export class AuthService {
       const isPasswordCorrectly = await compare(senha, user.senha);
 
       if (isPasswordCorrectly) {
-        return {
-          ...user,
-          senha: undefined,
-        };
+        delete user.senha;
+        return user;
       }
     }
 

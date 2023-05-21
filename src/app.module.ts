@@ -30,7 +30,7 @@ import { APP_GUARD } from '@nestjs/core';
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DATABASE_HOST,
-      port: process.env.DATABASE_PORT,
+      port: Number(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: 'ta-na-mesa-dev',
