@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import * as bcrypt from 'bcrypt';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -30,7 +31,7 @@ export class UsuarioService {
     return this.usuarioModel.findOne({ where: { email } });
   }
 
-  async createUsuario({ email, nome, senha }: CreateUsuarioDto) {
+  async createUsuario({ nome, email, senha }: CreateUsuarioDto) {
     try {
       const userExists = await this.usuarioModel.findOne({ where: { email } });
 
@@ -73,5 +74,65 @@ export class UsuarioService {
     const token = this.gerarToken;
 
     return { id: usuario.id, nome: usuario.nome, token };
+  }
+
+  findAll(): Promise<Usuario[]> {
+    try {
+      return this.usuarioModel.findAll({
+        attributes: ['id', 'senha', 'nome', 'email'],
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async findOne(id: string): Promise<Usuario> {
+    try {
+      const usuarioEncontrado: Usuario = await this.usuarioModel.findOne({
+        where: { id },
+        attributes: { exclude: ['id', 'senha', 'nome', 'email'] },
+      });
+
+      if (!usuarioEncontrado) {
+        throw new Error('Usuareio não encontrado');
+      }
+
+      return usuarioEncontrado;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async update(
+    id: string,
+    { nome, email, senha, tipo }: UpdateUsuarioDto,
+  ): Promise<void> {
+    try {
+      const usuarioExiste: Usuario = await this.usuario.findById(id, {
+        rejectOnEmpty: true,
+      });
+
+      if (!usuarioExiste) {
+        throw new Error('Usuario não existe');
+      }
+
+      await usuarioExiste.update({ nome, email, senha, tipo });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async remove(id: string) {
+    try {
+      const usuarioExistindo: Usuario = await this.usuarioModel.findByPk(id);
+
+      if (!usuarioExistindo) {
+        throw new Error('Usuario não existe');
+      }
+
+      await usuarioExistindo.delete({ where: { id } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

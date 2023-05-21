@@ -1,16 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { UsuarioService } from './usuario.service';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
-@Controller('usuario/auth')
+@Controller('usuario')
 export class UsuarioController {
-  constructor(
-    private usuarioService: UsuarioService,
-    private authService: AuthService,
-  ) {}
+  constructor(private usuarioService: UsuarioService) {}
 
   @Get(':id')
   async getUsuario(@Param('id') usuarioId: string) {
@@ -19,25 +16,24 @@ export class UsuarioController {
     return user;
   }
 
+  @Get()
+  findAll() {
+    return this.usuarioService.findAll();
+  }
+
   @IsPublic()
-  @Post('login')
-  async createUsuario(
-    @Body() body: { username: string; email: string; senha: string },
-    createUsuarioDto: CreateUsuarioDto,
-  ): Promise<{ token: string }> {
+  @Post('/')
+  async createUsuario(@Body() createUsuarioDto: CreateUsuarioDto) {
     const user = this.usuarioService.createUsuario(createUsuarioDto);
-    const authUsuario = await this.authService.validateUsuario(
-      body.username,
-      body.email,
-      body.senha,
-    );
 
-    if (!authUsuario) {
-      throw new Error('Usuario ou senha invalido.');
-    }
+    return { user };
+  }
 
-    const token = await this.usuarioService.generateToken(authUsuario);
-
-    return { token };
+  @Put('/')
+  async updateUsuario(
+    @Param('id') id: string,
+    @Body() updateUsuarioDto: UpdateUsuarioDto,
+  ) {
+    return this.usuarioService.usuarioUpdate(id, updateUsuarioDto);
   }
 }
