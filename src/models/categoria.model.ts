@@ -21,7 +21,7 @@ export class Categoria extends Model<Categoria> {
   id: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  name: string;
+  nome: string;
 
   @ForeignKey(() => Estabelecimento)
   @Column({ type: DataType.UUID })

@@ -13,5 +13,6 @@ import { Imagem } from 'src/models/imagem.model';
     SequelizeModule.forFeature([Estabelecimento, Imagem]),
     CloudinaryModule,
   ],
+  exports: [EstabelecimentoService],
 })
 export class EstabelecimentoModule {}

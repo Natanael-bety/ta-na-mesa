@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEstabelecimentoDto } from './dto/create-estabelecimento.dto';
 import { UpdateEstabelecimentoDto } from './dto/update-estabelecimento.dto';
 import { Estabelecimento } from 'src/models/estabelecimento.model';
@@ -61,6 +61,20 @@ export class EstabelecimentoService {
       await transaction.rollback();
       throw err;
     }
+  }
+
+  async getById(estabelecimentoId: string) {
+    const estabelecimento = await this.estabelecimentoModel.findOne({
+      where: {
+        id: estabelecimentoId,
+      },
+    });
+
+    if (!estabelecimento) {
+      throw new NotFoundException('Estabelecimento não encontrado');
+    }
+
+    return estabelecimento;
   }
 
   findAll() {

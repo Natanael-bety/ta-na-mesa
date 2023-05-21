@@ -1,15 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { Categoria } from 'src/models/categoria.model';
+import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
+import { PaginationDto } from '../common/validators/pagination.dto';
 
 @Injectable()
 export class CategoriasService {
-  create(createCategoriaDto: CreateCategoriaDto) {
-    return 'This action adds a new categoria';
+  constructor(
+    @InjectModel(Categoria) private readonly categoriaModel: typeof Categoria,
+    private readonly estabelecimentoService: EstabelecimentoService,
+  ) {}
+
+  async create({ nome }: CreateCategoriaDto, estabelecimentoId: string) {
+    const estabelecimento = await this.estabelecimentoService.getById(
+      estabelecimentoId,
+    );
+
+    try {
+      const categoria = await this.categoriaModel.create({
+        estabelecimentoId: estabelecimento.id,
+        nome,
+      });
+
+      return categoria.toJSON();
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
   }
 
-  findAll() {
-    return `This action returns all categorias`;
+  async findAllByEstabelecimentoId(
+    estabelecimentoId: string,
+    { limit, offset }: PaginationDto,
+  ) {
+    try {
+      const { count, rows } = await this.categoriaModel.findAndCountAll({
+        where: { estabelecimentoId },
+        limit,
+        offset,
+      });
+
+      return {
+        data: rows,
+        totalCount: count,
+      };
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
   }
 
   findOne(id: number) {
