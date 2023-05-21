@@ -10,14 +10,19 @@ import {
 import { ProdutosService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import { FormDataRequest } from 'nestjs-form-data';
 
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
-  @Post()
-  create(@Body() createProdutoDto: CreateProdutoDto) {
-    return this.produtosService.create(createProdutoDto);
+  @Post('/categoria/:categoriaId')
+  @FormDataRequest()
+  create(
+    @Body() createProdutoDto: CreateProdutoDto,
+    @Param('categoriaId') categoriaId: string,
+  ) {
+    return this.produtosService.create(createProdutoDto, categoriaId);
   }
 
   @Get()

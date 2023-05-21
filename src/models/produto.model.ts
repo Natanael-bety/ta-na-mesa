@@ -6,9 +6,11 @@ import {
   ForeignKey,
   Table,
   HasMany,
+  HasOne,
 } from 'sequelize-typescript';
 import { Categoria } from './categoria.model';
 import { PedidoProduto } from './pedido-produto.model';
+import { Imagem } from './imagem.model';
 
 @Table({ modelName: 'Produtos' })
 export class Produto extends Model<Produto> {
@@ -22,9 +24,6 @@ export class Produto extends Model<Produto> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   nome: string;
-
-  @Column({ type: DataType.STRING, allowNull: true })
-  imagem: string;
 
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
   estoque: number;
@@ -44,4 +43,7 @@ export class Produto extends Model<Produto> {
 
   @HasMany(() => PedidoProduto)
   pedidoProdutos: PedidoProduto;
+
+  @HasOne(() => Imagem)
+  imagem: Imagem;
 }

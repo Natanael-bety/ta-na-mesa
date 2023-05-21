@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -48,6 +52,18 @@ export class CategoriasService {
     } catch (err) {
       throw new BadRequestException(new Error(err).message);
     }
+  }
+
+  async getById(categoriaId: string) {
+    const categoria = await this.categoriaModel.findOne({
+      where: { id: categoriaId },
+    });
+
+    if (!categoria) {
+      throw new NotFoundException('Categoria não encontrada');
+    }
+
+    return categoria;
   }
 
   findOne(id: number) {

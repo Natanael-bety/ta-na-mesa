@@ -17,7 +17,7 @@ import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 import { PaginationDto } from '../common/validators/pagination.dto';
 
-@Controller('categoria')
+@Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 

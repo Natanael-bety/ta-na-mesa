@@ -5,27 +5,21 @@ import { Estabelecimento } from 'src/models/estabelecimento.model';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UPLOAD_PRESETS } from '../cloudinary/constants';
 import { InjectModel } from '@nestjs/sequelize';
-import { Imagem } from 'src/models/imagem.model';
 import { Sequelize } from 'sequelize-typescript';
+import { ImagemService } from '../imagem/imagem.service';
 
 @Injectable()
 export class EstabelecimentoService {
   constructor(
-    private readonly cloudinaryService: CloudinaryService,
     @InjectModel(Estabelecimento)
     private estabelecimentoModel: typeof Estabelecimento,
-    @InjectModel(Imagem) private imagemModel: typeof Imagem,
+    private readonly cloudinaryService: CloudinaryService,
+    private readonly imagemService: ImagemService,
     private sequelize: Sequelize,
   ) {}
 
-  async create({
-    data,
-    file,
-  }: {
-    data: CreateEstabelecimentoDto;
-    file: Express.Multer.File;
-  }) {
-    const imagemEnviada = await this.cloudinaryService.uploadImage(file, {
+  async create({ imagem, nome, descricao = '' }: CreateEstabelecimentoDto) {
+    const imagemEnviada = await this.cloudinaryService.uploadImage(imagem, {
       upload_preset: UPLOAD_PRESETS.ESTABELECIMENTOS,
     });
 
@@ -34,13 +28,13 @@ export class EstabelecimentoService {
     try {
       const estabelecimento = await this.estabelecimentoModel.create(
         {
-          nome: data.nome,
-          descricao: data.descricao,
+          nome,
+          descricao,
         },
         { transaction },
       );
 
-      const imagemEstabelecimento = await this.imagemModel.create(
+      const imagemEstabelecimento = await this.imagemService.create(
         {
           publicId: imagemEnviada.public_id,
           url: imagemEnviada.url,

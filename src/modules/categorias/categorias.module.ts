@@ -9,5 +9,6 @@ import { EstabelecimentoModule } from '../estabelecimento/estabelecimento.module
   controllers: [CategoriasController],
   providers: [CategoriasService],
   imports: [SequelizeModule.forFeature([Categoria]), EstabelecimentoModule],
+  exports: [CategoriasService],
 })
 export class CategoriasModule {}

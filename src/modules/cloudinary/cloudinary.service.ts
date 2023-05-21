@@ -1,25 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UploadApiOptions, UploadApiResponse, v2 } from 'cloudinary';
+import { UploadApiOptions, v2 } from 'cloudinary';
+import { MemoryStoredFile } from 'nestjs-form-data';
 import { Readable } from 'stream';
-
-interface CustomUploadApiResponse extends UploadApiResponse {
-  eager?: {
-    transformation: string;
-    width: number;
-    height: number;
-    bytes: number;
-    format: string;
-    url: string;
-    secure_url: string;
-  }[];
-}
+import { CloudinaryImageResponse } from './types';
 
 @Injectable()
 export class CloudinaryService {
   async uploadImage(
-    file: Express.Multer.File,
+    file: MemoryStoredFile,
     uploadOptions: UploadApiOptions,
-  ): Promise<CustomUploadApiResponse> {
+  ): Promise<CloudinaryImageResponse> {
     try {
       const promise = new Promise((resolve, reject) => {
         const upload = v2.uploader.upload_stream(
@@ -38,7 +28,7 @@ export class CloudinaryService {
 
       const result = await promise;
 
-      return result as CustomUploadApiResponse;
+      return result as CloudinaryImageResponse;
     } catch (err) {
       throw new BadRequestException(
         'Não foi possível fazer o upload da imagem, tente novamente mais tarde',

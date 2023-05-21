@@ -7,7 +7,7 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 import { Estabelecimento } from './estabelecimento.model';
-import { Usuario } from './usuario.model';
+import { Produto } from './produto.model';
 
 @Table({ modelName: 'Imagens' })
 export class Imagem extends Model<Imagem> {
@@ -35,7 +35,10 @@ export class Imagem extends Model<Imagem> {
   @BelongsTo(() => Estabelecimento)
   estabelecimento: Estabelecimento;
 
-  @ForeignKey(() => Usuario)
-  @Column({ type: DataType.UUID, allowNull: true })
-  usuarioId: string;
+  @ForeignKey(() => Produto)
+  @Column({ type: DataType.UUID })
+  produtoId: string;
+
+  @BelongsTo(() => Produto)
+  produto: Produto;
 }
