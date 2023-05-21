@@ -19,8 +19,7 @@ import { Produto } from './models/produto.model';
 import { ProdutosModule } from './modules/produtos/produto.module';
 import { ContaCliente } from './models/conta-cliente.model';
 import { AuthModule } from './auth/auth.module';
-import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { Imagem } from './models/imagem.model';
 
 @Module({
   imports: [
@@ -46,6 +45,7 @@ import { APP_GUARD } from '@nestjs/core';
         PedidoProduto,
         Produto,
         ContaCliente,
+        Imagem,
       ],
     }),
     UsuarioModule,
@@ -58,11 +58,6 @@ import { APP_GUARD } from '@nestjs/core';
     PedidoModule,
     AuthModule,
   ],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}

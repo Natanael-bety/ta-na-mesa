@@ -7,10 +7,6 @@ export class CreateEstabelecimentoDto {
 
   @IsNotEmpty()
   @IsString()
-  imagem: string;
-
-  @IsNotEmpty()
-  @IsString()
   @MinLength(10)
   descricao?: string;
 }

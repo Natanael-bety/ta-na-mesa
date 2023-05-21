@@ -1,0 +1,6 @@
+export const CLOUDINARY = 'Cloudinary';
+
+export enum UPLOAD_PRESETS {
+  PRODUTOS = 'PRODUTOS',
+  ESTABELECIMENTOS = 'ESTABELECIMENTOS',
+}
