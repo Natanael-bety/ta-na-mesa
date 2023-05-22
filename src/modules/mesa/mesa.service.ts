@@ -3,26 +3,28 @@ import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { Mesa } from 'src/models/mesa.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
 
 @Injectable()
 export class MesaService {
-  estabelecimentoService: any;
-  constructor(@InjectModel(Mesa) private MesaModule: typeof Mesa) {}
+  constructor(
+    @InjectModel(Mesa) private mesaModel: typeof Mesa,
+    private readonly estabelecimentoService: EstabelecimentoService,
+  ) {}
 
-  async create({ numero }: CreateMesaDto, estabelecimentoId: string) {
+  async create({ numero, status }: CreateMesaDto, estabelecimentoId: string) {
     const estabelecimento = await this.estabelecimentoService.getById(
       estabelecimentoId,
     );
 
     try {
-      const novaMesa = await this.MesaModule.create({
+      const novaMesa = await this.mesaModel.create({
         estabelecimentoId: estabelecimento.id,
         numero,
+        status,
       });
 
-      const mesaCriada = await this.MesaModule.create(novaMesa);
-
-      return mesaCriada.toJSON;
+      return novaMesa.toJSON();
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -30,7 +32,7 @@ export class MesaService {
 
   async findAllByEstabelecimentoId(estabelecimentoId: string) {
     try {
-      const { count, rows } = await this.MesaModule.findAndCountAll({
+      const { count, rows } = await this.mesaModel.findAndCountAll({
         where: { estabelecimentoId },
       });
 

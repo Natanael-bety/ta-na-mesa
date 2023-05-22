@@ -15,7 +15,7 @@ import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
-@Controller('mesa')
+@Controller('mesas')
 export class MesaController {
   constructor(private readonly mesaService: MesaService) {}
 
