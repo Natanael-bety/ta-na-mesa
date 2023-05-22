@@ -3,11 +3,13 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Transaction } from 'sequelize';
 import { Imagem } from 'src/models/imagem.model';
 import { CreateImagemDto } from './dto/create-imagem.dto';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class ImagemService {
   constructor(
     @InjectModel(Imagem) private readonly imagemModel: typeof Imagem,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
   async create(
@@ -19,5 +21,9 @@ export class ImagemService {
     });
 
     return imagem;
+  }
+
+  async delete(imagemId: string) {
+    await this.imagemModel.destroy({ where: { id: imagemId } });
   }
 }

@@ -5,9 +5,11 @@ import {
   ForeignKey,
   Table,
   BelongsTo,
+  BeforeDestroy,
 } from 'sequelize-typescript';
 import { Estabelecimento } from './estabelecimento.model';
 import { Produto } from './produto.model';
+import { v2 } from 'cloudinary';
 
 @Table({ modelName: 'Imagens' })
 export class Imagem extends Model<Imagem> {
@@ -41,4 +43,16 @@ export class Imagem extends Model<Imagem> {
 
   @BelongsTo(() => Produto)
   produto: Produto;
+
+  @BeforeDestroy
+  static async deleteImageAtCdn(instance: Imagem) {
+    if (instance.publicId) {
+      v2.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+      });
+      v2.uploader.destroy(instance.publicId);
+    }
+  }
 }

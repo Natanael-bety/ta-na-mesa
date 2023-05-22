@@ -3,14 +3,20 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+  Query,
+  Put,
 } from '@nestjs/common';
 import { ProdutosService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { FormDataRequest } from 'nestjs-form-data';
+import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
+import { PaginationDto } from '../common/validators/pagination.dto';
 
 @Controller('produtos')
 export class ProdutosController {
@@ -25,23 +31,34 @@ export class ProdutosController {
     return this.produtosService.create(createProdutoDto, categoriaId);
   }
 
-  @Get()
-  findAll() {
-    return this.produtosService.findAll();
+  @Get('/categoria/:categoriaId')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  getProdutosPorCategoriaId(
+    @Param('categoriaId') categoriaId: string,
+    @Query() paginationDto: PaginationDto,
+  ) {
+    return this.produtosService.getProdutosPorCategoriaId(
+      categoriaId,
+      paginationDto,
+    );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtosService.findOne(+id);
+  @Get(':produtoId')
+  findOne(@Param('produtoId') produtoId: string) {
+    return this.produtosService.getById(produtoId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtosService.update(+id, updateProdutoDto);
+  @Put(':produtoId')
+  update(
+    @Param('produtoId') produtoId: string,
+    @Body() updateProdutoDto: UpdateProdutoDto,
+  ) {
+    return this.produtosService.update(produtoId, updateProdutoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.produtosService.remove(+id);
+  @Delete(':produtoId')
+  remove(@Param('produtoId') produtoId: string) {
+    return this.produtosService.remove(produtoId);
   }
 }
