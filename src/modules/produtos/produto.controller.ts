@@ -16,7 +16,7 @@ import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { FormDataRequest } from 'nestjs-form-data';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
-import { PaginationDto } from '../common/validators/pagination.dto';
+import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabelecimento.dto';
 
 @Controller('produtos')
 export class ProdutosController {
@@ -31,16 +31,16 @@ export class ProdutosController {
     return this.produtosService.create(createProdutoDto, categoriaId);
   }
 
-  @Get('/categoria/:categoriaId')
+  @Get('/estabelecimento/:estabelecimentoId')
   @UseInterceptors(TotalCountInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
   getProdutosPorCategoriaId(
     @Param('categoriaId') categoriaId: string,
-    @Query() paginationDto: PaginationDto,
+    @Query() getProdutosPorEstabelecimentoDto: GetProdutosPorEstabelecimento,
   ) {
     return this.produtosService.getProdutosPorCategoriaId(
       categoriaId,
-      paginationDto,
+      getProdutosPorEstabelecimentoDto,
     );
   }
 

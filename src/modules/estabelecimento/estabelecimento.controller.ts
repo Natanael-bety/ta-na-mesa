@@ -6,16 +6,20 @@ import {
   Patch,
   Param,
   Delete,
-  // UseGuards,
+  UseGuards,
 } from '@nestjs/common';
 import { EstabelecimentoService } from './estabelecimento.service';
 import { CreateEstabelecimentoDto } from './dto/create-estabelecimento.dto';
 import { UpdateEstabelecimentoDto } from './dto/update-estabelecimento.dto';
 import { FormDataRequest } from 'nestjs-form-data';
-// import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
+import { TiposGuard } from 'src/config/guards/tipos.guard';
+import { Tipos } from 'src/config/decorators/tipos.decorator';
+import { USUARIO_TIPO } from 'src/constants/usuario';
 
 @Controller('estabelecimentos')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(TiposGuard)
+@UseGuards(JwtAuthGuard)
 export class EstabelecimentoController {
   constructor(
     private readonly estabelecimentoService: EstabelecimentoService,
@@ -32,9 +36,10 @@ export class EstabelecimentoController {
     return this.estabelecimentoService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.estabelecimentoService.findOne(+id);
+  @Get(':estabelecimentoId')
+  @Tipos(USUARIO_TIPO.ADMIN)
+  findOne(@Param('estabelecimentoId') estabelecimentoId: string) {
+    return this.estabelecimentoService.getById(estabelecimentoId);
   }
 
   @Patch(':id')

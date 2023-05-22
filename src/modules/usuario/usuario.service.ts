@@ -5,13 +5,10 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import * as bcrypt from 'bcrypt';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Injectable()
 export class UsuarioService {
-  [x: string]: any;
   constructor(@InjectModel(Usuario) private usuarioModel: typeof Usuario) {}
 
   async getUsuarioById(id: string) {
@@ -31,7 +28,15 @@ export class UsuarioService {
     return this.usuarioModel.findOne({ where: { email } });
   }
 
-  async createUsuario({ nome, email, senha }: CreateUsuarioDto) {
+  async createUsuario({
+    nome,
+    email,
+    senha,
+  }: {
+    email: string;
+    nome: string;
+    senha: string;
+  }) {
     try {
       const userExists = await this.usuarioModel.findOne({ where: { email } });
 
@@ -58,24 +63,6 @@ export class UsuarioService {
     }
   }
 
-  async gerarAutenticacao(email: string, senha: string) {
-    const usuario = await this.usuarioModel.findOne({ where: { email } });
-
-    if (!Usuario) {
-      throw new Error('Não existe candidato com esse email');
-    }
-
-    const compararSenha = await bcrypt.compare(senha, usuario.senha);
-
-    if (!compararSenha) {
-      throw new Error('Senha incorreta');
-    }
-
-    const token = this.gerarToken;
-
-    return { id: usuario.id, nome: usuario.nome, token };
-  }
-
   findAll(): Promise<Usuario[]> {
     try {
       return this.usuarioModel.findAll({
@@ -86,53 +73,34 @@ export class UsuarioService {
     }
   }
 
-  async findOne(id: string): Promise<Usuario> {
-    try {
-      const usuarioEncontrado: Usuario = await this.usuarioModel.findOne({
-        where: { id },
-        attributes: { exclude: ['id', 'senha', 'nome', 'email'] },
-      });
+  async findById(usuarioId: string): Promise<Usuario> {
+    const usuario: Usuario = await this.usuarioModel.findOne({
+      where: { id: usuarioId },
+    });
 
-      if (!usuarioEncontrado) {
-        throw new Error('Usuareio não encontrado');
-      }
-
-      return usuarioEncontrado;
-    } catch (e) {
-      throw new BadRequestException(e.message);
+    if (!usuario) {
+      throw new Error('Usuareio não encontrado');
     }
+
+    return usuario;
   }
 
   async update(
-    id: string,
+    usuarioId: string,
     { nome, email, senha, tipo }: UpdateUsuarioDto,
-  ): Promise<void> {
+  ) {
     try {
-      const usuarioExiste: Usuario = await this.usuario.findById(id, {
-        rejectOnEmpty: true,
-      });
+      const usuario = await this.findById(usuarioId);
 
-      if (!usuarioExiste) {
-        throw new Error('Usuario não existe');
-      }
+      const updatedUsuario = usuario.update({ nome, email, senha, tipo });
 
-      await usuarioExiste.update({ nome, email, senha, tipo });
+      return updatedUsuario;
     } catch (e) {
       throw new BadRequestException(e.message);
     }
   }
 
-  async remove(id: string) {
-    try {
-      const usuarioExistindo: Usuario = await this.usuarioModel.findByPk(id);
-
-      if (!usuarioExistindo) {
-        throw new Error('Usuario não existe');
-      }
-
-      await usuarioExistindo.delete({ where: { id } });
-    } catch (e) {
-      throw new BadRequestException(e.message);
-    }
+  async remove(usuarioId: string) {
+    await this.usuarioModel.destroy({ where: { id: usuarioId } });
   }
 }

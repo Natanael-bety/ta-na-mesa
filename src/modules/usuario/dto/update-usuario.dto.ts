@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateUsuarioDto } from './create-usuario.dto';
+import { CreateUsuarioDto } from '../../auth/dto/create-usuario.dto';
 import {
   IsEmail,
   IsEnum,

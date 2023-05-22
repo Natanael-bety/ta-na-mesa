@@ -12,10 +12,10 @@ import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UPLOAD_PRESETS } from '../cloudinary/constants';
 import { Sequelize } from 'sequelize-typescript';
 import { ImagemService } from '../imagem/imagem.service';
-import { PaginationDto } from '../common/validators/pagination.dto';
 import { Imagem } from 'src/models/imagem.model';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { Includeable, Transaction } from 'sequelize';
+import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabelecimento.dto';
 
 @Injectable()
 export class ProdutosService {
@@ -77,7 +77,7 @@ export class ProdutosService {
 
   async getProdutosPorCategoriaId(
     categoriaId: string,
-    { limit, offset }: PaginationDto,
+    { limit, offset }: GetProdutosPorEstabelecimento,
   ) {
     try {
       const { count, rows } = await this.produtoModel.findAndCountAll({

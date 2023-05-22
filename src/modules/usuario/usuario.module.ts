@@ -1,16 +1,10 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { UsuarioController } from './usuario.controller';
+import { Module } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
-import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [
-    SequelizeModule.forFeature([Usuario]),
-    forwardRef(() => AuthModule),
-  ],
-  controllers: [UsuarioController],
+  imports: [SequelizeModule.forFeature([Usuario])],
   providers: [UsuarioService],
   exports: [UsuarioService],
 })

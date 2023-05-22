@@ -17,7 +17,6 @@ import { genSalt, hash } from 'bcrypt';
 
 @Table
 export class Usuario extends Model<Usuario> {
-  [x: string]: any;
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
