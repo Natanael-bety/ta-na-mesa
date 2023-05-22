@@ -11,6 +11,7 @@ import {
 import { Categoria } from './categoria.model';
 import { PedidoProduto } from './pedido-produto.model';
 import { Imagem } from './imagem.model';
+import { Estabelecimento } from './estabelecimento.model';
 
 @Table({ modelName: 'Produtos' })
 export class Produto extends Model<Produto> {
@@ -33,6 +34,13 @@ export class Produto extends Model<Produto> {
 
   @Column({ type: DataType.STRING, defaultValue: '' })
   descricao: string;
+
+  @ForeignKey(() => Estabelecimento)
+  @Column({ type: DataType.UUID })
+  estabelecimentoId: string;
+
+  @BelongsTo(() => Estabelecimento)
+  estabelecimento: Estabelecimento;
 
   @ForeignKey(() => Categoria)
   @Column({ type: DataType.UUID })

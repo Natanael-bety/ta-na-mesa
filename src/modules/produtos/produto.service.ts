@@ -14,8 +14,10 @@ import { Sequelize } from 'sequelize-typescript';
 import { ImagemService } from '../imagem/imagem.service';
 import { Imagem } from 'src/models/imagem.model';
 import { MemoryStoredFile } from 'nestjs-form-data';
-import { Includeable, Transaction } from 'sequelize';
+import { Includeable, Transaction, WhereOptions } from 'sequelize';
 import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabelecimento.dto';
+import { Estabelecimento } from 'src/models/estabelecimento.model';
+import { Categoria } from 'src/models/categoria.model';
 
 @Injectable()
 export class ProdutosService {
@@ -46,6 +48,7 @@ export class ProdutosService {
       const produto = await this.produtoModel.create(
         {
           categoriaId: categoria.id,
+          estabelecimentoId: categoria.estabelecimentoId,
           nome,
           descricao,
           estoque,
@@ -75,18 +78,28 @@ export class ProdutosService {
     }
   }
 
-  async getProdutosPorCategoriaId(
-    categoriaId: string,
-    { limit, offset }: GetProdutosPorEstabelecimento,
+  async getProdutorPorEstabelecimento(
+    estabelecimentoId: string,
+    { limit, offset, categoriaId }: GetProdutosPorEstabelecimento,
   ) {
     try {
+      const whereOptions: WhereOptions<Produto> = {
+        estabelecimentoId,
+      };
+
+      if (categoriaId) {
+        whereOptions.categoriaId = categoriaId;
+      }
+
       const { count, rows } = await this.produtoModel.findAndCountAll({
-        where: { categoriaId },
+        where: whereOptions,
         limit,
         offset,
-        include: {
-          model: Imagem,
-        },
+        include: [
+          {
+            model: Imagem,
+          },
+        ],
       });
 
       return {

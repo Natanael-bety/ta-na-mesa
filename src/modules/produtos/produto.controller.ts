@@ -35,11 +35,11 @@ export class ProdutosController {
   @UseInterceptors(TotalCountInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
   getProdutosPorCategoriaId(
-    @Param('categoriaId') categoriaId: string,
+    @Param('estabelecimentoId') estabelecimentoId: string,
     @Query() getProdutosPorEstabelecimentoDto: GetProdutosPorEstabelecimento,
   ) {
-    return this.produtosService.getProdutosPorCategoriaId(
-      categoriaId,
+    return this.produtosService.getProdutorPorEstabelecimento(
+      estabelecimentoId,
       getProdutosPorEstabelecimentoDto,
     );
   }

@@ -10,6 +10,7 @@ import { Categoria } from './categoria.model';
 import { Usuario } from './usuario.model';
 import { Mesa } from './mesa.model';
 import { Imagem } from './imagem.model';
+import { Produto } from './produto.model';
 @Table
 export class Estabelecimento extends Model<Estabelecimento> {
   @Column({
@@ -34,6 +35,9 @@ export class Estabelecimento extends Model<Estabelecimento> {
 
   @HasMany(() => Categoria)
   categorias: Categoria[];
+
+  @HasMany(() => Produto)
+  produtos: Produto[];
 
   @HasMany(() => Mesa)
   mesas: Mesa[];
