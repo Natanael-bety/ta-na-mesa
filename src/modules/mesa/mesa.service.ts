@@ -8,7 +8,7 @@ import { EstabelecimentoService } from '../estabelecimento/estabelecimento.servi
 @Injectable()
 export class MesaService {
   constructor(
-    @InjectModel(Mesa) private MesaModule: typeof Mesa,
+    @InjectModel(Mesa) private mesaModel: typeof Mesa,
     private readonly estabelecimentoService: EstabelecimentoService,
   ) {}
 
@@ -18,15 +18,13 @@ export class MesaService {
     );
 
     try {
-      const novaMesa = await this.MesaModule.create({
+      const novaMesa = await this.mesaModel.create({
         estabelecimentoId: estabelecimento.id,
         numero,
         status,
       });
 
-      const mesaCriada = await this.MesaModule.create(novaMesa);
-
-      return mesaCriada.toJSON;
+      return novaMesa.toJSON();
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -34,7 +32,7 @@ export class MesaService {
 
   async findAllByEstabelecimentoId(estabelecimentoId: string) {
     try {
-      const { count, rows } = await this.MesaModule.findAndCountAll({
+      const { count, rows } = await this.mesaModel.findAndCountAll({
         where: { estabelecimentoId },
       });
 
