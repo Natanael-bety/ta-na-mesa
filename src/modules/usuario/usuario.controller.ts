@@ -5,7 +5,7 @@ import { UsuarioService } from './usuario.service';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
-@Controller('usuario')
+@Controller('usuarios')
 export class UsuarioController {
   constructor(private usuarioService: UsuarioService) {}
 
