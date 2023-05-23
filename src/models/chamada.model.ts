@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { Mesa } from './mesa.model';
 import { Usuario } from './usuario.model';
+import { CHAMADA } from 'src/constants/chamada';
 
 @Table({ modelName: 'chamadas' })
 export class Chamada extends Model<Chamada> {
@@ -19,14 +20,11 @@ export class Chamada extends Model<Chamada> {
   })
   id: string;
 
-  @Column({ type: DataType.BOOLEAN, allowNull: true })
-  chamadoMesa: boolean;
+  @Column({ type: DataType.ENUM, values: Object.values(CHAMADA), defaultValue: CHAMADA.CHAMADA_MESA })
+  chamada: CHAMADA;
 
   @Column({ type: DataType.BOOLEAN, allowNull: true })
-  chamadoConta: boolean;
-
-  @Column({ type: DataType.BOOLEAN, allowNull: true })
-  chamadoCozinha: boolean;
+  chamadoResolvida: boolean;
 
   @ForeignKey(() => Mesa)
   @Column({ type: DataType.UUID })
