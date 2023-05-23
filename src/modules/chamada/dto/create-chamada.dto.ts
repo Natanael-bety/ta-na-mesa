@@ -1,15 +1,11 @@
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty } from 'class-validator';
+import { CHAMADA } from 'src/constants/chamada';
 
 export class CreateChamadaDto {
-  @IsNotEmpty()
-  @IsBoolean()
-  chamadoMesa: boolean;
+  @IsEnum(CHAMADA)
+  chamada: CHAMADA;
 
   @IsNotEmpty()
   @IsBoolean()
-  chamadaConta: boolean;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  chamadaCozinha: boolean;
+  chamadaResolvida: boolean;
 }

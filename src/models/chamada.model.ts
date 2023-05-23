@@ -33,6 +33,6 @@ export class Chamada extends Model<Chamada> {
   @BelongsTo(() => Mesa)
   mesa: Mesa;
 
-  @ForeignKey(() => Usuario)
+  @BelongsTo(() => Usuario)
   usuario: Usuario;
 }

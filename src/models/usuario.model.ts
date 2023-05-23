@@ -14,6 +14,7 @@ import { Mesa } from './mesa.model';
 import { Pedido } from './pedido.model';
 import { ContaCliente } from './conta-cliente.model';
 import { genSalt, hash } from 'bcrypt';
+import { Chamada } from './chamada.model';
 
 @Table
 export class Usuario extends Model<Usuario> {
@@ -71,6 +72,9 @@ export class Usuario extends Model<Usuario> {
 
   @HasMany(() => Pedido)
   pedidos: Pedido[];
+
+  @HasMany(() => Chamada)
+  chamadas: Chamada[];
 
   @BeforeSave
   static async normalizePassword(instance: Usuario) {
