@@ -33,6 +33,9 @@ export class Chamada extends Model<Chamada> {
   @BelongsTo(() => Mesa)
   mesa: Mesa;
 
+  @ForeignKey(() => Usuario)
+  @Column({ type: DataType.UUID })
+
   @BelongsTo(() => Usuario)
   usuario: Usuario;
 }
