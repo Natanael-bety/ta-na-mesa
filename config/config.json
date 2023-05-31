@@ -4,7 +4,7 @@
     "password": "process.env.DATABASE_PASSWORD",
     "database": "database_development",
     "host": "3000",
-    "dialect": "postegresql"
+    "dialect": "postgres"
   },
   "test": {
     "username": "server",
