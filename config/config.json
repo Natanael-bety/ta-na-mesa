@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "server",
-    "password": "process.env.DATABASE_PASSWORD",
+    "password": "pj2*ML8r76*8",
     "database": "database_development",
     "host": "3000",
     "dialect": "postgres"
   },
   "test": {
     "username": "server",
-    "password": "process.env.DATABASE_PASSWORD",
+    "password": "pj2*ML8r76*8",
     "database": "database_test",
     "host": "3000",
     "dialect": "postgres"
   },
   "production": {
     "username": "server",
-    "password": "process.env.DATABASE_PASSWORD",
+    "password": "pj2*ML8r76*8",
     "database": "database_production",
     "host": "3000",
     "dialect": "postgres"
