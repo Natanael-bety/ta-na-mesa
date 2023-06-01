@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "server",
-    "password": "pj2*ML8r76*8",
-    "database": "ta-na-mesa-dev",
-    "host": 3000,
-    "dialect": "postgres"
+    "username": "root",
+    "password": null,
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "postegresql"
   },
   "test": {
-    "username": "server",
-    "password": "pj2*ML8r76*8",
-    "database": "ta-na-mesa-dev",
-    "host": 3000,
-    "dialect": "postgres"
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   },
   "production": {
-    "username": "server",
-    "password": "pj2*ML8r76*8",
-    "database": "ta-na-mesa-dev",
-    "host": 3000,
-    "dialect": "postgres"
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   }
 }
