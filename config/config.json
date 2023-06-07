@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "127.0.0.1",
+    "username": "process.env.DATABESE_USERNAME",
+    "password": "process.env.DATABESE_PASSWORD",
+    "database": "ta-na-mesa",
+    "host": "process.env.DATABASE_HOST",
     "dialect": "postegresql"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "process.env.DATABESE_USERNAME",
+    "password": "process.env.DATABESE_PASSWORD",
+    "database": "ta-na-mesa",
+    "host": "process.env.DATABASE_HOST",
+    "dialect": "postegresql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "process.env.DATABESE_USERNAME",
+    "password": "process.env.DATABESE_PASSWORD",
+    "database": "ta-na-mesa",
+    "host": "process.env.DATABASE_HOST",
+    "dialect": "postegresql"
   }
 }
