@@ -4,20 +4,20 @@
     "password": "process.env.DATABESE_PASSWORD",
     "database": "ta-na-mesa",
     "host": "process.env.DATABASE_HOST",
-    "dialect": "postegresql"
+    "dialect": "postegres"
   },
   "test": {
     "username": "process.env.DATABESE_USERNAME",
     "password": "process.env.DATABESE_PASSWORD",
     "database": "ta-na-mesa",
     "host": "process.env.DATABASE_HOST",
-    "dialect": "postegresql"
+    "dialect": "postegres"
   },
   "production": {
     "username": "process.env.DATABESE_USERNAME",
     "password": "process.env.DATABESE_PASSWORD",
     "database": "ta-na-mesa",
     "host": "process.env.DATABASE_HOST",
-    "dialect": "postegresql"
+    "dialect": "postegres"
   }
 }
