@@ -11,6 +11,7 @@ import { MESA_STATUS } from 'src/constants/mesa';
 import { Estabelecimento } from './estabelecimento.model';
 import { Conta } from './conta.model';
 import { Usuario } from './usuario.model';
+import { Chamada } from './chamada.model';
 
 @Table({ modelName: 'Mesas' })
 export class Mesa extends Model<Mesa> {
@@ -52,6 +53,6 @@ export class Mesa extends Model<Mesa> {
   @HasMany(() => Conta)
   contas: Conta[];
 
-  // @HasMany(() => Chamada)
-  // chamadas: Chamada[];
+  @HasMany(() => Chamada)
+  chamadas: Chamada[];
 }

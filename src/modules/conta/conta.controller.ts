@@ -11,7 +11,7 @@ import { ContaService } from './conta.service';
 import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
 
-@Controller('conta')
+@Controller('contas')
 export class ContaController {
   constructor(private readonly contaService: ContaService) {}
 

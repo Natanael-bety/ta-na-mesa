@@ -5,6 +5,7 @@ import { UsuarioService } from 'src/modules/usuario/usuario.service';
 import { compare } from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { IsEmail } from 'class-validator';
 
 @Injectable()
 export class AuthService {
@@ -66,5 +67,19 @@ export class AuthService {
       usuario: this.normalizeUsuario(createdUser),
       token: token,
     };
+  }
+
+  async getUsuarioPorEmail(email: string) {
+    try {
+      const usuario = await this.usuarioService.findByEmail(email);
+
+      if (!usuario) {
+        throw new Error('Usuareio não encontrado');
+      }
+
+      return usuario;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }
