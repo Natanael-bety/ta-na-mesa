@@ -3,21 +3,21 @@
     "password": "K2Z71IB2vJwCzqj1K7FoDqsneiDfGUmW",
     "username": "ta_na_mesa_db_user",
     "database": "ta_na_mesa_db",
-    "host": "dpg-ci7jtj18g3n3vm0o4710-a",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "process.env.DATABASE_USERNAME",
     "password": "process.env.DATABASE_PASSWORD",
     "database": "ta-na-mesa",
-    "host": "dpg-ci7jtj18g3n3vm0o4710-a",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "process.env.DATABASE_USERNAME",
     "password": "process.env.DATABASE_PASSWORD",
     "database": "ta-na-mesa",
-    "host": "dpg-ci7jtj18g3n3vm0o4710-a",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   }
 }
