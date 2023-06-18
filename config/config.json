@@ -2,22 +2,22 @@
   "development": {
     "username": "process.env.DATABASE_USERNAME",
     "password": "process.env.DATABASE_PASSWORD",
-    "database": "ta_na_mesa_0q3j",
-    "host": "dpg-chnb2lvdvk4n43au818g-a",
+    "database": "ta-na-mesa",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "process.env.DATABASE_USERNAME",
     "password": "process.env.DATABASE_PASSWORD",
-    "database": "ta_na_mesa_0q3j",
-    "host": "dpg-chnb2lvdvk4n43au818g-a",
+    "database": "ta-na-mesa",
+    "host": "127.0.0.1",
     "dialect": "postres"
   },
   "production": {
     "username": "process.env.DATABASE_USERNAME",
     "password": "process.env.DATABASE_PASSWORD",
-    "database": "ta_na_mesa_0q3j",
-    "host": "dpg-chnb2lvdvk4n43au818g-a",
+    "database": "ta-na-mesa",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   }
 }
