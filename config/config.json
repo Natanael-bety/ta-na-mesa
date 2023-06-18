@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": ".env.DATABASE_USERNAME",
+    "username": "DATABASE_USERNAME",
     "password": "process.env.DATABASE_PASSWORD",
     "database": "ta-na-mesa",
     "host": "dpg-ci7jtj18g3n3vm0o4710-a",
