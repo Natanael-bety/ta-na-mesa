@@ -21,6 +21,7 @@ import { Imagem } from './models/imagem.model';
 import { AuthModule } from './modules/auth/auth.module';
 // import { ChamadaModule } from './modules/chamada/chamada.module';
 import { Chamada } from './models/chamada.model';
+import { ChamadaModule } from './modules/chamada/chamada.module';
 
 @Module({
   imports: [
@@ -57,7 +58,7 @@ import { Chamada } from './models/chamada.model';
     ProdutosModule,
     ContaModule,
     PedidoModule,
-    // ChamadaModule,
+    ChamadaModule,
     AuthModule,
   ],
   providers: [],

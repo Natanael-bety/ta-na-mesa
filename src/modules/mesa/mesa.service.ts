@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { Mesa } from 'src/models/mesa.model';
@@ -43,6 +47,20 @@ export class MesaService {
     } catch (e) {
       throw new BadRequestException(e.message);
     }
+  }
+
+  async getById(mesaId: string) {
+    const mesa = await this.mesaModel.findOne({
+      where: {
+        id: mesaId,
+      },
+    });
+
+    if (!mesa) {
+      throw new NotFoundException('mesa não encontrada');
+    }
+
+    return mesa;
   }
 
   findAll() {

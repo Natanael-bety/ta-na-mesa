@@ -28,7 +28,7 @@ export class Chamada extends Model<Chamada> {
   chamada: CHAMADA;
 
   @Column({ type: DataType.BOOLEAN, allowNull: false })
-  chamadoResolvida: boolean;
+  chamadaResolvida: boolean;
 
   @ForeignKey(() => Mesa)
   @Column({ type: DataType.UUID })
