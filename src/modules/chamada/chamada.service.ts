@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Chamada } from 'src/models/chamada.model';
 import { CreateChamadaDto } from './dto/create-chamada.dto';
 import { MesaService } from '../mesa/mesa.service';
+import { Mesa } from 'src/models/mesa.model';
+import { Usuario } from 'src/models/usuario.model';
 
 @Injectable()
 export class ChamadaService {
@@ -24,6 +26,26 @@ export class ChamadaService {
       });
 
       return chamadaCreate;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async update(
+    creatChamadaDto: CreateChamadaDto,
+    chamadaId: string,
+  ): Promise<Chamada> {
+    try {
+      const chamada: Chamada = await this.ChamadaModel.findByPk(chamadaId, {
+        include: [Mesa, Usuario],
+      });
+      if (!chamada) {
+        throw new Error('Chamada não existet');
+      }
+
+      const novosDados: Chamada = await chamada.update(creatChamadaDto);
+
+      return novosDados;
     } catch (e) {
       throw new BadRequestException(e.message);
     }
