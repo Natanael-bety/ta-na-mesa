@@ -14,10 +14,10 @@ export class ChamadaService {
   async create(
     { chamadaResolvida, chamada }: CreateChamadaDto,
     mesaId: string,
-  ) {
+  ): Promise<Chamada> {
     const mesa = await this.mesaService.getById(mesaId);
     try {
-      const chamadaCreate = await this.ChamadaModel.create({
+      const chamadaCreate: Chamada = await this.ChamadaModel.create({
         mesaId: mesa.id,
         chamadaResolvida,
         chamada,

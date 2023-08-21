@@ -45,7 +45,7 @@ export class ProdutosController {
   }
 
   @Get(':produtoId')
-  findOne(@Param('produtoId') produtoId: string) {
+  findOne(@Param('produtoId') produtoId: string): Promise<Produto> {
     return this.produtosService.getById(produtoId);
   }
 
@@ -58,7 +58,7 @@ export class ProdutosController {
   }
 
   @Delete(':produtoId')
-  remove(@Param('produtoId') produtoId: string) {
+  remove(@Param('produtoId') produtoId: string): void {
     return this.produtosService.remove(produtoId);
   }
 }
