@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ChamadaService } from './chamada.service';
 import { CreateChamadaDto } from './dto/create-chamada.dto';
 import { Chamada } from 'src/models/chamada.model';
@@ -21,5 +29,20 @@ export class ChamadaController {
     @Body() createChamadaDto: CreateChamadaDto,
   ): Promise<Chamada> {
     return this.chamadaService.update(createChamadaDto, mesaId);
+  }
+
+  @Get('/chamadaId')
+  findOne(@Param('chamadaId') chamadaId: string): Promise<Chamada> {
+    return this.chamadaService.findOne(chamadaId);
+  }
+
+  @Get()
+  findAll(): Promise<Chamada[]> {
+    return this.chamadaService.findAll();
+  }
+
+  @Delete('/chamadaId')
+  remove(@Param('chamadaId') chamadaId: string): Promise<void> {
+    return this.chamadaService.remove(chamadaId);
   }
 }

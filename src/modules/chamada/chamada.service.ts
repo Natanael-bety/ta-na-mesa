@@ -50,4 +50,41 @@ export class ChamadaService {
       throw new BadRequestException(e.message);
     }
   }
+
+  async findOne(chamadaId: string): Promise<Chamada> {
+    try {
+      const chamada: Chamada = await this.ChamadaModel.findByPk(chamadaId, {
+        include: [Mesa, Usuario],
+      });
+      if (!chamada) {
+        throw new Error('Chamada não encontrada');
+      }
+
+      return chamada;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async findAll(): Promise<Chamada[]> {
+    try {
+      return await this.ChamadaModel.findAll({ include: [Mesa, Usuario] });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async remove(chamadaId: string): Promise<void> {
+    try {
+      const chamadaExist: Chamada = await this.ChamadaModel.findByPk(chamadaId);
+
+      if (!chamadaExist) {
+        throw new Error('Chamada não encontrada');
+      }
+
+      await this.ChamadaModel.destroy({ where: { id: chamadaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
 }
