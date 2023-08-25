@@ -1,9 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Conta } from 'src/models/conta.model';
 import { MesaService } from '../mesa/mesa.service';
+import { Mesa } from 'src/models/mesa.model';
 
 @Injectable()
 export class ContaService {
@@ -30,12 +35,28 @@ export class ContaService {
     }
   }
 
-  findAll() {
-    return `This action returns all conta`;
+  findAll(): Promise<Conta[]> {
+    try {
+      return this.contaModel.findAll({
+        include: {
+          model: Mesa,
+        },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} conta`;
+  async findOne(contaId: string): Promise<Conta> {
+    const conta = await this.contaModel.findOne({
+      where: { id: contaId },
+    });
+
+    if (!conta) {
+      throw new NotFoundException('Categoria não encontrada');
+    }
+
+    return conta;
   }
 
   update(id: number, updateContaDto: UpdateContaDto) {

@@ -25,13 +25,13 @@ export class ContaController {
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Conta[]> {
     return this.contaService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.contaService.findOne(+id);
+  findOne(@Param('id') id: string): Promise<Conta> {
+    return this.contaService.findOne(id);
   }
 
   @Patch(':id')
