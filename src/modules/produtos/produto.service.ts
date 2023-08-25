@@ -114,7 +114,7 @@ export class ProdutosService {
   async getById(
     produtoId: string,
     { include }: { include?: Includeable | Includeable[] } = {},
-  ) {
+  ): Promise<Produto> {
     const produto = await this.produtoModel.findOne({
       where: { id: produtoId },
       include,
@@ -135,14 +135,14 @@ export class ProdutosService {
     const { imagem, ...produtoUpdateData } = updateProdutoDto;
 
     const transaction = await this.sequelize.transaction();
-    const novoProduto = await produto.update({
+    const novoProduto: Produto = await produto.update({
       ...produtoUpdateData,
     });
 
     if (imagem) {
       await this.imagemService.delete(produto.imagem.publicId);
 
-      const novaImagem = await this.createImagemProduto(
+      const novaImagem: Imagem = await this.createImagemProduto(
         imagem,
         produto.id,
         transaction,
@@ -158,7 +158,7 @@ export class ProdutosService {
     imagem: MemoryStoredFile,
     produtoId: string,
     transaction?: Transaction,
-  ) {
+  ): Promise<Imagem> {
     const { public_id, url, version } =
       await this.cloudinaryService.uploadImage(imagem, {
         upload_preset: UPLOAD_PRESETS.PRODUTOS,
@@ -175,7 +175,7 @@ export class ProdutosService {
     );
   }
 
-  remove(produtoId: string) {
+  remove(produtoId: string): void {
     this.produtoModel.destroy({ where: { id: produtoId } });
   }
 }

@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Chamada } from 'src/models/chamada.model';
 import { CreateChamadaDto } from './dto/create-chamada.dto';
 import { MesaService } from '../mesa/mesa.service';
-import { UpdateChamadaDto } from './dto/update-chamada.dto';
+import { Mesa } from 'src/models/mesa.model';
+import { Usuario } from 'src/models/usuario.model';
 
 @Injectable()
 export class ChamadaService {
@@ -15,10 +16,10 @@ export class ChamadaService {
   async create(
     { chamadaResolvida, chamada }: CreateChamadaDto,
     mesaId: string,
-  ) {
+  ): Promise<Chamada> {
     const mesa = await this.mesaService.getById(mesaId);
     try {
-      const chamadaCreate = await this.ChamadaModel.create({
+      const chamadaCreate: Chamada = await this.ChamadaModel.create({
         mesaId: mesa.id,
         chamadaResolvida,
         chamada,
@@ -30,24 +31,58 @@ export class ChamadaService {
     }
   }
 
-  async findById(chamadaId: string): Promise<Chamada> {
-    const chamada: Chamada = await this.ChamadaModel.findOne({
-      where: { id: chamadaId },
-    });
-    if (!chamada) {
-      throw new Error('Chamada não encontrada');
-    }
+  async update(
+    creatChamadaDto: CreateChamadaDto,
+    chamadaId: string,
+  ): Promise<Chamada> {
+    try {
+      const chamada: Chamada = await this.ChamadaModel.findByPk(chamadaId, {
+        include: [Mesa, Usuario],
+      });
+      if (!chamada) {
+        throw new Error('Chamada não existet');
+      }
 
-    return chamada;
+      const novosDados: Chamada = await chamada.update(creatChamadaDto);
+
+      return novosDados;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
-  async update(chamadaId: string, { chamadaResolvida }: UpdateChamadaDto) {
+  async findOne(chamadaId: string): Promise<Chamada> {
     try {
-      const chamada = await this.findById(chamadaId);
+      const chamada: Chamada = await this.ChamadaModel.findByPk(chamadaId, {
+        include: [Mesa, Usuario],
+      });
+      if (!chamada) {
+        throw new Error('Chamada não encontrada');
+      }
 
-      const updateChamada = chamada.update({ chamadaResolvida });
+      return chamada;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
 
-      return updateChamada;
+  async findAll(): Promise<Chamada[]> {
+    try {
+      return await this.ChamadaModel.findAll({ include: [Mesa, Usuario] });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async remove(chamadaId: string): Promise<void> {
+    try {
+      const chamadaExist: Chamada = await this.ChamadaModel.findByPk(chamadaId);
+
+      if (!chamadaExist) {
+        throw new Error('Chamada não encontrada');
+      }
+
+      await this.ChamadaModel.destroy({ where: { id: chamadaId } });
     } catch (e) {
       throw new BadRequestException(e.message);
     }

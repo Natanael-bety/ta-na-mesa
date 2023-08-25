@@ -1,11 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { Conta } from 'src/models/conta.model';
+import { MesaService } from '../mesa/mesa.service';
 
 @Injectable()
 export class ContaService {
-  create(createContaDto: CreateContaDto) {
-    return 'This action adds a new conta';
+  constructor(
+    @InjectModel(Conta) private readonly contaModel: typeof Conta,
+    private readonly mesaService: MesaService,
+  ) {}
+  async create(
+    { valorTotal, finalizadoEm }: CreateContaDto,
+    mesaId: string,
+  ): Promise<Conta> {
+    const mesa = await this.mesaService.getById(mesaId);
+
+    try {
+      const conta: Conta = await this.contaModel.create({
+        mesaId: mesa.id,
+        valorTotal,
+        finalizadoEm,
+      });
+
+      return conta.toJSON();
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
   }
 
   findAll() {

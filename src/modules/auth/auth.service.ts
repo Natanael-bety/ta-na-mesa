@@ -47,18 +47,18 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  private normalizeUsuario(usuario: Usuario) {
+  private normalizeUsuario(usuario: Usuario): Usuario {
     delete usuario.senha;
 
     return usuario.toJSON();
   }
 
   async createUsuario(createUsuarioDto: CreateUsuarioDto) {
-    const createdUser = await this.usuarioService.createUsuario(
+    const createdUser: Usuario = await this.usuarioService.createUsuario(
       createUsuarioDto,
     );
 
-    const token = await this.generateToken({
+    const token: string = await this.generateToken({
       email: createdUser.email,
       senha: createdUser.senha,
     });
@@ -69,12 +69,12 @@ export class AuthService {
     };
   }
 
-  async getUsuarioPorEmail(email: string) {
+  async getUsuarioPorEmail(email: string): Promise<Usuario> {
     try {
       const usuario = await this.usuarioService.findByEmail(email);
 
       if (!usuario) {
-        throw new Error('Usuareio não encontrado');
+        throw new Error('Usuario não encontrado');
       }
 
       return usuario;
