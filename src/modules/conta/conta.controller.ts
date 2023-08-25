@@ -10,14 +10,18 @@ import {
 import { ContaService } from './conta.service';
 import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
+import { Conta } from 'src/models/conta.model';
 
 @Controller('contas')
 export class ContaController {
   constructor(private readonly contaService: ContaService) {}
 
-  @Post()
-  create(@Body() createContaDto: CreateContaDto) {
-    return this.contaService.create(createContaDto);
+  @Post('/mesa/:mesaId')
+  create(
+    @Param('mesaId') mesaId: string,
+    @Body() createContaDto: CreateContaDto,
+  ): Promise<Conta> {
+    return this.contaService.create(createContaDto, mesaId);
   }
 
   @Get()
