@@ -79,7 +79,7 @@ export class UsuarioService {
     });
 
     if (!usuario) {
-      throw new Error('Usuareio não encontrado');
+      throw new Error('Usuario não encontrado');
     }
 
     return usuario;

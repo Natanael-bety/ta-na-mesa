@@ -17,6 +17,7 @@ import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { FormDataRequest } from 'nestjs-form-data';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabelecimento.dto';
+import { Produto } from 'src/models/produto.model';
 
 @Controller('produtos')
 export class ProdutosController {
