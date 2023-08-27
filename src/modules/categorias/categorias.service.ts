@@ -18,7 +18,10 @@ export class CategoriasService {
     private readonly estabelecimentoService: EstabelecimentoService,
   ) {}
 
-  async create({ nome }: CreateCategoriaDto, estabelecimentoId: string) {
+  async create(
+    { nome }: CreateCategoriaDto,
+    estabelecimentoId: string,
+  ): Promise<Categoria> {
     const estabelecimento = await this.estabelecimentoService.getById(
       estabelecimentoId,
     );
@@ -55,7 +58,7 @@ export class CategoriasService {
     }
   }
 
-  async getById(categoriaId: string) {
+  async getById(categoriaId: string): Promise<Categoria> {
     const categoria = await this.categoriaModel.findOne({
       where: { id: categoriaId },
     });
