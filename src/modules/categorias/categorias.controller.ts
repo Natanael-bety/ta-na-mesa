@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
@@ -44,9 +43,9 @@ export class CategoriasController {
     );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriasService.findOne(+id);
+  @Get(':categoriaId')
+  findOne(@Param('categoriaId') categoriaId: string): Promise<Categoria> {
+    return this.categoriasService.findOne(categoriaId);
   }
 
   @Put(':id')

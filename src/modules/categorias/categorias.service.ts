@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Categoria } from 'src/models/categoria.model';
 import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
 import { PaginationDto } from '../common/validators/pagination.dto';
+import { Includeable } from 'sequelize';
 
 @Injectable()
 export class CategoriasService {
@@ -66,8 +67,20 @@ export class CategoriasService {
     return categoria;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} categoria`;
+  async findOne(
+    categoriaId: string,
+    { include }: { include?: Includeable | Includeable[] } = {},
+  ): Promise<Categoria> {
+    const categoria = await this.categoriaModel.findOne({
+      where: { id: categoriaId },
+      include,
+    });
+
+    if (!categoria) {
+      throw new NotFoundException('categoria não encontrado');
+    }
+
+    return categoria;
   }
 
   async update(
