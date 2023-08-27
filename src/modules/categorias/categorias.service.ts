@@ -91,7 +91,7 @@ export class CategoriasService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} categoria`;
+  remove(categoriaId: string): void {
+    this.categoriaModel.destroy({ where: { id: categoriaId } });
   }
 }
