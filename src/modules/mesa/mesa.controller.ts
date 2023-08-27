@@ -3,12 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
+  Put,
 } from '@nestjs/common';
 import { MesaService } from './mesa.service';
 import { CreateMesaDto } from './dto/create-mesa.dto';
@@ -36,18 +36,16 @@ export class MesaController {
     return this.mesaService.findAllByEstabelecimentoId(EstabelecimentoId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mesaService.findOne(+id);
+  @Put('/estabelecimento/:mesaId')
+  update(
+    @Param('mesaId') mesaId: string,
+    @Body() updateMesaDto: UpdateMesaDto,
+  ) {
+    return this.mesaService.update(mesaId, updateMesaDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMesaDto: UpdateMesaDto) {
-    return this.mesaService.update(+id, updateMesaDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.mesaService.remove(+id);
+  @Delete('/estabelecimento/:mesaId')
+  remove(@Param('mesaId') mesaId: string) {
+    return this.mesaService.remove(mesaId);
   }
 }

@@ -63,6 +63,16 @@ export class MesaService {
     return mesa;
   }
 
+  async update(mesaId: string, updateMesaDto: UpdateMesaDto) {
+    const mesa = await this.getById(mesaId);
+
+    const { ...mesaUpdatedete } = updateMesaDto;
+
+    const novaMesa: Mesa = await mesa.update({ ...mesaUpdatedete });
+
+    return novaMesa;
+  }
+
   findAll() {
     return `This action returns all mesa`;
   }
@@ -71,11 +81,7 @@ export class MesaService {
     return `This action returns a #${id} mesa`;
   }
 
-  update(id: number, updateMesaDto: UpdateMesaDto) {
-    return `This action updates a #${id} mesa`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} mesa`;
+  remove(mesaId: string) {
+    this.mesaModel.destroy({ where: { id: mesaId } });
   }
 }

@@ -8,13 +8,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
-  app.enableCors({ allowedHeaders: ['X-Total-Count'] });
+  app.enableCors({
+    allowedHeaders: ['X-Total-Count'],
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
     }),
   );
 
