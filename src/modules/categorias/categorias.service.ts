@@ -70,8 +70,25 @@ export class CategoriasService {
     return `This action returns a #${id} categoria`;
   }
 
-  update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return `This action updates a #${id} categoria`;
+  async update(
+    categoriaId: string,
+    { nome }: UpdateCategoriaDto,
+  ): Promise<Categoria> {
+    try {
+      const categoria: Categoria = await this.categoriaModel.findByPk(
+        categoriaId,
+        {
+          rejectOnEmpty: true,
+        },
+      );
+      const novaCategoria: Categoria = await categoria.update({
+        nome,
+      });
+
+      return novaCategoria;
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
   }
 
   remove(id: number) {
