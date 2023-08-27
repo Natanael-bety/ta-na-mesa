@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Categoria } from 'src/models/categoria.model';
 import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
 import { PaginationDto } from '../common/validators/pagination.dto';
+import { Includeable } from 'sequelize';
 
 @Injectable()
 export class CategoriasService {
@@ -17,7 +18,10 @@ export class CategoriasService {
     private readonly estabelecimentoService: EstabelecimentoService,
   ) {}
 
-  async create({ nome }: CreateCategoriaDto, estabelecimentoId: string) {
+  async create(
+    { nome }: CreateCategoriaDto,
+    estabelecimentoId: string,
+  ): Promise<Categoria> {
     const estabelecimento = await this.estabelecimentoService.getById(
       estabelecimentoId,
     );
@@ -54,7 +58,7 @@ export class CategoriasService {
     }
   }
 
-  async getById(categoriaId: string) {
+  async getById(categoriaId: string): Promise<Categoria> {
     const categoria = await this.categoriaModel.findOne({
       where: { id: categoriaId },
     });
@@ -66,15 +70,44 @@ export class CategoriasService {
     return categoria;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} categoria`;
+  async findOne(
+    categoriaId: string,
+    { include }: { include?: Includeable | Includeable[] } = {},
+  ): Promise<Categoria> {
+    const categoria = await this.categoriaModel.findOne({
+      where: { id: categoriaId },
+      include,
+    });
+
+    if (!categoria) {
+      throw new NotFoundException('categoria não encontrado');
+    }
+
+    return categoria;
   }
 
-  update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return `This action updates a #${id} categoria`;
+  async update(
+    categoriaId: string,
+    { nome }: UpdateCategoriaDto,
+  ): Promise<Categoria> {
+    try {
+      const categoria: Categoria = await this.categoriaModel.findByPk(
+        categoriaId,
+        {
+          rejectOnEmpty: true,
+        },
+      );
+      const novaCategoria: Categoria = await categoria.update({
+        nome,
+      });
+
+      return novaCategoria;
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} categoria`;
+  remove(categoriaId: string): void {
+    this.categoriaModel.destroy({ where: { id: categoriaId } });
   }
 }

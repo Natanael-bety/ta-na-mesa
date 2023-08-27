@@ -3,19 +3,20 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
   Query,
+  Put,
 } from '@nestjs/common';
 import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 import { PaginationDto } from '../common/validators/pagination.dto';
+import { Categoria } from 'src/models/categoria.model';
 
 @Controller('categorias')
 export class CategoriasController {
@@ -25,7 +26,7 @@ export class CategoriasController {
   create(
     @Param('estabelecimentoId') estabelecimentoId: string,
     @Body() createCategoriaDto: CreateCategoriaDto,
-  ) {
+  ): Promise<Categoria> {
     return this.categoriasService.create(createCategoriaDto, estabelecimentoId);
   }
 
@@ -42,21 +43,21 @@ export class CategoriasController {
     );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriasService.findOne(+id);
+  @Get(':categoriaId')
+  findOne(@Param('categoriaId') categoriaId: string): Promise<Categoria> {
+    return this.categoriasService.findOne(categoriaId);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateCategoriaDto: UpdateCategoriaDto,
-  ) {
-    return this.categoriasService.update(+id, updateCategoriaDto);
+  ): Promise<Categoria> {
+    return this.categoriasService.update(id, updateCategoriaDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriasService.remove(+id);
+  @Delete(':categoriaId')
+  remove(@Param('categoriaId') categoriaId: string) {
+    return this.categoriasService.remove(categoriaId);
   }
 }

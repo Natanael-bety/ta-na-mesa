@@ -35,12 +35,15 @@ export class ContaController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateContaDto: UpdateContaDto) {
-    return this.contaService.update(+id, updateContaDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateContaDto: UpdateContaDto,
+  ): Promise<Conta> {
+    return this.contaService.update(id, updateContaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contaService.remove(+id);
+  remove(@Param('id') id: string): void {
+    return this.contaService.remove(id);
   }
 }

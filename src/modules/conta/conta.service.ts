@@ -59,11 +59,25 @@ export class ContaService {
     return conta;
   }
 
-  update(id: number, updateContaDto: UpdateContaDto) {
-    return `This action updates a #${id} conta`;
+  async update(
+    contaId: string,
+    updateContaDto: UpdateContaDto,
+  ): Promise<Conta> {
+    try {
+      const conta: Conta = await this.contaModel.findByPk(contaId, {
+        rejectOnEmpty: true,
+      });
+      const novaCategoria: Conta = await conta.update({
+        ...updateContaDto,
+      });
+
+      return novaCategoria;
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} conta`;
+  remove(contaId: string): void {
+    this.contaModel.destroy({ where: { id: contaId } });
   }
 }
