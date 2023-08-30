@@ -14,6 +14,7 @@ import { MesaService } from './mesa.service';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
+import { Mesa } from 'src/models/mesa.model';
 
 @Controller('mesas')
 export class MesaController {
@@ -23,7 +24,7 @@ export class MesaController {
   create(
     @Param('estabelecimentoId') estabelecimentoId: string,
     @Body() createMesaDto: CreateMesaDto,
-  ) {
+  ): Promise<Mesa> {
     return this.mesaService.create(createMesaDto, estabelecimentoId);
   }
 
@@ -40,12 +41,12 @@ export class MesaController {
   update(
     @Param('mesaId') mesaId: string,
     @Body() updateMesaDto: UpdateMesaDto,
-  ) {
+  ): Promise<Mesa> {
     return this.mesaService.update(mesaId, updateMesaDto);
   }
 
   @Delete('/estabelecimento/:mesaId')
-  remove(@Param('mesaId') mesaId: string) {
+  remove(@Param('mesaId') mesaId: string): void {
     return this.mesaService.remove(mesaId);
   }
 }

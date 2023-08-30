@@ -16,13 +16,16 @@ export class MesaService {
     private readonly estabelecimentoService: EstabelecimentoService,
   ) {}
 
-  async create({ numero, status }: CreateMesaDto, estabelecimentoId: string) {
+  async create(
+    { numero, status }: CreateMesaDto,
+    estabelecimentoId: string,
+  ): Promise<Mesa> {
     const estabelecimento = await this.estabelecimentoService.getById(
       estabelecimentoId,
     );
 
     try {
-      const novaMesa = await this.mesaModel.create({
+      const novaMesa: Mesa = await this.mesaModel.create({
         estabelecimentoId: estabelecimento.id,
         numero,
         status,
@@ -49,7 +52,7 @@ export class MesaService {
     }
   }
 
-  async getById(mesaId: string) {
+  async getById(mesaId: string): Promise<Mesa> {
     const mesa = await this.mesaModel.findOne({
       where: {
         id: mesaId,
@@ -63,7 +66,7 @@ export class MesaService {
     return mesa;
   }
 
-  async update(mesaId: string, updateMesaDto: UpdateMesaDto) {
+  async update(mesaId: string, updateMesaDto: UpdateMesaDto): Promise<Mesa> {
     const mesa = await this.getById(mesaId);
 
     const { ...mesaUpdatedete } = updateMesaDto;
