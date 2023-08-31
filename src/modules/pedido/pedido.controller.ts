@@ -3,40 +3,53 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+  Put,
 } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { Pedido } from 'src/models/pedido.model';
+import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
 @Controller('pedido')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
 
-  @Post()
-  create(@Body() createPedidoDto: CreatePedidoDto) {
-    return this.pedidoService.create(createPedidoDto);
+  @Post('/usuario/:usuarioId')
+  create(
+    @Param('usuarioId') usuarioId: string,
+    @Body() createPedidoDto: CreatePedidoDto,
+  ): Promise<Pedido> {
+    return this.pedidoService.create(usuarioId, createPedidoDto);
   }
 
-  @Get()
-  findAll() {
-    return this.pedidoService.findAll();
+  @Get('/usuario/:usuarioId')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findAllByUsuarioId(@Param('usuarioId') usuarioId: string) {
+    return this.pedidoService.findAllByUsuarioId(usuarioId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pedidoService.findOne(+id);
+  @Get(':pedidoId')
+  findOne(@Param('pedidoId') pedidoId: string): Promise<Pedido> {
+    return this.pedidoService.findOne(pedidoId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
-    return this.pedidoService.update(+id, updatePedidoDto);
+  @Put(':pedidoId')
+  update(
+    @Param('pedidoId') pedidoId: string,
+    @Body() updatePedidoDto: UpdatePedidoDto,
+  ): Promise<Pedido> {
+    return this.pedidoService.update(pedidoId, updatePedidoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pedidoService.remove(+id);
+  @Delete(':pedidoId')
+  remove(@Param('pedidoId') pedidoId: string): void {
+    return this.pedidoService.remove(pedidoId);
   }
 }

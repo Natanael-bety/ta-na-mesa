@@ -1,6 +1,12 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePedidoDto } from './create-pedido.dto';
-import { IsDate, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import {
+  IsDate,
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+} from 'class-validator';
 import { STATUS_PEDIDO } from 'src/constants/pedido';
 
 export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
@@ -17,22 +23,22 @@ export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {
   valorTotal: number;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   canceladoEm: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   preparandoEm: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   prontoEm: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   entegueEm: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   alteradoEm: Date;
 }
