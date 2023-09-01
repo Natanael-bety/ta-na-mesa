@@ -23,26 +23,26 @@ export class ChamadaController {
     return this.chamadaService.create(createChamadaDto, mesaId);
   }
 
+  @Put('/mesa/:mesaId')
+  update(
+    @Param('mesaId') mesaId: string,
+    @Body() createChamadaDto: CreateChamadaDto,
+  ): Promise<Chamada> {
+    return this.chamadaService.update(createChamadaDto, mesaId);
+  }
+
+  @Get('/chamadaId')
+  findOne(@Param('chamadaId') chamadaId: string): Promise<Chamada> {
+    return this.chamadaService.findOne(chamadaId);
+  }
+
   @Get()
   findAll(): Promise<Chamada[]> {
     return this.chamadaService.findAll();
   }
 
-  @Get(':chamadaId')
-  findOne(@Param('chamadaId') chamadaId: string): Promise<Chamada> {
-    return this.chamadaService.findOne(chamadaId);
-  }
-
-  @Put(':chamadaId')
-  update(
-    @Param('chamadaId') chamadaId: string,
-    creatChamadaDto: CreateChamadaDto,
-  ): Promise<Chamada> {
-    return this.chamadaService.update(creatChamadaDto, chamadaId);
-  }
-
-  @Delete('chamadaId')
-  delete(@Param('chamadaId') chamadaId: string): Promise<void> {
+  @Delete('/chamadaId')
+  remove(@Param('chamadaId') chamadaId: string): Promise<void> {
     return this.chamadaService.remove(chamadaId);
   }
 }

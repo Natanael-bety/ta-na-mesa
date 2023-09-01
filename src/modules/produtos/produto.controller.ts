@@ -11,7 +11,7 @@ import {
   Query,
   Put,
 } from '@nestjs/common';
-import { ProdutosService } from './produto.service';
+import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { FormDataRequest } from 'nestjs-form-data';
@@ -21,7 +21,7 @@ import { Produto } from 'src/models/produto.model';
 
 @Controller('produtos')
 export class ProdutosController {
-  constructor(private readonly produtosService: ProdutosService) {}
+  constructor(private readonly produtoService: ProdutoService) {}
 
   @Post('/categoria/:categoriaId')
   @FormDataRequest()
@@ -29,7 +29,7 @@ export class ProdutosController {
     @Body() createProdutoDto: CreateProdutoDto,
     @Param('categoriaId') categoriaId: string,
   ) {
-    return this.produtosService.create(createProdutoDto, categoriaId);
+    return this.produtoService.create(createProdutoDto, categoriaId);
   }
 
   @Get('/estabelecimento/:estabelecimentoId')
@@ -39,7 +39,7 @@ export class ProdutosController {
     @Param('estabelecimentoId') estabelecimentoId: string,
     @Query() getProdutosPorEstabelecimentoDto: GetProdutosPorEstabelecimento,
   ) {
-    return this.produtosService.getProdutorPorEstabelecimento(
+    return this.produtoService.getProdutorPorEstabelecimento(
       estabelecimentoId,
       getProdutosPorEstabelecimentoDto,
     );
@@ -47,7 +47,7 @@ export class ProdutosController {
 
   @Get(':produtoId')
   findOne(@Param('produtoId') produtoId: string): Promise<Produto> {
-    return this.produtosService.getById(produtoId);
+    return this.produtoService.getById(produtoId);
   }
 
   @Put(':produtoId')
@@ -55,11 +55,11 @@ export class ProdutosController {
     @Param('produtoId') produtoId: string,
     @Body() updateProdutoDto: UpdateProdutoDto,
   ) {
-    return this.produtosService.update(produtoId, updateProdutoDto);
+    return this.produtoService.update(produtoId, updateProdutoDto);
   }
 
   @Delete(':produtoId')
   remove(@Param('produtoId') produtoId: string): void {
-    return this.produtosService.remove(produtoId);
+    return this.produtoService.remove(produtoId);
   }
 }

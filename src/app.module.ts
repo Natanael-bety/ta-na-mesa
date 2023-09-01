@@ -6,7 +6,6 @@ import { PedidoModule } from './modules/pedido/pedido.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Usuario } from './models/usuario.model';
 import { ConfigModule } from '@nestjs/config';
-import { PedidoProdutoModule } from './modules/pedido-produto/pedido-produto.module';
 import { Categoria } from './models/categoria.model';
 import { CategoriasModule } from './modules/categorias/categorias.module';
 import { Estabelecimento } from './models/estabelecimento.model';
@@ -15,7 +14,7 @@ import { Conta } from './models/conta.model';
 import { PedidoProduto } from './models/pedido-produto.model';
 import { Mesa } from './models/mesa.model';
 import { Produto } from './models/produto.model';
-import { ProdutosModule } from './modules/produtos/produto.module';
+import { ProdutoModule } from './modules/produtos/produto.module';
 import { ContaCliente } from './models/conta-cliente.model';
 import { Imagem } from './models/imagem.model';
 import { AuthModule } from './modules/auth/auth.module';
@@ -51,11 +50,10 @@ import { ChamadaModule } from './modules/chamada/chamada.module';
         Imagem,
       ],
     }),
-    PedidoProdutoModule,
     CategoriasModule,
     EstabelecimentoModule,
     MesaModule,
-    ProdutosModule,
+    ProdutoModule,
     ContaModule,
     PedidoModule,
     ChamadaModule,

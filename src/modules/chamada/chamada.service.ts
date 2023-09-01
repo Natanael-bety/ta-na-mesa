@@ -40,7 +40,7 @@ export class ChamadaService {
         include: [Mesa, Usuario],
       });
       if (!chamada) {
-        throw new Error('Chamada não existet');
+        throw new Error('Chamada não existente');
       }
 
       const novosDados: Chamada = await chamada.update(creatChamadaDto);

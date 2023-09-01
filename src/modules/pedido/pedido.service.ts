@@ -8,14 +8,13 @@ import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Pedido } from 'src/models/pedido.model';
 import { UsuarioService } from '../usuario/usuario.service';
-import { ContaService } from '../conta/conta.service';
+// import { ContaService } from '../conta/conta.service';
 
 @Injectable()
 export class PedidoService {
   constructor(
     @InjectModel(Pedido) private readonly pedidoModel: typeof Pedido,
     private readonly usuarioService: UsuarioService,
-    private readonly contaService: ContaService,
   ) {}
   async create(
     usuarioId: string,

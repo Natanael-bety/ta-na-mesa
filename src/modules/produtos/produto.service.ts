@@ -20,7 +20,7 @@ import { Estabelecimento } from 'src/models/estabelecimento.model';
 import { Categoria } from 'src/models/categoria.model';
 
 @Injectable()
-export class ProdutosService {
+export class ProdutoService {
   constructor(
     @InjectModel(Produto) private readonly produtoModel: typeof Produto,
     private readonly categoriasService: CategoriasService,

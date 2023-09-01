@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ProdutosService } from './produto.service';
+import { ProdutoService } from './produto.service';
 import { ProdutosController } from './produto.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Produto } from 'src/models/produto.model';
@@ -10,7 +10,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
   controllers: [ProdutosController],
-  providers: [ProdutosService],
+  providers: [ProdutoService],
   imports: [
     SequelizeModule.forFeature([Produto]),
     CategoriasModule,
@@ -19,4 +19,4 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
     NestjsFormDataModule,
   ],
 })
-export class ProdutosModule {}
+export class ProdutoModule {}

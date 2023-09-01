@@ -49,10 +49,11 @@ export class CategoriasService {
         offset,
       });
 
-      return {
-        data: rows,
-        totalCount: count,
-      };
+      return rows;
+      // return {
+      //   data: rows,
+      //   totalCount: count,
+      // };
     } catch (err) {
       throw new BadRequestException(new Error(err).message);
     }

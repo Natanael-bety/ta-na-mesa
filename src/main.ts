@@ -8,9 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
-  app.enableCors({
-    allowedHeaders: ['X-Total-Count'],
-  });
+  app.enableCors({ origin: true });
 
   app.useGlobalPipes(
     new ValidationPipe({
