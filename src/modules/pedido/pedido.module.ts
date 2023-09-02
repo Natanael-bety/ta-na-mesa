@@ -10,5 +10,6 @@ import { ContaModule } from '../conta/conta.module';
   controllers: [PedidoController],
   providers: [PedidoService],
   imports: [SequelizeModule.forFeature([Pedido]), UsuarioModule],
+  exports: [PedidoService],
 })
 export class PedidoModule {}

@@ -18,5 +18,6 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
     ImagemModule,
     NestjsFormDataModule,
   ],
+  exports: [ProdutoService],
 })
 export class ProdutoModule {}
