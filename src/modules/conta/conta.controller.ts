@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { ContaService } from './conta.service';
 import { CreateContaDto } from './dto/create-conta.dto';
@@ -29,12 +29,12 @@ export class ContaController {
     return this.contaService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Conta> {
-    return this.contaService.findOne(id);
+  @Get('/mesa/:contaId')
+  findOne(@Param('contaId') contaId: string): Promise<Conta> {
+    return this.contaService.findOne(contaId);
   }
 
-  @Patch(':id')
+  @Put('/mesa/:mesaId')
   update(
     @Param('id') id: string,
     @Body() updateContaDto: UpdateContaDto,

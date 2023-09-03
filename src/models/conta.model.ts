@@ -24,9 +24,6 @@ export class Conta extends Model<Conta> {
   @Column({ type: DataType.FLOAT, defaultValue: 0 })
   valorTotal: number;
 
-  @Column({ type: DataType.DATE, allowNull: true })
-  finalizadoEm: Date;
-
   @ForeignKey(() => Mesa)
   @Column({ type: DataType.UUID })
   mesaId: string;

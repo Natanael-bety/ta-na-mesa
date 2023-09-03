@@ -67,21 +67,17 @@ export class MesaService {
   }
 
   async update(mesaId: string, updateMesaDto: UpdateMesaDto): Promise<Mesa> {
-    const mesa = await this.getById(mesaId);
+    try {
+      const mesa = await this.getById(mesaId);
 
-    const { ...mesaUpdatedete } = updateMesaDto;
+      const { ...mesaUpdatedete } = updateMesaDto;
 
-    const novaMesa: Mesa = await mesa.update({ ...mesaUpdatedete });
+      const novaMesa: Mesa = await mesa.update({ ...mesaUpdatedete });
 
-    return novaMesa;
-  }
-
-  findAll() {
-    return `This action returns all mesa`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} mesa`;
+      return novaMesa;
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
   }
 
   remove(mesaId: string) {

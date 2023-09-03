@@ -18,29 +18,13 @@ export class PedidoService {
   ) {}
   async create(
     usuarioId: string,
-    {
-      numero,
-      alteradoEm,
-      canceladoEm,
-      entegueEm,
-      preparandoEm,
-      prontoEm,
-      status,
-      valorTotal,
-    }: CreatePedidoDto,
+    { ...createPedidoDto }: CreatePedidoDto,
   ): Promise<Pedido> {
     const usuario = await this.usuarioService.findById(usuarioId);
     try {
       const pedidoNovo: Pedido = await this.pedidoModel.create({
         usuarioId: usuario.id,
-        numero,
-        alteradoEm,
-        canceladoEm,
-        entegueEm,
-        preparandoEm,
-        prontoEm,
-        status,
-        valorTotal,
+        ...createPedidoDto,
       });
       return pedidoNovo.toJSON();
     } catch (e) {

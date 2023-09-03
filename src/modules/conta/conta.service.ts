@@ -16,17 +16,13 @@ export class ContaService {
     @InjectModel(Conta) private readonly contaModel: typeof Conta,
     private readonly mesaService: MesaService,
   ) {}
-  async create(
-    { valorTotal, finalizadoEm }: CreateContaDto,
-    mesaId: string,
-  ): Promise<Conta> {
+  async create({ valorTotal }: CreateContaDto, mesaId: string): Promise<Conta> {
     const mesa = await this.mesaService.getById(mesaId);
 
     try {
       const conta: Conta = await this.contaModel.create({
         mesaId: mesa.id,
         valorTotal,
-        finalizadoEm,
       });
 
       return conta.toJSON();
@@ -53,7 +49,7 @@ export class ContaService {
     });
 
     if (!conta) {
-      throw new NotFoundException('Categoria não encontrada');
+      throw new NotFoundException('Conta não encontrada');
     }
 
     return conta;

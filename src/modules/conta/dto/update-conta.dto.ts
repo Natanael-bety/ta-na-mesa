@@ -6,8 +6,4 @@ export class UpdateContaDto extends PartialType(CreateContaDto) {
   @IsNotEmpty()
   @IsNumber()
   valorTotal: number;
-
-  @IsNotEmpty()
-  @IsDate()
-  finalizadoEm: Date;
 }
