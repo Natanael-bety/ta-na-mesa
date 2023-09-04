@@ -18,9 +18,9 @@ import { ProdutoModule } from './modules/produtos/produto.module';
 import { ContaCliente } from './models/conta-cliente.model';
 import { Imagem } from './models/imagem.model';
 import { AuthModule } from './modules/auth/auth.module';
-// import { ChamadaModule } from './modules/chamada/chamada.module';
 import { Chamada } from './models/chamada.model';
 import { ChamadaModule } from './modules/chamada/chamada.module';
+import { PedidoProdutoModule } from './modules/pedido-produto/pedido-produto.module';
 
 @Module({
   imports: [
@@ -58,6 +58,7 @@ import { ChamadaModule } from './modules/chamada/chamada.module';
     PedidoModule,
     ChamadaModule,
     AuthModule,
+    PedidoProdutoModule,
   ],
   providers: [],
 })
