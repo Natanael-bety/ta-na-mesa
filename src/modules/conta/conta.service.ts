@@ -8,7 +8,6 @@ import { UpdateContaDto } from './dto/update-conta.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Conta } from 'src/models/conta.model';
 import { MesaService } from '../mesa/mesa.service';
-import { Mesa } from 'src/models/mesa.model';
 
 @Injectable()
 export class ContaService {
@@ -16,13 +15,17 @@ export class ContaService {
     @InjectModel(Conta) private readonly contaModel: typeof Conta,
     private readonly mesaService: MesaService,
   ) {}
-  async create({ valorTotal }: CreateContaDto, mesaId: string): Promise<Conta> {
+  async create(
+    { valorTotal, aberta }: CreateContaDto,
+    mesaId: string,
+  ): Promise<Conta> {
     const mesa = await this.mesaService.getById(mesaId);
 
     try {
       const conta: Conta = await this.contaModel.create({
         mesaId: mesa.id,
         valorTotal,
+        aberta,
       });
 
       return conta.toJSON();
@@ -31,13 +34,16 @@ export class ContaService {
     }
   }
 
-  findAll(): Promise<Conta[]> {
+  async findAllByMesa(mesaId: string) {
     try {
-      return this.contaModel.findAll({
-        include: {
-          model: Mesa,
-        },
+      const { count, rows } = await this.contaModel.findAndCountAll({
+        where: { mesaId },
       });
+
+      return {
+        data: rows,
+        totalCount: count,
+      };
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -60,14 +66,15 @@ export class ContaService {
     updateContaDto: UpdateContaDto,
   ): Promise<Conta> {
     try {
-      const conta: Conta = await this.contaModel.findByPk(contaId, {
-        rejectOnEmpty: true,
-      });
-      const novaCategoria: Conta = await conta.update({
-        ...updateContaDto,
+      const conta = await this.findOne(contaId);
+
+      const { ...updateContadete } = updateContaDto;
+
+      const novaConta: Conta = await conta.update({
+        ...updateContadete,
       });
 
-      return novaCategoria;
+      return novaConta;
     } catch (err) {
       throw new BadRequestException(new Error(err).message);
     }
