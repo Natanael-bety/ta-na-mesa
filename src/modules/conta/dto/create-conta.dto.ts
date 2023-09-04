@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateContaDto {
   @IsNotEmpty()
@@ -6,6 +6,6 @@ export class CreateContaDto {
   valorTotal: number;
 
   @IsNotEmpty()
-  @IsDate()
-  finalizadoEm: Date;
+  @IsBoolean()
+  aberta: boolean;
 }

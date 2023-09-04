@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateContaDto } from './create-conta.dto';
-import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class UpdateContaDto extends PartialType(CreateContaDto) {
   @IsNotEmpty()
@@ -8,6 +8,6 @@ export class UpdateContaDto extends PartialType(CreateContaDto) {
   valorTotal: number;
 
   @IsNotEmpty()
-  @IsDate()
-  finalizadoEm: Date;
+  @IsBoolean()
+  aberta: boolean;
 }

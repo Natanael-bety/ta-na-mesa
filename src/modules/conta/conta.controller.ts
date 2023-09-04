@@ -3,14 +3,18 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ContaService } from './conta.service';
 import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
 import { Conta } from 'src/models/conta.model';
+import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
 @Controller('contas')
 export class ContaController {
@@ -24,22 +28,24 @@ export class ContaController {
     return this.contaService.create(createContaDto, mesaId);
   }
 
-  @Get()
-  findAll(): Promise<Conta[]> {
-    return this.contaService.findAll();
+  @Get('/mesa/:mesaId')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findAllByMesa(@Param('mesaId') MesaId: string) {
+    return this.contaService.findAllByMesa(MesaId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Conta> {
-    return this.contaService.findOne(id);
+  @Get('/mesa/:contaId')
+  findOne(@Param('contaId') contaId: string): Promise<Conta> {
+    return this.contaService.findOne(contaId);
   }
 
-  @Patch(':id')
+  @Put('/mesa/:mesaId')
   update(
-    @Param('id') id: string,
+    @Param('mesaId') mesaId: string,
     @Body() updateContaDto: UpdateContaDto,
   ): Promise<Conta> {
-    return this.contaService.update(id, updateContaDto);
+    return this.contaService.update(mesaId, updateContaDto);
   }
 
   @Delete(':id')
