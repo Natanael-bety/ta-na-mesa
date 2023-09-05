@@ -3,9 +3,13 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+  Query,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { EstabelecimentoService } from './estabelecimento.service';
@@ -16,6 +20,7 @@ import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
 import { TiposGuard } from 'src/config/guards/tipos.guard';
 import { Tipos } from 'src/config/decorators/tipos.decorator';
 import { USUARIO_TIPO } from 'src/constants/usuario';
+import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
 @Controller('estabelecimentos')
 @UseGuards(TiposGuard)
@@ -31,8 +36,10 @@ export class EstabelecimentoController {
     return this.estabelecimentoService.create(createEstabelecimentoDto);
   }
 
-  @Get()
-  findAll() {
+  @Get('/')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  getProdutosPorCategoriaId() {
     return this.estabelecimentoService.findAll();
   }
 
@@ -42,16 +49,19 @@ export class EstabelecimentoController {
     return this.estabelecimentoService.getById(estabelecimentoId);
   }
 
-  @Patch(':id')
+  @Put(':estabelecimentoId')
   update(
-    @Param('id') id: string,
+    @Param('estabelecimentoId') estabelecimentoId: string,
     @Body() updateEstabelecimentoDto: UpdateEstabelecimentoDto,
   ) {
-    return this.estabelecimentoService.update(+id, updateEstabelecimentoDto);
+    return this.estabelecimentoService.update(
+      estabelecimentoId,
+      updateEstabelecimentoDto,
+    );
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.estabelecimentoService.remove(+id);
+  @Delete(':estabelecimentoId')
+  remove(@Param('proestabelecimentoIddutoId') estabelecimentoId: string): void {
+    return this.estabelecimentoService.remove(estabelecimentoId);
   }
 }
