@@ -1,15 +1,21 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  Param,
   Post,
+  Body,
+  Param,
+  Delete,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+  Query,
   Put,
 } from '@nestjs/common';
 import { ChamadaService } from './chamada.service';
 import { CreateChamadaDto } from './dto/create-chamada.dto';
 import { Chamada } from 'src/models/chamada.model';
+import { PaginationDto } from '../common/validators/pagination.dto';
+import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
 @Controller('chamadas')
 export class ChamadaController {
@@ -36,9 +42,14 @@ export class ChamadaController {
     return this.chamadaService.findOne(chamadaId);
   }
 
-  @Get()
-  findAll(): Promise<Chamada[]> {
-    return this.chamadaService.findAll();
+  @Get('/mesa/:mesaId')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findAllByMesaId(
+    @Param('mesaId') mesaId: string,
+    @Query() pagination: PaginationDto,
+  ) {
+    return this.chamadaService.findAll(mesaId, pagination);
   }
 
   @Delete('/chamadaId')
