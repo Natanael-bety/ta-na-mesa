@@ -5,6 +5,7 @@ import { CreateChamadaDto } from './dto/create-chamada.dto';
 import { MesaService } from '../mesa/mesa.service';
 import { Mesa } from 'src/models/mesa.model';
 import { Usuario } from 'src/models/usuario.model';
+import { PaginationDto } from '../common/validators/pagination.dto';
 
 @Injectable()
 export class ChamadaService {
@@ -66,11 +67,20 @@ export class ChamadaService {
     }
   }
 
-  async findAll(): Promise<Chamada[]> {
+  async findAll(mesaId: string, { limit, offset }: PaginationDto) {
     try {
-      return await this.ChamadaModel.findAll({ include: [Mesa, Usuario] });
-    } catch (e) {
-      throw new BadRequestException(e.message);
+      const { count, rows } = await this.ChamadaModel.findAndCountAll({
+        where: { mesaId },
+        limit,
+        offset,
+      });
+
+      return {
+        data: rows,
+        totalCount: count,
+      };
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
     }
   }
 
