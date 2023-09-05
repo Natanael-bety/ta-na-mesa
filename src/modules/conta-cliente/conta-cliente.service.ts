@@ -37,11 +37,16 @@ export class ContaClienteService {
     }
   }
 
-  findAll(): Promise<ContaCliente[]> {
+  async findAll(usuarioId: string) {
     try {
-      return this.contaClienteModel.findAll({
-        include: [Usuario, Conta],
+      const { count, rows } = await this.contaClienteModel.findAndCountAll({
+        where: { usuarioId },
       });
+
+      return {
+        data: rows,
+        totalCount: count,
+      };
     } catch (e) {
       throw new BadRequestException(e.message);
     }

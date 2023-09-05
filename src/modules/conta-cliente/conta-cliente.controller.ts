@@ -3,13 +3,17 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ContaClienteService } from './conta-cliente.service';
 import { UpdateContaClienteDto } from './dto/update-conta-cliente.dto';
 import { ContaCliente } from 'src/models/conta-cliente.model';
+import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
 @Controller('conta-cliente')
 export class ContaClienteController {
@@ -23,9 +27,11 @@ export class ContaClienteController {
     return this.contaClienteService.create(contaId, usuarioId);
   }
 
-  @Get()
-  findAll(): Promise<ContaCliente[]> {
-    return this.contaClienteService.findAll();
+  @Get('/usuario/:usuarioId')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findAllByMesa(@Param('usuarioId') usuarioId: string) {
+    return this.contaClienteService.findAll(usuarioId);
   }
 
   @Get(':contaClienteId')
