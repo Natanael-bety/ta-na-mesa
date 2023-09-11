@@ -9,7 +9,7 @@ import { PedidoModule } from '../pedido/pedido.module';
 @Module({
   controllers: [ContaController],
   providers: [ContaService],
-  imports: [SequelizeModule.forFeature([Conta]), MesaModule, PedidoModule],
+  imports: [SequelizeModule.forFeature([Conta]), MesaModule],
   exports: [ContaService],
 })
 export class ContaModule {}

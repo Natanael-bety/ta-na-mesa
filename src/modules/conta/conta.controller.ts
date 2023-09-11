@@ -48,8 +48,8 @@ export class ContaController {
     return this.contaService.update(mesaId, updateContaDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string): void {
-    return this.contaService.remove(id);
+  @Delete('/mesa/:contaId')
+  remove(@Param('contaId') contaId: string): void {
+    return this.contaService.remove(contaId);
   }
 }

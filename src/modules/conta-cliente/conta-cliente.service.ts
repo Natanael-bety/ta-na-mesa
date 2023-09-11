@@ -3,14 +3,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateContaClienteDto } from './dto/create-conta-cliente.dto';
-import { UpdateContaClienteDto } from './dto/update-conta-cliente.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { UsuarioService } from '../usuario/usuario.service';
 import { ContaService } from '../conta/conta.service';
 import { ContaCliente } from 'src/models/conta-cliente.model';
-import { Usuario } from 'src/models/usuario.model';
-import { Conta } from 'src/models/conta.model';
 @Injectable()
 export class ContaClienteService {
   constructor(

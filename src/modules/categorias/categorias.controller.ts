@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
@@ -17,12 +18,16 @@ import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 import { PaginationDto } from '../common/validators/pagination.dto';
 import { Categoria } from 'src/models/categoria.model';
+import { TiposGuard } from 'src/config/guards/tipos.guard';
+import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
 
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
 
   @Post('/estabelecimento/:estabelecimentoId')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
   create(
     @Param('estabelecimentoId') estabelecimentoId: string,
     @Body() createCategoriaDto: CreateCategoriaDto,
@@ -49,6 +54,8 @@ export class CategoriasController {
   }
 
   @Put(':id')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
   update(
     @Param('id') id: string,
     @Body() updateCategoriaDto: UpdateCategoriaDto,
@@ -57,6 +64,8 @@ export class CategoriasController {
   }
 
   @Delete(':categoriaId')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
   remove(@Param('categoriaId') categoriaId: string) {
     return this.categoriasService.remove(categoriaId);
   }

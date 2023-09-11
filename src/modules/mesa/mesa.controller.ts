@@ -9,14 +9,19 @@ import {
   UsePipes,
   ValidationPipe,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { MesaService } from './mesa.service';
 import { CreateMesaDto } from './dto/create-mesa.dto';
 import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 import { Mesa } from 'src/models/mesa.model';
+import { TiposGuard } from 'src/config/guards/tipos.guard';
+import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
 
 @Controller('mesas')
+@UseGuards(TiposGuard)
+@UseGuards(JwtAuthGuard)
 export class MesaController {
   constructor(private readonly mesaService: MesaService) {}
 

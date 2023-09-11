@@ -26,7 +26,7 @@ export class CreatePedidoDto {
 
   @IsNotEmpty()
   @IsDateString()
-  preparandoEm: Date;
+  preparadoEm: Date;
 
   @IsNotEmpty()
   @IsDateString()
@@ -34,7 +34,7 @@ export class CreatePedidoDto {
 
   @IsNotEmpty()
   @IsDateString()
-  entegueEm: Date;
+  entregueEm: Date;
 
   @IsNotEmpty()
   @IsDateString()

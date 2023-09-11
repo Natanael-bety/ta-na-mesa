@@ -8,6 +8,8 @@ import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Pedido } from 'src/models/pedido.model';
 import { UsuarioService } from '../usuario/usuario.service';
+import { ContaService } from '../conta/conta.service';
+import { CreateUsuarioDto } from '../auth/dto/create-usuario.dto';
 // import { ContaService } from '../conta/conta.service';
 
 @Injectable()
@@ -26,6 +28,7 @@ export class PedidoService {
         usuarioId: usuario.id,
         ...createPedidoDto,
       });
+
       return pedidoNovo.toJSON();
     } catch (e) {
       throw new BadRequestException(e.message);
@@ -65,13 +68,17 @@ export class PedidoService {
     pedidoId: string,
     updatePedidoDto: UpdatePedidoDto,
   ): Promise<Pedido> {
-    const pedido = await this.findOne(pedidoId);
+    try {
+      const pedido = await this.findOne(pedidoId);
 
-    const { ...pedidoUpdatedete } = updatePedidoDto;
+      const { ...pedidoUpdatedete } = updatePedidoDto;
 
-    const novoPedido: Pedido = await pedido.update({ ...pedidoUpdatedete });
+      const novoPedido: Pedido = await pedido.update({ ...pedidoUpdatedete });
 
-    return novoPedido;
+      return novoPedido;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   remove(pedidoId: string) {

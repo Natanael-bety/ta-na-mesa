@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
@@ -18,12 +19,16 @@ import { FormDataRequest } from 'nestjs-form-data';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabelecimento.dto';
 import { Produto } from 'src/models/produto.model';
+import { TiposGuard } from 'src/config/guards/tipos.guard';
+import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
 
 @Controller('produtos')
 export class ProdutosController {
   constructor(private readonly produtoService: ProdutoService) {}
 
   @Post('/categoria/:categoriaId')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
   @FormDataRequest()
   create(
     @Body() createProdutoDto: CreateProdutoDto,
@@ -51,6 +56,8 @@ export class ProdutosController {
   }
 
   @Put(':produtoId')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
   update(
     @Param('produtoId') produtoId: string,
     @Body() updateProdutoDto: UpdateProdutoDto,
@@ -59,6 +66,8 @@ export class ProdutosController {
   }
 
   @Delete(':produtoId')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
   remove(@Param('produtoId') produtoId: string): void {
     return this.produtoService.remove(produtoId);
   }
