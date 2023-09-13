@@ -10,6 +10,7 @@ import { Categoria } from 'src/models/categoria.model';
 import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
 import { PaginationDto } from '../common/validators/pagination.dto';
 import { Includeable } from 'sequelize';
+import { UnauthorizedError } from 'src/common/error/types/unauthorized.error';
 
 @Injectable()
 export class CategoriasService {
@@ -34,7 +35,7 @@ export class CategoriasService {
 
       return categoria.toJSON();
     } catch (err) {
-      throw new BadRequestException(new Error(err).message);
+      throw new UnauthorizedError('Não autorizado');
     }
   }
 
@@ -103,7 +104,7 @@ export class CategoriasService {
 
       return novaCategoria;
     } catch (err) {
-      throw new BadRequestException(new Error(err).message);
+      throw new UnauthorizedError('Não autorizado');
     }
   }
 

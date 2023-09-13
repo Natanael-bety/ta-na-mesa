@@ -19,6 +19,7 @@ import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabeleci
 import { Estabelecimento } from 'src/models/estabelecimento.model';
 import { Categoria } from 'src/models/categoria.model';
 import { GetProdutosPorCategoria } from './dto/get-produtos-por-categoria.dto';
+import { UnauthorizedError } from 'src/common/error/types/unauthorized.error';
 
 @Injectable()
 export class ProdutoService {
@@ -75,7 +76,7 @@ export class ProdutoService {
         await this.cloudinaryService.deleteImage(novaImagem.publicId);
       }
       await transaction.rollback();
-      throw err;
+      throw new UnauthorizedError('Não autorizado');
     }
   }
 
