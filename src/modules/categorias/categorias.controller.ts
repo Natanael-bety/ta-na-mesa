@@ -53,14 +53,14 @@ export class CategoriasController {
     return this.categoriasService.findOne(categoriaId);
   }
 
-  @Put(':id')
+  @Put('/:categoriaId')
   @UseGuards(TiposGuard)
   @UseGuards(JwtAuthGuard)
   update(
-    @Param('id') id: string,
+    @Param('categoriaId') categoriaId: string,
     @Body() updateCategoriaDto: UpdateCategoriaDto,
   ): Promise<Categoria> {
-    return this.categoriasService.update(id, updateCategoriaDto);
+    return this.categoriasService.update(categoriaId, updateCategoriaDto);
   }
 
   @Delete(':categoriaId')

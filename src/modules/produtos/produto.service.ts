@@ -18,6 +18,7 @@ import { Includeable, Transaction, WhereOptions } from 'sequelize';
 import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabelecimento.dto';
 import { Estabelecimento } from 'src/models/estabelecimento.model';
 import { Categoria } from 'src/models/categoria.model';
+import { GetProdutosPorCategoria } from './dto/get-produtos-por-categoria.dto';
 
 @Injectable()
 export class ProdutoService {
@@ -89,6 +90,38 @@ export class ProdutoService {
 
       if (categoriaId) {
         whereOptions.categoriaId = categoriaId;
+      }
+
+      const { count, rows } = await this.produtoModel.findAndCountAll({
+        where: whereOptions,
+        limit,
+        offset,
+        include: [
+          {
+            model: Imagem,
+          },
+        ],
+      });
+
+      return {
+        data: rows,
+        totalCount: count,
+      };
+    } catch (err) {
+      throw new BadRequestException(new Error(err).message);
+    }
+  }
+
+  async getProdutoPorCategoria(
+    categoriaId: string,
+    { limit, offset, estabelecimentoId }: GetProdutosPorCategoria,
+  ) {
+    try {
+      const whereOptions: WhereOptions<Produto> = {
+        categoriaId,
+      };
+      if (estabelecimentoId) {
+        whereOptions.estabelecimentoId = estabelecimentoId;
       }
 
       const { count, rows } = await this.produtoModel.findAndCountAll({

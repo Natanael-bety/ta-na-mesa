@@ -6,19 +6,23 @@ import { compare } from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { IsEmail } from 'class-validator';
+import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usuarioService: UsuarioService,
-    private jwtService: JwtService,
+    private jwtService: JwtService, // private readonly estabelecimentoService: EstabelecimentoService,
   ) {}
 
   async validateTokenData({ email }: { email: string; username: string }) {
     return await this.usuarioService.findByEmail(email);
   }
 
-  async login({ email, senha }: LoginDto) {
+  async login({ email, senha }: LoginDto /*estabelecimetoId: string*/) {
+    // const estabelecimento = await this.estabelecimentoService.findOne(
+    //   estabelecimetoId,
+    // );
     try {
       const user = await this.usuarioService.findByEmail(email);
 

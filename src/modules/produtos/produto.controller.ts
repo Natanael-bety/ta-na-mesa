@@ -21,6 +21,7 @@ import { GetProdutosPorEstabelecimento } from './dto/get-produtos-por-estabeleci
 import { Produto } from 'src/models/produto.model';
 import { TiposGuard } from 'src/config/guards/tipos.guard';
 import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
+import { GetProdutosPorCategoria } from './dto/get-produtos-por-categoria.dto';
 
 @Controller('produtos')
 export class ProdutosController {
@@ -47,6 +48,19 @@ export class ProdutosController {
     return this.produtoService.getProdutorPorEstabelecimento(
       estabelecimentoId,
       getProdutosPorEstabelecimentoDto,
+    );
+  }
+
+  @Get('/categoria/:categoriaId')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  getProdutosPorCategoria(
+    @Param('categoriaId') categoriaId: string,
+    @Query() getProdutosPorCategoria: GetProdutosPorCategoria,
+  ) {
+    return this.produtoService.getProdutoPorCategoria(
+      categoriaId,
+      getProdutosPorCategoria,
     );
   }
 
