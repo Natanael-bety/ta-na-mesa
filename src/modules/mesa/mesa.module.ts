@@ -4,7 +4,6 @@ import { MesaController } from './mesa.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { EstabelecimentoModule } from '../estabelecimento/estabelecimento.module';
 import { Mesa } from 'src/models/mesa.model';
-
 @Module({
   controllers: [MesaController],
   providers: [MesaService],

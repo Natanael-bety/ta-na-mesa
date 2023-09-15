@@ -60,6 +60,7 @@ import { PedidoProdutoModule } from './modules/pedido-produto/pedido-produto.mod
     AuthModule,
     PedidoProdutoModule,
   ],
+
   providers: [],
 })
 export class AppModule {}

@@ -6,6 +6,7 @@ import {
   Table,
   BelongsTo,
   HasMany,
+  Sequelize,
 } from 'sequelize-typescript';
 import { MESA_STATUS } from 'src/constants/mesa';
 import { Estabelecimento } from './estabelecimento.model';
@@ -55,4 +56,82 @@ export class Mesa extends Model<Mesa> {
 
   @HasMany(() => Chamada)
   chamadas: Chamada[];
+
+  paranoid: true;
+
+  deletedAt: 'destroyTime';
 }
+/*
+Mesa.init(
+  {
+    id: {
+      type: DataType.UUID,
+      defaultValue: DataType.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+    },
+    numero: {
+      type: DataType.INTEGER,
+      allowNull: false,
+    },
+    chamarGarcom: {
+      type: DataType.BOOLEAN,
+      defaultValue: true,
+    },
+    status: {
+      type: DataType.ENUM,
+      values: Object.values(MESA_STATUS),
+      defaultValue: MESA_STATUS.LIVRE,
+    },
+    $add: '',
+    $set: '',
+    $get: '',
+    $count: '',
+    $create: '',
+    $has: '',
+    $remove: '',
+    reload: '',
+    _attributes: '',
+    dataValues: '',
+    _creationAttributes: '',
+    isNewRecord: '',
+    sequelize: '',
+    where: '',
+    getDataValue: '',
+    setDataValue: '',
+    get: '',
+    set: '',
+    setAttributes: '',
+    changed: '',
+    previous: '',
+    save: '',
+    validate: '',
+    update: '',
+    destroy: '',
+    restore: '',
+    increment: '',
+    decrement: '',
+    equals: '',
+    equalsOneOf: '',
+    toJSON: '',
+    isSoftDeleted: '',
+    _model: '',
+    addHook: '',
+    removeHook: '',
+    hasHook: '',
+    hasHooks: '',
+    estabelecimentoId: '',
+    estabelecimento: '',
+    usuarioId: '',
+    usuario: '',
+    contas: '',
+    chamadas: '',
+  },
+  {
+    tableName: 'Mesas',
+    paranoid: true,
+    deletedAt: 'destroyTime',
+    sequelize: new Sequelize(),
+  },
+);
+*/
