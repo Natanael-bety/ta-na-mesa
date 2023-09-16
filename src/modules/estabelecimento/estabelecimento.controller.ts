@@ -23,8 +23,8 @@ import { USUARIO_TIPO } from 'src/constants/usuario';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
 @Controller('estabelecimentos')
-@UseGuards(TiposGuard)
-@UseGuards(JwtAuthGuard)
+//@UseGuards(TiposGuard)
+//@UseGuards(JwtAuthGuard)
 export class EstabelecimentoController {
   constructor(
     private readonly estabelecimentoService: EstabelecimentoService,

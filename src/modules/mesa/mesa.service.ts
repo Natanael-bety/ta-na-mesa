@@ -83,4 +83,8 @@ export class MesaService {
   remove(mesaId: string) {
     this.mesaModel.destroy({ where: { id: mesaId } });
   }
+
+  restaure(mesaId: string) {
+    this.mesaModel.restore({ where: { id: mesaId } });
+  }
 }

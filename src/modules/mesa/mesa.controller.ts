@@ -20,8 +20,8 @@ import { TiposGuard } from 'src/config/guards/tipos.guard';
 import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
 
 @Controller('mesas')
-@UseGuards(TiposGuard)
-@UseGuards(JwtAuthGuard)
+//@UseGuards(TiposGuard)
+//@UseGuards(JwtAuthGuard)
 export class MesaController {
   constructor(private readonly mesaService: MesaService) {}
 
@@ -53,5 +53,10 @@ export class MesaController {
   @Delete('/estabelecimento/:mesaId')
   remove(@Param('mesaId') mesaId: string): void {
     return this.mesaService.remove(mesaId);
+  }
+
+  @Put('/estabelecimento/mesa/:mesaId')
+  restaure(@Param('mesaId') mesaId: string): void {
+    return this.mesaService.restaure(mesaId);
   }
 }

@@ -7,12 +7,14 @@ import {
   BelongsTo,
   HasMany,
   Sequelize,
+  DeletedAt,
 } from 'sequelize-typescript';
 import { MESA_STATUS } from 'src/constants/mesa';
 import { Estabelecimento } from './estabelecimento.model';
 import { Conta } from './conta.model';
 import { Usuario } from './usuario.model';
 import { Chamada } from './chamada.model';
+import { timeStamp } from 'console';
 
 @Table({ modelName: 'Mesas' })
 export class Mesa extends Model<Mesa> {
@@ -37,6 +39,9 @@ export class Mesa extends Model<Mesa> {
   })
   status: MESA_STATUS;
 
+  @Column({ type: DataType.DATE })
+  deletedAt: Date;
+
   @ForeignKey(() => Estabelecimento)
   @Column({ type: DataType.UUID })
   estabelecimentoId: string;
@@ -57,81 +62,6 @@ export class Mesa extends Model<Mesa> {
   @HasMany(() => Chamada)
   chamadas: Chamada[];
 
-  paranoid: true;
-
-  deletedAt: 'destroyTime';
+  @DeletedAt
+  deletionDate: Date;
 }
-/*
-Mesa.init(
-  {
-    id: {
-      type: DataType.UUID,
-      defaultValue: DataType.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
-    numero: {
-      type: DataType.INTEGER,
-      allowNull: false,
-    },
-    chamarGarcom: {
-      type: DataType.BOOLEAN,
-      defaultValue: true,
-    },
-    status: {
-      type: DataType.ENUM,
-      values: Object.values(MESA_STATUS),
-      defaultValue: MESA_STATUS.LIVRE,
-    },
-    $add: '',
-    $set: '',
-    $get: '',
-    $count: '',
-    $create: '',
-    $has: '',
-    $remove: '',
-    reload: '',
-    _attributes: '',
-    dataValues: '',
-    _creationAttributes: '',
-    isNewRecord: '',
-    sequelize: '',
-    where: '',
-    getDataValue: '',
-    setDataValue: '',
-    get: '',
-    set: '',
-    setAttributes: '',
-    changed: '',
-    previous: '',
-    save: '',
-    validate: '',
-    update: '',
-    destroy: '',
-    restore: '',
-    increment: '',
-    decrement: '',
-    equals: '',
-    equalsOneOf: '',
-    toJSON: '',
-    isSoftDeleted: '',
-    _model: '',
-    addHook: '',
-    removeHook: '',
-    hasHook: '',
-    hasHooks: '',
-    estabelecimentoId: '',
-    estabelecimento: '',
-    usuarioId: '',
-    usuario: '',
-    contas: '',
-    chamadas: '',
-  },
-  {
-    tableName: 'Mesas',
-    paranoid: true,
-    deletedAt: 'destroyTime',
-    sequelize: new Sequelize(),
-  },
-);
-*/
