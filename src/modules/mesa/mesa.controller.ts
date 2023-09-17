@@ -20,8 +20,8 @@ import { TiposGuard } from 'src/config/guards/tipos.guard';
 import { JwtAuthGuard } from 'src/config/guards/jwt-auth.guard';
 
 @Controller('mesas')
-//@UseGuards(TiposGuard)
-//@UseGuards(JwtAuthGuard)
+@UseGuards(TiposGuard)
+@UseGuards(JwtAuthGuard)
 export class MesaController {
   constructor(private readonly mesaService: MesaService) {}
 
