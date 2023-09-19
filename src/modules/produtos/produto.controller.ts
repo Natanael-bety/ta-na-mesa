@@ -85,4 +85,11 @@ export class ProdutosController {
   remove(@Param('produtoId') produtoId: string): void {
     return this.produtoService.remove(produtoId);
   }
+
+  @Put('produto/:produtoId')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
+  restaure(@Param('produtoId') produtoId: string): void {
+    return this.produtoService.restaure(produtoId);
+  }
 }

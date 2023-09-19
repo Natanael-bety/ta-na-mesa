@@ -64,4 +64,11 @@ export class EstabelecimentoController {
   remove(@Param('proestabelecimentoIddutoId') estabelecimentoId: string): void {
     return this.estabelecimentoService.remove(estabelecimentoId);
   }
+
+  @Put('estabelecimento/:estabelecimentoId')
+  restaure(
+    @Param('proestabelecimentoIddutoId') estabelecimentoId: string,
+  ): void {
+    return this.estabelecimentoService.restaure(estabelecimentoId);
+  }
 }

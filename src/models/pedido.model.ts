@@ -6,6 +6,7 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  DeletedAt,
 } from 'sequelize-typescript';
 import { STATUS_PEDIDO } from '../constants/pedido';
 import { PedidoProduto } from './pedido-produto.model';
@@ -73,4 +74,7 @@ export class Pedido extends Model<Pedido> {
 
   @BelongsTo(() => Conta)
   conta: Conta;
+
+  @DeletedAt
+  deletionDate: Date;
 }

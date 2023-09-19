@@ -52,4 +52,9 @@ export class ContaController {
   remove(@Param('contaId') contaId: string): void {
     return this.contaService.remove(contaId);
   }
+
+  @Put('/conta/:contaId')
+  restaure(@Param('contaId') contaId: string): void {
+    return this.contaService.restaure(contaId);
+  }
 }

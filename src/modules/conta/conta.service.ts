@@ -83,4 +83,8 @@ export class ContaService {
   remove(contaId: string): void {
     this.contaModel.destroy({ where: { id: contaId } });
   }
+
+  restaure(contaId: string): void {
+    this.contaModel.restore({ where: { id: contaId } });
+  }
 }

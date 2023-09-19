@@ -84,4 +84,8 @@ export class PedidoService {
   remove(pedidoId: string) {
     this.pedidoModel.destroy({ where: { id: pedidoId } });
   }
+
+  restaure(pedidoId: string) {
+    this.pedidoModel.restore({ where: { id: pedidoId } });
+  }
 }

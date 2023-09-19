@@ -97,4 +97,18 @@ export class ChamadaService {
       throw new BadRequestException(e.message);
     }
   }
+
+  async restaure(chamadaId: string): Promise<void> {
+    try {
+      const chamadaExist: Chamada = await this.ChamadaModel.findByPk(chamadaId);
+
+      if (!chamadaExist) {
+        throw new Error('Chamada não encontrada');
+      }
+
+      await this.ChamadaModel.restore({ where: { id: chamadaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
 }

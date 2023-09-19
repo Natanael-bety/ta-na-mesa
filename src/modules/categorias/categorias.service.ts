@@ -111,4 +111,8 @@ export class CategoriasService {
   remove(categoriaId: string): void {
     this.categoriaModel.destroy({ where: { id: categoriaId } });
   }
+
+  restaure(categoriaId: string): void {
+    this.categoriaModel.restore({ where: { id: categoriaId } });
+  }
 }

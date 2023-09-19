@@ -212,4 +212,8 @@ export class ProdutoService {
   remove(produtoId: string): void {
     this.produtoModel.destroy({ where: { id: produtoId } });
   }
+
+  restaure(produtoId: string): void {
+    this.produtoModel.restore({ where: { id: produtoId } });
+  }
 }

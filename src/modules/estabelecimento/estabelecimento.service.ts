@@ -144,6 +144,10 @@ export class EstabelecimentoService {
     this.estabelecimentoModel.destroy({ where: { id: estabelecimentoId } });
   }
 
+  restaure(estabelecimentoId: string): void {
+    this.estabelecimentoModel.restore({ where: { id: estabelecimentoId } });
+  }
+
   private async createImagemEstabelecimento(
     imagem: MemoryStoredFile,
     estabelecimentoId: string,

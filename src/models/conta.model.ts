@@ -6,6 +6,7 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  DeletedAt,
 } from 'sequelize-typescript';
 import { Mesa } from './mesa.model';
 import { Pedido } from './pedido.model';
@@ -39,4 +40,7 @@ export class Conta extends Model<Conta> {
 
   @HasMany(() => Pedido)
   pedidos: Pedido[];
+
+  @DeletedAt
+  deletionDate: Date;
 }

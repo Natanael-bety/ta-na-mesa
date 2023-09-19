@@ -52,4 +52,9 @@ export class PedidoController {
   remove(@Param('pedidoId') pedidoId: string): void {
     return this.pedidoService.remove(pedidoId);
   }
+
+  @Put('pedido/:pedidoId')
+  restaure(@Param('pedidoId') pedidoId: string): void {
+    return this.pedidoService.restaure(pedidoId);
+  }
 }
