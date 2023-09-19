@@ -209,11 +209,35 @@ export class ProdutoService {
     );
   }
 
-  remove(produtoId: string): void {
-    this.produtoModel.destroy({ where: { id: produtoId } });
+  async remove(produtoId: string): Promise<void> {
+    try {
+      const produtoExist: Produto = await this.produtoModel.findByPk(produtoId);
+
+      if (!produtoExist) {
+        throw new NotFoundException('Produto não encontrado');
+      }
+
+      await this.produtoModel.destroy({
+        where: { id: produtoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
-  restaure(produtoId: string): void {
-    this.produtoModel.restore({ where: { id: produtoId } });
+  async restaure(produtoId: string): Promise<void> {
+    try {
+      const produtoExist: Produto = await this.produtoModel.findByPk(produtoId);
+
+      if (!produtoExist) {
+        throw new NotFoundException('Produto não encontrado');
+      }
+
+      await this.produtoModel.restore({
+        where: { id: produtoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

@@ -80,11 +80,31 @@ export class MesaService {
     }
   }
 
-  remove(mesaId: string) {
-    this.mesaModel.destroy({ where: { id: mesaId } });
+  async remove(mesaId: string): Promise<void> {
+    try {
+      const mesaExist: Mesa = await this.mesaModel.findByPk(mesaId);
+
+      if (!mesaExist) {
+        throw new NotFoundException('Mesa não encontrada');
+      }
+
+      await this.mesaModel.destroy({ where: { id: mesaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
-  restaure(mesaId: string) {
-    this.mesaModel.restore({ where: { id: mesaId } });
+  async restaure(mesaId: string): Promise<void> {
+    try {
+      const mesaExist: Mesa = await this.mesaModel.findByPk(mesaId);
+
+      if (!mesaExist) {
+        throw new NotFoundException('Mesa não encontrada');
+      }
+
+      await this.mesaModel.restore({ where: { id: mesaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

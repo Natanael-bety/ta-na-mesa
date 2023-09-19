@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Chamada } from 'src/models/chamada.model';
 import { CreateChamadaDto } from './dto/create-chamada.dto';
@@ -89,7 +93,7 @@ export class ChamadaService {
       const chamadaExist: Chamada = await this.ChamadaModel.findByPk(chamadaId);
 
       if (!chamadaExist) {
-        throw new Error('Chamada não encontrada');
+        throw new NotFoundException('Chamada não encontrada');
       }
 
       await this.ChamadaModel.destroy({ where: { id: chamadaId } });
@@ -103,7 +107,7 @@ export class ChamadaService {
       const chamadaExist: Chamada = await this.ChamadaModel.findByPk(chamadaId);
 
       if (!chamadaExist) {
-        throw new Error('Chamada não encontrada');
+        throw new NotFoundException('Chamada não encontrada');
       }
 
       await this.ChamadaModel.restore({ where: { id: chamadaId } });

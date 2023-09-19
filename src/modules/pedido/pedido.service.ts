@@ -81,11 +81,35 @@ export class PedidoService {
     }
   }
 
-  remove(pedidoId: string) {
-    this.pedidoModel.destroy({ where: { id: pedidoId } });
+  async remove(pedidoId: string): Promise<void> {
+    try {
+      const pedidoExist: Pedido = await this.pedidoModel.findByPk(pedidoId);
+
+      if (!pedidoExist) {
+        throw new NotFoundException('Pedido não encontrado');
+      }
+
+      await this.pedidoModel.destroy({
+        where: { id: pedidoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
-  restaure(pedidoId: string) {
-    this.pedidoModel.restore({ where: { id: pedidoId } });
+  async restaure(pedidoId: string): Promise<void> {
+    try {
+      const pedidoExist: Pedido = await this.pedidoModel.findByPk(pedidoId);
+
+      if (!pedidoExist) {
+        throw new NotFoundException('Pedido não encontrado');
+      }
+
+      await this.pedidoModel.restore({
+        where: { id: pedidoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

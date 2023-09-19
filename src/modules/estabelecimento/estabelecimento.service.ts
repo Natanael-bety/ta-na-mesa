@@ -140,12 +140,38 @@ export class EstabelecimentoService {
     };
   }
 
-  remove(estabelecimentoId: string): void {
-    this.estabelecimentoModel.destroy({ where: { id: estabelecimentoId } });
+  async remove(estabelecimentoId: string): Promise<void> {
+    try {
+      const estabelecimentoExist: Estabelecimento =
+        await this.estabelecimentoModel.findByPk(estabelecimentoId);
+
+      if (!estabelecimentoExist) {
+        throw new NotFoundException('Estabelecimento não encontrada');
+      }
+
+      await this.estabelecimentoModel.destroy({
+        where: { id: estabelecimentoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
-  restaure(estabelecimentoId: string): void {
-    this.estabelecimentoModel.restore({ where: { id: estabelecimentoId } });
+  async restaure(estabelecimentoId: string): Promise<void> {
+    try {
+      const estabelecimentoExist: Estabelecimento =
+        await this.estabelecimentoModel.findByPk(estabelecimentoId);
+
+      if (!estabelecimentoExist) {
+        throw new NotFoundException('Estabelecimento não encontrada');
+      }
+
+      await this.estabelecimentoModel.restore({
+        where: { id: estabelecimentoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   private async createImagemEstabelecimento(

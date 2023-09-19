@@ -108,11 +108,35 @@ export class CategoriasService {
     }
   }
 
-  remove(categoriaId: string): void {
-    this.categoriaModel.destroy({ where: { id: categoriaId } });
+  async remove(categoriaId: string): Promise<void> {
+    try {
+      const categoriaExist: Categoria = await this.categoriaModel.findByPk(
+        categoriaId,
+      );
+
+      if (!categoriaExist) {
+        throw new NotFoundException('Categoria não encontrada');
+      }
+
+      await this.categoriaModel.destroy({ where: { id: categoriaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
-  restaure(categoriaId: string): void {
-    this.categoriaModel.restore({ where: { id: categoriaId } });
+  async restaure(categoriaId: string): Promise<void> {
+    try {
+      const categoriaExist: Categoria = await this.categoriaModel.findByPk(
+        categoriaId,
+      );
+
+      if (!categoriaExist) {
+        throw new NotFoundException('Categoria não encontrada');
+      }
+
+      await this.categoriaModel.restore({ where: { id: categoriaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }
