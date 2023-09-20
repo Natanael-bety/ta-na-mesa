@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UsuarioService } from '../usuario/usuario.service';
 import { ContaService } from '../conta/conta.service';
 import { ContaCliente } from 'src/models/conta-cliente.model';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 @Injectable()
 export class ContaClienteService {
   constructor(
@@ -56,7 +57,7 @@ export class ContaClienteService {
     });
 
     if (!contaCliente) {
-      throw new NotFoundException('Não encontrada');
+      throw new NotFoundError('Não encontrada');
     }
 
     return contaCliente;

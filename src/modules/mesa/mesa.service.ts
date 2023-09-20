@@ -8,6 +8,7 @@ import { UpdateMesaDto } from './dto/update-mesa.dto';
 import { Mesa } from 'src/models/mesa.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class MesaService {
@@ -60,7 +61,7 @@ export class MesaService {
     });
 
     if (!mesa) {
-      throw new NotFoundException('mesa não encontrada');
+      throw new NotFoundError('mesa não encontrada');
     }
 
     return mesa;
@@ -85,7 +86,7 @@ export class MesaService {
       const mesaExist: Mesa = await this.mesaModel.findByPk(mesaId);
 
       if (!mesaExist) {
-        throw new NotFoundException('Mesa não encontrada');
+        throw new NotFoundError('Mesa não encontrada');
       }
 
       await this.mesaModel.destroy({ where: { id: mesaId } });
@@ -99,7 +100,7 @@ export class MesaService {
       const mesaExist: Mesa = await this.mesaModel.findByPk(mesaId);
 
       if (!mesaExist) {
-        throw new NotFoundException('Mesa não encontrada');
+        throw new NotFoundError('Mesa não encontrada');
       }
 
       await this.mesaModel.restore({ where: { id: mesaId } });

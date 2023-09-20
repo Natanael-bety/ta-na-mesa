@@ -10,6 +10,7 @@ import { Pedido } from 'src/models/pedido.model';
 import { UsuarioService } from '../usuario/usuario.service';
 import { ContaService } from '../conta/conta.service';
 import { CreateUsuarioDto } from '../auth/dto/create-usuario.dto';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 // import { ContaService } from '../conta/conta.service';
 
 @Injectable()
@@ -58,7 +59,7 @@ export class PedidoService {
     });
 
     if (!pedido) {
-      throw new NotFoundException('Pedido não encontrada');
+      throw new NotFoundError('Pedido não encontrada');
     }
 
     return pedido;
@@ -86,7 +87,7 @@ export class PedidoService {
       const pedidoExist: Pedido = await this.pedidoModel.findByPk(pedidoId);
 
       if (!pedidoExist) {
-        throw new NotFoundException('Pedido não encontrado');
+        throw new NotFoundError('Pedido não encontrado');
       }
 
       await this.pedidoModel.destroy({
@@ -102,7 +103,7 @@ export class PedidoService {
       const pedidoExist: Pedido = await this.pedidoModel.findByPk(pedidoId);
 
       if (!pedidoExist) {
-        throw new NotFoundException('Pedido não encontrado');
+        throw new NotFoundError('Pedido não encontrado');
       }
 
       await this.pedidoModel.restore({

@@ -10,6 +10,7 @@ import { MesaService } from '../mesa/mesa.service';
 import { Mesa } from 'src/models/mesa.model';
 import { Usuario } from 'src/models/usuario.model';
 import { PaginationDto } from '../common/validators/pagination.dto';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class ChamadaService {
@@ -45,7 +46,7 @@ export class ChamadaService {
         include: [Mesa, Usuario],
       });
       if (!chamada) {
-        throw new Error('Chamada não existente');
+        throw new NotFoundError('Chamada não existente');
       }
 
       const novosDados: Chamada = await chamada.update(creatChamadaDto);
@@ -62,7 +63,7 @@ export class ChamadaService {
         include: [Mesa, Usuario],
       });
       if (!chamada) {
-        throw new Error('Chamada não encontrada');
+        throw new NotFoundError('Chamada não encontrada');
       }
 
       return chamada;
@@ -93,7 +94,7 @@ export class ChamadaService {
       const chamadaExist: Chamada = await this.ChamadaModel.findByPk(chamadaId);
 
       if (!chamadaExist) {
-        throw new NotFoundException('Chamada não encontrada');
+        throw new NotFoundError('Chamada não encontrada');
       }
 
       await this.ChamadaModel.destroy({ where: { id: chamadaId } });
@@ -107,7 +108,7 @@ export class ChamadaService {
       const chamadaExist: Chamada = await this.ChamadaModel.findByPk(chamadaId);
 
       if (!chamadaExist) {
-        throw new NotFoundException('Chamada não encontrada');
+        throw new NotFoundError('Chamada não encontrada');
       }
 
       await this.ChamadaModel.restore({ where: { id: chamadaId } });

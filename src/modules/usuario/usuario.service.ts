@@ -6,6 +6,7 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class UsuarioService {
@@ -79,7 +80,7 @@ export class UsuarioService {
     });
 
     if (!usuario) {
-      throw new Error('Usuario não encontrado');
+      throw new NotFoundError('Usuario não encontrado');
     }
 
     return usuario;

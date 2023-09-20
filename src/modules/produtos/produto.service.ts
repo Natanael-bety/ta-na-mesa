@@ -20,6 +20,7 @@ import { Estabelecimento } from 'src/models/estabelecimento.model';
 import { Categoria } from 'src/models/categoria.model';
 import { GetProdutosPorCategoria } from './dto/get-produtos-por-categoria.dto';
 import { UnauthorizedError } from 'src/common/error/types/unauthorized.error';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class ProdutoService {
@@ -155,7 +156,7 @@ export class ProdutoService {
     });
 
     if (!produto) {
-      throw new NotFoundException('Produto não encontrado');
+      throw new NotFoundError('Produto não encontrado');
     }
 
     return produto;
@@ -214,7 +215,7 @@ export class ProdutoService {
       const produtoExist: Produto = await this.produtoModel.findByPk(produtoId);
 
       if (!produtoExist) {
-        throw new NotFoundException('Produto não encontrado');
+        throw new NotFoundError('Produto não encontrado');
       }
 
       await this.produtoModel.destroy({
@@ -230,7 +231,7 @@ export class ProdutoService {
       const produtoExist: Produto = await this.produtoModel.findByPk(produtoId);
 
       if (!produtoExist) {
-        throw new NotFoundException('Produto não encontrado');
+        throw new NotFoundError('Produto não encontrado');
       }
 
       await this.produtoModel.restore({
