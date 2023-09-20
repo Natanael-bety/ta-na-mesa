@@ -63,7 +63,35 @@ export class ContaClienteService {
     return contaCliente;
   }
 
-  remove(contaClienteId: string) {
-    this.contaClienteModel.destroy({ where: { id: contaClienteId } });
+  async remove(contaClienteId: string): Promise<void> {
+    try {
+      const contaExist: ContaCliente = await this.contaClienteModel.findByPk(
+        contaClienteId,
+      );
+
+      if (!contaExist) {
+        throw new NotFoundError('Conta não encontrada');
+      }
+
+      await this.contaClienteModel.destroy({ where: { id: contaClienteId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async restaure(contaClienteId: string): Promise<void> {
+    try {
+      const contaExist: ContaCliente = await this.contaClienteModel.findByPk(
+        contaClienteId,
+      );
+
+      if (!contaExist) {
+        throw new NotFoundError('Conta não encontrada');
+      }
+
+      await this.contaClienteModel.restore({ where: { id: contaClienteId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

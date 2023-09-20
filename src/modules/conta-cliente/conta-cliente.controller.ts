@@ -42,7 +42,12 @@ export class ContaClienteController {
   }
 
   @Delete(':contaClienteId')
-  remove(@Param('contaClienteId') contaClienteId: string) {
+  remove(@Param('contaClienteId') contaClienteId: string): Promise<void> {
     return this.contaClienteService.remove(contaClienteId);
+  }
+
+  @Put(':contaClienteId')
+  restaure(@Param('contaClienteId') contaClienteId: string): Promise<void> {
+    return this.contaClienteService.restaure(contaClienteId);
   }
 }

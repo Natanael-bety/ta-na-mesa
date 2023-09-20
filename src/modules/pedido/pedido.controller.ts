@@ -49,12 +49,12 @@ export class PedidoController {
   }
 
   @Delete(':pedidoId')
-  remove(@Param('pedidoId') pedidoId: string): void {
+  remove(@Param('pedidoId') pedidoId: string): Promise<void> {
     return this.pedidoService.remove(pedidoId);
   }
 
   @Put('pedido/:pedidoId')
-  restaure(@Param('pedidoId') pedidoId: string): void {
+  restaure(@Param('pedidoId') pedidoId: string): Promise<void> {
     return this.pedidoService.restaure(pedidoId);
   }
 }

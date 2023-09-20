@@ -51,12 +51,12 @@ export class MesaController {
   }
 
   @Delete('/estabelecimento/:mesaId')
-  remove(@Param('mesaId') mesaId: string): void {
+  remove(@Param('mesaId') mesaId: string): Promise<void> {
     return this.mesaService.remove(mesaId);
   }
 
   @Put('/estabelecimento/mesa/:mesaId')
-  restaure(@Param('mesaId') mesaId: string): void {
+  restaure(@Param('mesaId') mesaId: string): Promise<void> {
     return this.mesaService.restaure(mesaId);
   }
 }
