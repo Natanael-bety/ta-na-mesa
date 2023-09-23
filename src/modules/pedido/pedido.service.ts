@@ -9,8 +9,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Pedido } from 'src/models/pedido.model';
 import { UsuarioService } from '../usuario/usuario.service';
 import { ContaService } from '../conta/conta.service';
-import { CreateUsuarioDto } from '../auth/dto/create-usuario.dto';
-// import { ContaService } from '../conta/conta.service';
 
 @Injectable()
 export class PedidoService {
@@ -29,6 +27,7 @@ export class PedidoService {
         ...createPedidoDto,
       });
 
+      // const contaAberta = await this.contaService.findOne(contaId)
       return pedidoNovo.toJSON();
     } catch (e) {
       throw new BadRequestException(e.message);

@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -30,4 +31,9 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   @IsEnum(USUARIO_TIPO)
   tipo: USUARIO_TIPO;
+
+  // @IsNotEmpty()
+  // @IsString()
+  // @IsOptional()
+  // estabelecimentoId?: string;
 }

@@ -16,13 +16,13 @@ import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { Pedido } from 'src/models/pedido.model';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
 
-@Controller('pedido')
+@Controller('pedidos')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
 
-  @Post('/usuario/:usuarioId')
+  @Post('/conta/:contaId')
   create(
-    @Param('usuarioId') usuarioId: string,
+    @Param('contaId') usuarioId: string,
     @Body() createPedidoDto: CreatePedidoDto,
   ): Promise<Pedido> {
     return this.pedidoService.create(usuarioId, createPedidoDto);

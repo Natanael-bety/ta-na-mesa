@@ -12,17 +12,14 @@ import { EstabelecimentoService } from '../estabelecimento/estabelecimento.servi
 export class AuthService {
   constructor(
     private usuarioService: UsuarioService,
-    private jwtService: JwtService, // private readonly estabelecimentoService: EstabelecimentoService,
+    private jwtService: JwtService,
   ) {}
 
   async validateTokenData({ email }: { email: string; username: string }) {
     return await this.usuarioService.findByEmail(email);
   }
 
-  async login({ email, senha }: LoginDto /*estabelecimetoId: string*/) {
-    // const estabelecimento = await this.estabelecimentoService.findOne(
-    //   estabelecimetoId,
-    // );
+  async login({ email, senha }: LoginDto) {
     try {
       const user = await this.usuarioService.findByEmail(email);
 

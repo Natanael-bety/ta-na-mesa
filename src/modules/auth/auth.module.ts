@@ -5,8 +5,7 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategys/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { Estabelecimento } from 'src/models/estabelecimento.model';
-import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
+import { EstabelecimentoModule } from '../estabelecimento/estabelecimento.module';
 
 @Module({
   imports: [

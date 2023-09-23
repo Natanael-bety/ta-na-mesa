@@ -6,6 +6,8 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { USUARIO_TIPO } from 'src/constants/usuario';
+import { CreateUsuarioDto } from '../auth/dto/create-usuario.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -28,15 +30,20 @@ export class UsuarioService {
     return this.usuarioModel.findOne({ where: { email } });
   }
 
-  async createUsuario({
-    nome,
-    email,
-    senha,
-  }: {
-    email: string;
-    nome: string;
-    senha: string;
-  }) {
+  async createUsuario(
+    {
+      nome,
+      email,
+      senha,
+      tipo,
+    }: {
+      email: string;
+      nome: string;
+      senha: string;
+      tipo: USUARIO_TIPO;
+    },
+    estabelecimentoId?: string,
+  ) {
     try {
       const userExists = await this.usuarioModel.findOne({ where: { email } });
 
@@ -48,6 +55,8 @@ export class UsuarioService {
         email,
         senha,
         nome,
+        tipo,
+        estabelecimentoId: estabelecimentoId,
       });
 
       if (!newUsuario) {

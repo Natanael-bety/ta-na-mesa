@@ -8,6 +8,7 @@ import { UpdateContaDto } from './dto/update-conta.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Conta } from 'src/models/conta.model';
 import { MesaService } from '../mesa/mesa.service';
+import { SelectQueryBuilder } from 'typeorm';
 
 @Injectable()
 export class ContaService {
@@ -60,6 +61,16 @@ export class ContaService {
 
     return conta;
   }
+
+  // async findLest(): Promise<Conta | null> {
+  //   const lestConta: Conta = this.contaModelw
+
+  //   if (!lestConta) {
+  //     throw new NotFoundException('Conta não encontrada');
+  //   }
+
+  //   return lestConta;
+  // }
 
   async update(
     contaId: string,
