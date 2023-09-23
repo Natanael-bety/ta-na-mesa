@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UsuarioService } from '../usuario/usuario.service';
 import { ContaService } from '../conta/conta.service';
 import { ContaCliente } from 'src/models/conta-cliente.model';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 @Injectable()
 export class ContaClienteService {
   constructor(
@@ -56,13 +57,41 @@ export class ContaClienteService {
     });
 
     if (!contaCliente) {
-      throw new NotFoundException('Não encontrada');
+      throw new NotFoundError('Não encontrada');
     }
 
     return contaCliente;
   }
 
-  remove(contaClienteId: string) {
-    this.contaClienteModel.destroy({ where: { id: contaClienteId } });
+  async remove(contaClienteId: string): Promise<void> {
+    try {
+      const contaExist: ContaCliente = await this.contaClienteModel.findByPk(
+        contaClienteId,
+      );
+
+      if (!contaExist) {
+        throw new NotFoundError('Conta não encontrada');
+      }
+
+      await this.contaClienteModel.destroy({ where: { id: contaClienteId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async restaure(contaClienteId: string): Promise<void> {
+    try {
+      const contaExist: ContaCliente = await this.contaClienteModel.findByPk(
+        contaClienteId,
+      );
+
+      if (!contaExist) {
+        throw new NotFoundError('Conta não encontrada');
+      }
+
+      await this.contaClienteModel.restore({ where: { id: contaClienteId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

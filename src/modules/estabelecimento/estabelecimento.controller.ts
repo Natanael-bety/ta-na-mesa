@@ -61,7 +61,16 @@ export class EstabelecimentoController {
   }
 
   @Delete(':estabelecimentoId')
-  remove(@Param('proestabelecimentoIddutoId') estabelecimentoId: string): void {
+  remove(
+    @Param('proestabelecimentoIddutoId') estabelecimentoId: string,
+  ): Promise<void> {
     return this.estabelecimentoService.remove(estabelecimentoId);
+  }
+
+  @Put('estabelecimento/:estabelecimentoId')
+  restaure(
+    @Param('proestabelecimentoIddutoId') estabelecimentoId: string,
+  ): Promise<void> {
+    return this.estabelecimentoService.restaure(estabelecimentoId);
   }
 }

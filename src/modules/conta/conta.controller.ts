@@ -49,7 +49,12 @@ export class ContaController {
   }
 
   @Delete('/mesa/:contaId')
-  remove(@Param('contaId') contaId: string): void {
+  remove(@Param('contaId') contaId: string): Promise<void> {
     return this.contaService.remove(contaId);
+  }
+
+  @Put('/conta/:contaId')
+  restaure(@Param('contaId') contaId: string): Promise<void> {
+    return this.contaService.restaure(contaId);
   }
 }

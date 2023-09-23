@@ -56,4 +56,9 @@ export class ChamadaController {
   remove(@Param('chamadaId') chamadaId: string): Promise<void> {
     return this.chamadaService.remove(chamadaId);
   }
+
+  @Put('chamada/chamadaId')
+  restaure(@Param('chamadaId') chamadaId: string): Promise<void> {
+    return this.chamadaService.restaure(chamadaId);
+  }
 }

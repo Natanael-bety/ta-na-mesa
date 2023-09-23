@@ -5,6 +5,7 @@ import {
   Table,
   HasMany,
   HasOne,
+  DeletedAt,
 } from 'sequelize-typescript';
 import { Categoria } from './categoria.model';
 import { Usuario } from './usuario.model';
@@ -41,4 +42,7 @@ export class Estabelecimento extends Model<Estabelecimento> {
 
   @HasMany(() => Mesa)
   mesas: Mesa[];
+
+  @DeletedAt
+  deletionDate: Date;
 }

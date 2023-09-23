@@ -8,7 +8,7 @@ import { UpdateContaDto } from './dto/update-conta.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Conta } from 'src/models/conta.model';
 import { MesaService } from '../mesa/mesa.service';
-import { SelectQueryBuilder } from 'typeorm';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class ContaService {
@@ -56,7 +56,7 @@ export class ContaService {
     });
 
     if (!conta) {
-      throw new NotFoundException('Conta não encontrada');
+      throw new NotFoundError('Conta não encontrada');
     }
 
     return conta;
@@ -91,7 +91,31 @@ export class ContaService {
     }
   }
 
-  remove(contaId: string): void {
-    this.contaModel.destroy({ where: { id: contaId } });
+  async remove(contaId: string): Promise<void> {
+    try {
+      const contaExist: Conta = await this.contaModel.findByPk(contaId);
+
+      if (!contaExist) {
+        throw new NotFoundError('Conta não encontrada');
+      }
+
+      await this.contaModel.destroy({ where: { id: contaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async restaure(contaId: string): Promise<void> {
+    try {
+      const contaExist: Conta = await this.contaModel.findByPk(contaId);
+
+      if (!contaExist) {
+        throw new NotFoundError('Conta não encontrada');
+      }
+
+      await this.contaModel.restore({ where: { id: contaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

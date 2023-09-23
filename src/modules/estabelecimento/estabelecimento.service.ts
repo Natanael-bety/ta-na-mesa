@@ -14,6 +14,7 @@ import { Includeable, Transaction, WhereOptions } from 'sequelize';
 import { ImagemService } from '../imagem/imagem.service';
 import { Imagem } from 'src/models/imagem.model';
 import { MemoryStoredFile } from 'nestjs-form-data';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class EstabelecimentoService {
@@ -68,16 +69,17 @@ export class EstabelecimentoService {
     estabelecimentoId: string,
     { include }: { include?: Includeable | Includeable[] } = {},
   ): Promise<Estabelecimento> {
-    const produto: Estabelecimento = await this.estabelecimentoModel.findOne({
-      where: { id: estabelecimentoId },
-      include,
-    });
+    const estabelecimento: Estabelecimento =
+      await this.estabelecimentoModel.findOne({
+        where: { id: estabelecimentoId },
+        include,
+      });
 
-    if (!produto) {
-      throw new NotFoundException('Produto não encontrado');
+    if (!estabelecimento) {
+      throw new NotFoundError('Estabelecimento não encontrado');
     }
 
-    return produto;
+    return estabelecimento;
   }
 
   async findAll() {
@@ -101,7 +103,7 @@ export class EstabelecimentoService {
     });
 
     if (!estabelecimento) {
-      throw new NotFoundException('Não encontrada');
+      throw new NotFoundError('Não encontrada');
     }
 
     return estabelecimento;
@@ -140,8 +142,38 @@ export class EstabelecimentoService {
     };
   }
 
-  remove(estabelecimentoId: string): void {
-    this.estabelecimentoModel.destroy({ where: { id: estabelecimentoId } });
+  async remove(estabelecimentoId: string): Promise<void> {
+    try {
+      const estabelecimentoExist: Estabelecimento =
+        await this.estabelecimentoModel.findByPk(estabelecimentoId);
+
+      if (!estabelecimentoExist) {
+        throw new NotFoundError('Estabelecimento não encontrado');
+      }
+
+      await this.estabelecimentoModel.destroy({
+        where: { id: estabelecimentoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async restaure(estabelecimentoId: string): Promise<void> {
+    try {
+      const estabelecimentoExist: Estabelecimento =
+        await this.estabelecimentoModel.findByPk(estabelecimentoId);
+
+      if (!estabelecimentoExist) {
+        throw new NotFoundError('Estabelecimento não encontrado');
+      }
+
+      await this.estabelecimentoModel.restore({
+        where: { id: estabelecimentoId },
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   private async createImagemEstabelecimento(

@@ -69,4 +69,11 @@ export class CategoriasController {
   remove(@Param('categoriaId') categoriaId: string) {
     return this.categoriasService.remove(categoriaId);
   }
+
+  @Put('/categorias/:categoriaId')
+  @UseGuards(TiposGuard)
+  @UseGuards(JwtAuthGuard)
+  restaure(@Param('categoriaId') categoriaId: string) {
+    return this.categoriasService.restaure(categoriaId);
+  }
 }

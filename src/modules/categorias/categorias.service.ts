@@ -11,6 +11,7 @@ import { EstabelecimentoService } from '../estabelecimento/estabelecimento.servi
 import { PaginationDto } from '../common/validators/pagination.dto';
 import { Includeable } from 'sequelize';
 import { UnauthorizedError } from 'src/common/error/types/unauthorized.error';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class CategoriasService {
@@ -65,7 +66,7 @@ export class CategoriasService {
     });
 
     if (!categoria) {
-      throw new NotFoundException('Categoria não encontrada');
+      throw new NotFoundError('Categoria não encontrada');
     }
 
     return categoria;
@@ -81,7 +82,7 @@ export class CategoriasService {
     });
 
     if (!categoria) {
-      throw new NotFoundException('categoria não encontrado');
+      throw new NotFoundError('categoria não encontrado');
     }
 
     return categoria;
@@ -108,7 +109,35 @@ export class CategoriasService {
     }
   }
 
-  remove(categoriaId: string): void {
-    this.categoriaModel.destroy({ where: { id: categoriaId } });
+  async remove(categoriaId: string): Promise<void> {
+    try {
+      const categoriaExist: Categoria = await this.categoriaModel.findByPk(
+        categoriaId,
+      );
+
+      if (!categoriaExist) {
+        throw new NotFoundError('Categoria não encontrada');
+      }
+
+      await this.categoriaModel.destroy({ where: { id: categoriaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async restaure(categoriaId: string): Promise<void> {
+    try {
+      const categoriaExist: Categoria = await this.categoriaModel.findByPk(
+        categoriaId,
+      );
+
+      if (!categoriaExist) {
+        throw new NotFoundError('Categoria não encontrada');
+      }
+
+      await this.categoriaModel.restore({ where: { id: categoriaId } });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

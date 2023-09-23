@@ -2,6 +2,7 @@ import {
   BelongsTo,
   Column,
   DataType,
+  DeletedAt,
   ForeignKey,
   Model,
   Table,
@@ -43,4 +44,7 @@ export class Chamada extends Model<Chamada> {
 
   @BelongsTo(() => Usuario)
   usuario: Usuario;
+
+  @DeletedAt
+  deletionDate: Date;
 }

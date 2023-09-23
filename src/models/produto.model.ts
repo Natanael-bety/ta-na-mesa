@@ -7,6 +7,7 @@ import {
   Table,
   HasMany,
   HasOne,
+  DeletedAt,
 } from 'sequelize-typescript';
 import { Categoria } from './categoria.model';
 import { PedidoProduto } from './pedido-produto.model';
@@ -54,4 +55,7 @@ export class Produto extends Model<Produto> {
 
   @HasOne(() => Imagem)
   imagem: Imagem;
+
+  @DeletedAt
+  deletionDate: Date;
 }

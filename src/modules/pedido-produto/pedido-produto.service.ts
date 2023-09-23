@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { PedidoProduto } from 'src/models/pedido-produto.model';
 import { PedidoService } from '../pedido/pedido.service';
 import { ProdutoService } from '../produtos/produto.service';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class PedidoProdutoService {
@@ -68,7 +69,7 @@ export class PedidoProdutoService {
     });
 
     if (!pedidoProduto) {
-      throw new NotFoundException('Não encontrado');
+      throw new NotFoundError('Não encontrado');
     }
 
     return pedidoProduto;

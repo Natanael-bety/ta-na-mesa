@@ -6,6 +6,7 @@ import {
   ForeignKey,
   Table,
   HasMany,
+  DeletedAt,
 } from 'sequelize-typescript';
 import { Estabelecimento } from './estabelecimento.model';
 import { Produto } from './produto.model';
@@ -32,4 +33,7 @@ export class Categoria extends Model<Categoria> {
 
   @HasMany(() => Produto)
   produtos: Produto[];
+
+  @DeletedAt
+  deletionDate: Date;
 }
