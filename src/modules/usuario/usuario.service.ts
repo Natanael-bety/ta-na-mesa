@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
+import { USUARIO_TIPO } from 'src/constants/usuario';
 
 @Injectable()
 export class UsuarioService {
@@ -29,20 +30,19 @@ export class UsuarioService {
     return this.usuarioModel.findOne({ where: { email } });
   }
 
-  async createUsuario(
-    {
-      nome,
-      email,
-      senha,
-      tipo,
-    }: {
-      email: string;
-      nome: string;
-      senha: string;
-      tipo: USUARIO_TIPO;
-    },
-    estabelecimentoId?: string,
-  ) {
+  async createUsuario({
+    nome,
+    email,
+    senha,
+    tipo,
+    estabelecimentoId,
+  }: {
+    email: string;
+    nome: string;
+    senha: string;
+    tipo: USUARIO_TIPO;
+    estabelecimentoId?: string;
+  }) {
     try {
       const userExists = await this.usuarioModel.findOne({ where: { email } });
 
@@ -74,7 +74,7 @@ export class UsuarioService {
   findAll(): Promise<Usuario[]> {
     try {
       return this.usuarioModel.findAll({
-        attributes: ['id', 'senha', 'nome', 'email'],
+        attributes: ['id', 'senha', 'nome', 'email', 'tipo'],
       });
     } catch (e) {
       throw new BadRequestException(e.message);

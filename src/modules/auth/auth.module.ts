@@ -10,6 +10,7 @@ import { EstabelecimentoModule } from '../estabelecimento/estabelecimento.module
 @Module({
   imports: [
     UsuarioModule,
+    EstabelecimentoModule,
     PassportModule,
     JwtModule.registerAsync({
       useFactory: () => ({

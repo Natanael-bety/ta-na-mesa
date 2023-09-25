@@ -13,6 +13,7 @@ export class AuthService {
   constructor(
     private usuarioService: UsuarioService,
     private jwtService: JwtService,
+    private estabelecimentoService: EstabelecimentoService,
   ) {}
 
   async validateTokenData({ email }: { email: string; username: string }) {
