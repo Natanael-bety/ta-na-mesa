@@ -32,8 +32,8 @@ export class CreateUsuarioDto {
   @IsEnum(USUARIO_TIPO)
   tipo: USUARIO_TIPO;
 
-  // @IsNotEmpty()
-  // @IsString()
-  // @IsOptional()
-  // estabelecimentoId?: string;
+  @IsNotEmpty()
+  @IsString()
+  @IsOptional()
+  estabelecimentoId?: string;
 }
