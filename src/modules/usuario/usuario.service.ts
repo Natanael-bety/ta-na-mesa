@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Usuario } from 'src/models/usuario.model';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
+import { USUARIO_TIPO } from 'src/constants/usuario';
 
 @Injectable()
 export class UsuarioService {

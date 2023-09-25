@@ -15,6 +15,8 @@ import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { Pedido } from 'src/models/pedido.model';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
+import { CreateContaDto } from '../conta/dto/create-conta.dto';
+import { Conta } from 'src/models/conta.model';
 
 @Controller('pedidos')
 export class PedidoController {
@@ -56,5 +58,20 @@ export class PedidoController {
   @Put('pedido/:pedidoId')
   restaure(@Param('pedidoId') pedidoId: string): Promise<void> {
     return this.pedidoService.restaure(pedidoId);
+  }
+
+  @Post('/pedido/conta/:contaId/:mesaId')
+  createPedidoAndConta(
+    @Param('contaId') usuarioId: string,
+    @Param('contaId') mesaId: string,
+    @Body() createPedidoDto: CreatePedidoDto,
+    createContaDto: CreateContaDto,
+  ): Promise<[Pedido, Conta]> {
+    return this.pedidoService.createPedidoAndConta(
+      usuarioId,
+      createPedidoDto,
+      createContaDto,
+      mesaId,
+    );
   }
 }

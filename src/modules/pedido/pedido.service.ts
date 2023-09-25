@@ -1,23 +1,20 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Pedido } from 'src/models/pedido.model';
 import { UsuarioService } from '../usuario/usuario.service';
-import { ContaService } from '../conta/conta.service';
-import { CreateUsuarioDto } from '../auth/dto/create-usuario.dto';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
-// import { ContaService } from '../conta/conta.service';
+import { CreateContaDto } from '../conta/dto/create-conta.dto';
+import { Conta } from 'src/models/conta.model';
+import { ContaService } from '../conta/conta.service';
 
 @Injectable()
 export class PedidoService {
   constructor(
     @InjectModel(Pedido) private readonly pedidoModel: typeof Pedido,
     private readonly usuarioService: UsuarioService,
+    private readonly contaService: ContaService,
   ) {}
   async create(
     usuarioId: string,
@@ -29,9 +26,7 @@ export class PedidoService {
         usuarioId: usuario.id,
         ...createPedidoDto,
       });
-
-      // const contaAberta = await this.contaService.findOne(contaId)
-      return pedidoNovo.toJSON();
+      return pedidoNovo;
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -110,6 +105,32 @@ export class PedidoService {
       await this.pedidoModel.restore({
         where: { id: pedidoId },
       });
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+  async createPedidoAndConta(
+    usuarioId: string,
+    { ...createPedidoDto }: CreatePedidoDto,
+    { ...createContaDto }: CreateContaDto,
+    mesaId: string,
+  ): Promise<[Pedido, Conta]> {
+    const usuario = await this.usuarioService.findById(usuarioId);
+    try {
+      const pedidoNovo: Pedido = await this.pedidoModel.create({
+        usuarioId: usuario.id,
+        ...createPedidoDto,
+      });
+      const contaNova: Conta = await this.contaService.create(
+        createContaDto,
+        mesaId,
+      );
+
+      const result: Promise<[Pedido, Conta]> = Promise.all([
+        pedidoNovo,
+        contaNova,
+      ]);
+      return result;
     } catch (e) {
       throw new BadRequestException(e.message);
     }
