@@ -8,6 +8,7 @@ import { NotFoundError } from 'src/common/error/types/notFound.error';
 import { CreateContaDto } from '../conta/dto/create-conta.dto';
 import { Conta } from 'src/models/conta.model';
 import { ContaService } from '../conta/conta.service';
+import { MesaService } from '../mesa/mesa.service';
 
 @Injectable()
 export class PedidoService {
@@ -15,6 +16,7 @@ export class PedidoService {
     @InjectModel(Pedido) private readonly pedidoModel: typeof Pedido,
     private readonly usuarioService: UsuarioService,
     private readonly contaService: ContaService,
+    private readonly mesaService: MesaService,
   ) {}
   async create(
     usuarioId: string,
@@ -116,15 +118,29 @@ export class PedidoService {
     mesaId: string,
   ): Promise<[Pedido, Conta]> {
     const usuario = await this.usuarioService.findById(usuarioId);
+    const mesa = await this.mesaService.getById(mesaId);
+    if (!usuario) {
+      throw new NotFoundError('Usuario não encontrado');
+    }
+    if (!mesa) {
+      throw new NotFoundError('Mesa não encontrada');
+    }
     try {
       const pedidoNovo: Pedido = await this.pedidoModel.create({
         usuarioId: usuario.id,
         ...createPedidoDto,
       });
+      if (!pedidoNovo) {
+        throw new BadRequestException('Não foi possivel criar o pedido');
+      }
+
       const contaNova: Conta = await this.contaService.create(
         createContaDto,
-        mesaId,
+        mesa.id,
       );
+      if (!contaNova) {
+        throw new BadRequestException('Não foi possivel criar a conta');
+      }
 
       const result: Promise<[Pedido, Conta]> = Promise.all([
         pedidoNovo,
