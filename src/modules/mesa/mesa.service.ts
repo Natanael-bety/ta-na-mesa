@@ -18,7 +18,7 @@ export class MesaService {
   ) {}
 
   async create(
-    { numero, status }: CreateMesaDto,
+    { numero, status, usuarioId }: CreateMesaDto,
     estabelecimentoId: string,
   ): Promise<Mesa> {
     const estabelecimento = await this.estabelecimentoService.getById(
@@ -30,6 +30,7 @@ export class MesaService {
         estabelecimentoId: estabelecimento.id,
         numero,
         status,
+        usuarioId,
       });
 
       return novaMesa.toJSON();

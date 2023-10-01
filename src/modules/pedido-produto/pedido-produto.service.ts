@@ -10,6 +10,7 @@ import { PedidoProduto } from 'src/models/pedido-produto.model';
 import { PedidoService } from '../pedido/pedido.service';
 import { ProdutoService } from '../produtos/produto.service';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
+import { catchError } from 'rxjs';
 
 @Injectable()
 export class PedidoProdutoService {
@@ -61,18 +62,43 @@ export class PedidoProdutoService {
     }
   }
 
-  async findOne(pedidoId: string): Promise<PedidoProduto> {
-    const pedidoProduto: PedidoProduto = await this.pedidoProdutoModel.findOne({
+  async findOne(pedidoProdutoId: string): Promise<PedidoProduto> {
+    const pedidoProduto = await this.pedidoProdutoModel.findOne({
       where: {
-        id: pedidoId,
+        id: pedidoProdutoId,
       },
     });
 
     if (!pedidoProduto) {
-      throw new NotFoundError('Não encontrado');
+      throw new NotFoundError('Não encontrada');
     }
 
     return pedidoProduto;
+  }
+
+  async findPedidoProduto(
+    pedidoProdutoId: string,
+    pedidoId: string,
+    contaId: string,
+  ): Promise<PedidoProduto> {
+    const pedido = await this.pedidoService.findPedidoConta(pedidoId, contaId);
+
+    try {
+      const pedidoProduto = await this.pedidoProdutoModel.findOne({
+        where: {
+          id: pedidoProdutoId,
+          pedido,
+        },
+      });
+
+      if (!pedidoProduto) {
+        throw new NotFoundError('Não encontrado');
+      }
+
+      return pedidoProduto;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   async update(

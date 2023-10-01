@@ -22,19 +22,19 @@ import { Conta } from 'src/models/conta.model';
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
 
-  @Post('/conta/:contaId')
+  @Post('/conta/:usuarioId')
   create(
-    @Param('contaId') usuarioId: string,
+    @Param('usuarioId') usuarioId: string,
     @Body() createPedidoDto: CreatePedidoDto,
   ): Promise<Pedido> {
     return this.pedidoService.create(usuarioId, createPedidoDto);
   }
 
-  @Get('/usuario/:usuarioId')
+  @Get('/conta/:contaId')
   @UseInterceptors(TotalCountInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
-  findAllByUsuarioId(@Param('usuarioId') usuarioId: string) {
-    return this.pedidoService.findAllByUsuarioId(usuarioId);
+  findAllByUsuarioId(@Param('contaId') contaId: string) {
+    return this.pedidoService.findAllByContaId(contaId);
   }
 
   @Get(':pedidoId')
@@ -55,15 +55,15 @@ export class PedidoController {
     return this.pedidoService.remove(pedidoId);
   }
 
-  @Put('pedido/:pedidoId')
+  @Put('/pedido/:pedidoId')
   restaure(@Param('pedidoId') pedidoId: string): Promise<void> {
     return this.pedidoService.restaure(pedidoId);
   }
 
-  @Post('/pedido/conta/:contaId/:mesaId')
+  @Post('/pedido/conta/:mesaId')
   createPedidoAndConta(
-    @Param('contaId') usuarioId: string,
     @Param('contaId') mesaId: string,
+    @Param('pedidoId') usuarioId: string,
     @Body() createPedidoDto: CreatePedidoDto,
     createContaDto: CreateContaDto,
   ): Promise<[Pedido, Conta]> {

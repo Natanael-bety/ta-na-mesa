@@ -33,6 +33,21 @@ export class PedidoProdutoController {
     );
   }
 
+  @Get('/:pedidoProdutoId/:pedidoId/:contaId')
+  @UseInterceptors(TotalCountInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findPedidoProduto(
+    @Param('pedidoId') pedidoId: string,
+    @Param('pedidoProdutoId') pedidoProdutoId: string,
+    @Param('contaId') contaId: string,
+  ) {
+    return this.pedidoProdutoService.findPedidoProduto(
+      pedidoId,
+      pedidoProdutoId,
+      contaId,
+    );
+  }
+
   @Get('/pedido/:pedidoId')
   @UseInterceptors(TotalCountInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))

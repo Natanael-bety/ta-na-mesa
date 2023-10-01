@@ -13,8 +13,8 @@ import { ContaService } from '../conta/conta.service';
 export class PedidoService {
   constructor(
     @InjectModel(Pedido) private readonly pedidoModel: typeof Pedido,
-    private readonly usuarioService: UsuarioService,
     private readonly contaService: ContaService,
+    private readonly usuarioService: UsuarioService,
   ) {}
   async create(
     usuarioId: string,
@@ -32,10 +32,10 @@ export class PedidoService {
     }
   }
 
-  async findAllByUsuarioId(usuarioId: string) {
+  async findAllByContaId(contaId: string) {
     try {
       const { count, rows } = await this.pedidoModel.findAndCountAll({
-        where: { usuarioId },
+        where: { contaId },
       });
 
       return {
@@ -59,6 +59,24 @@ export class PedidoService {
     }
 
     return pedido;
+  }
+
+  async findPedidoConta(pedidoId: string, contaId: string): Promise<Pedido> {
+    const pedido = await this.pedidoModel.findOne({
+      where: {
+        id: pedidoId,
+      },
+    });
+
+    const conta = await this.contaService.findOne(contaId);
+
+    if (!pedido || !conta) {
+      throw new NotFoundError('Pedido ou conta não encontrada');
+    }
+
+    const pedidoConta = new Pedido({ id: pedido.id, conta: conta });
+
+    return pedidoConta;
   }
 
   async update(
@@ -115,10 +133,9 @@ export class PedidoService {
     { ...createContaDto }: CreateContaDto,
     mesaId: string,
   ): Promise<[Pedido, Conta]> {
-    const usuario = await this.usuarioService.findById(usuarioId);
     try {
       const pedidoNovo: Pedido = await this.pedidoModel.create({
-        usuarioId: usuario.id,
+        usuarioId,
         ...createPedidoDto,
       });
       const contaNova: Conta = await this.contaService.create(
