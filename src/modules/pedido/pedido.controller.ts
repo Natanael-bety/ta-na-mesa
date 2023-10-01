@@ -60,10 +60,10 @@ export class PedidoController {
     return this.pedidoService.restaure(pedidoId);
   }
 
-  @Post('/pedido/conta/:mesaId')
+  @Post('/:usuarioId/:mesaId')
   createPedidoAndConta(
-    @Param('contaId') mesaId: string,
-    @Param('pedidoId') usuarioId: string,
+    @Param('usuarioId') usuarioId: string,
+    @Param('mesaId') mesaId: string,
     @Body() createPedidoDto: CreatePedidoDto,
     createContaDto: CreateContaDto,
   ): Promise<[Pedido, Conta]> {

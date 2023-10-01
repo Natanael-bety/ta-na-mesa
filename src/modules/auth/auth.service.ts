@@ -7,6 +7,7 @@ import { LoginDto } from './dto/login.dto';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { IsEmail } from 'class-validator';
 import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
+import { NotFoundError } from 'src/common/error/types/notFound.error';
 
 @Injectable()
 export class AuthService {
@@ -76,7 +77,7 @@ export class AuthService {
       const usuario = await this.usuarioService.findByEmail(email);
 
       if (!usuario) {
-        throw new Error('Usuario não encontrado');
+        throw new NotFoundError('Usuario não encontrado');
       }
 
       return usuario;
