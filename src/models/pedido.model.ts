@@ -29,7 +29,7 @@ export class Pedido extends Model<Pedido> {
   @Column({
     type: DataType.ENUM,
     values: Object.values(STATUS_PEDIDO),
-    defaultValue: STATUS_PEDIDO.PRONTO,
+    defaultValue: STATUS_PEDIDO.AGUARDANDO,
     allowNull: false,
   })
   status: STATUS_PEDIDO;
