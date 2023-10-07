@@ -21,12 +21,14 @@ export class PedidoService {
   ) {}
   async create(
     usuarioId: string,
+    contaId: string,
     { ...createPedidoDto }: CreatePedidoDto,
   ): Promise<Pedido> {
     const usuario = await this.usuarioService.findById(usuarioId);
     try {
       const pedidoNovo: Pedido = await this.pedidoModel.create({
         usuarioId: usuario.id,
+        contaId,
         ...createPedidoDto,
       });
       return pedidoNovo;
