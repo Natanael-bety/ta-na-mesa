@@ -75,4 +75,19 @@ export class PedidoController {
       mesaId,
     );
   }
+
+  @Post('/mesa/:mesaId/conta/pedido')
+  createPedido(
+    @Param('mesaId') mesaId: string,
+    @Param('usuarioId') usuarioId: string,
+    @Body() createContaDto: CreateContaDto,
+    @Body() createPedidoDto: CreatePedidoDto,
+  ): Promise<Pedido> {
+    return this.pedidoService.findContaWithMesa(
+      mesaId,
+      createContaDto,
+      usuarioId,
+      createPedidoDto,
+    );
+  }
 }
