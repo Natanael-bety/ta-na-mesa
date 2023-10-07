@@ -185,4 +185,33 @@ export class PedidoService {
       throw new BadRequestException(e.message);
     }
   }
+  async findContaWithMesa(
+    mesaId: string,
+    createContaDto: CreateContaDto,
+    usuarioId: string,
+    createPedidoDto: CreatePedidoDto,
+  ): Promise<Pedido> {
+    try {
+      const contaAberta: Conta = await this.contaService.findOneByMesa(mesaId);
+
+      if (!contaAberta) {
+        const contaCriada: Promise<Conta> = this.contaService.create(
+          createContaDto,
+          mesaId,
+        );
+        this.create(usuarioId, (await contaCriada).id, createPedidoDto);
+      }
+      const pedidoCriado: Pedido = await this.create(
+        usuarioId,
+        (
+          await contaAberta
+        ).id,
+        createPedidoDto,
+      );
+
+      return pedidoCriado;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
 }

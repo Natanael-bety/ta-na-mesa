@@ -113,39 +113,16 @@ export class ContaService {
       throw new BadRequestException(e.message);
     }
   }
+  async findOneByMesa(mesaId: string): Promise<Conta> {
+    const conta = await this.contaModel.findOne({
+      where: { aberta: true, mesaId: mesaId },
+    });
 
-  async findContaWithMesa(
-    mesaId: string,
-    createContaDto: CreateContaDto,
-    usuarioId: string,
-    createPedidoDto: CreatePedidoDto,
-  ): Promise<Pedido> {
-    try {
-      const contaAberta: Conta = await this.contaModel.findOne({
-        where: { aberta: true, mesaId: mesaId },
-      });
-
-      if (!contaAberta) {
-        const contaCriada: Promise<Conta> = this.create(createContaDto, mesaId);
-        this.pedidoService.create(
-          usuarioId,
-          (await contaCriada).id,
-          createPedidoDto,
-        );
-      }
-      const pedidoCriado: Pedido = await this.pedidoService.create(
-        usuarioId,
-        (
-          await contaAberta
-        ).id,
-        createPedidoDto,
-      );
-
-      return pedidoCriado;
-    } catch (e) {
-      throw new BadRequestException(e.message);
+    if (!conta) {
+      throw new NotFoundError('Conta não encontrada');
     }
-  }
 
+    return conta;
+  }
   // async findContaAndCreatePedido(mesaId: string,createContaDto: CreateContaDto, )
 }
