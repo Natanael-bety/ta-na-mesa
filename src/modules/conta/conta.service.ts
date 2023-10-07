@@ -113,10 +113,6 @@ export class ContaService {
       where: { aberta: true, mesaId: mesaId },
     });
 
-    if (!conta) {
-      throw new NotFoundError('Conta não encontrada');
-    }
-
     return conta;
   }
   // async findContaAndCreatePedido(mesaId: string,createContaDto: CreateContaDto, )
