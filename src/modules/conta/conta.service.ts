@@ -9,12 +9,17 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Conta } from 'src/models/conta.model';
 import { MesaService } from '../mesa/mesa.service';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
+import { PedidoService } from '../pedido/pedido.service';
+import { where } from 'sequelize';
+import { CreatePedidoDto } from '../pedido/dto/create-pedido.dto';
+import { Pedido } from 'src/models/pedido.model';
 
 @Injectable()
 export class ContaService {
   constructor(
     @InjectModel(Conta) private readonly contaModel: typeof Conta,
     private readonly mesaService: MesaService,
+    private readonly pedidoService: PedidoService,
   ) {}
   async create(
     { valorTotal, aberta }: CreateContaDto,
@@ -108,4 +113,39 @@ export class ContaService {
       throw new BadRequestException(e.message);
     }
   }
+
+  async findContaWithMesa(
+    mesaId: string,
+    createContaDto: CreateContaDto,
+    usuarioId: string,
+    createPedidoDto: CreatePedidoDto,
+  ): Promise<Pedido> {
+    try {
+      const contaAberta: Conta = await this.contaModel.findOne({
+        where: { aberta: true, mesaId: mesaId },
+      });
+
+      if (!contaAberta) {
+        const contaCriada: Promise<Conta> = this.create(createContaDto, mesaId);
+        this.pedidoService.create(
+          usuarioId,
+          (await contaCriada).id,
+          createPedidoDto,
+        );
+      }
+      const pedidoCriado: Pedido = await this.pedidoService.create(
+        usuarioId,
+        (
+          await contaAberta
+        ).id,
+        createPedidoDto,
+      );
+
+      return pedidoCriado;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  // async findContaAndCreatePedido(mesaId: string,createContaDto: CreateContaDto, )
 }

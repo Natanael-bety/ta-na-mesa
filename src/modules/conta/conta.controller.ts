@@ -15,6 +15,8 @@ import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
 import { Conta } from 'src/models/conta.model';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
+import { CreatePedidoDto } from '../pedido/dto/create-pedido.dto';
+import { Pedido } from 'src/models/pedido.model';
 
 @Controller('contas')
 export class ContaController {
@@ -56,5 +58,20 @@ export class ContaController {
   @Put('/conta/:contaId')
   restaure(@Param('contaId') contaId: string): Promise<void> {
     return this.contaService.restaure(contaId);
+  }
+
+  @Post('/mesa/:mesaId/conta/pedido')
+  createPedido(
+    @Param('mesaId') mesaId: string,
+    @Param('usuarioId') usuarioId: string,
+    @Body() createContaDto: CreateContaDto,
+    @Body() createPedidoDto: CreatePedidoDto,
+  ): Promise<Pedido> {
+    return this.contaService.findContaWithMesa(
+      mesaId,
+      createContaDto,
+      usuarioId,
+      createPedidoDto,
+    );
   }
 }
