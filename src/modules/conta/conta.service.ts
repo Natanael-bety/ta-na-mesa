@@ -135,9 +135,7 @@ export class ContaService {
       }
       const pedidoCriado: Pedido = await this.pedidoService.create(
         usuarioId,
-        (
-          await contaAberta
-        ).id,
+        contaAberta.id,
         createPedidoDto,
       );
 

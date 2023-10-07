@@ -69,4 +69,5 @@ export class Mesa extends Model<Mesa> {
 
   @DeletedAt
   deletionDate: Date;
+  mesaId: string;
 }
