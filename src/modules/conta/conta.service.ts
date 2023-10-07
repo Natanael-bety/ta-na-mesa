@@ -10,9 +10,6 @@ import { Conta } from 'src/models/conta.model';
 import { MesaService } from '../mesa/mesa.service';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
 import { PedidoService } from '../pedido/pedido.service';
-import { where } from 'sequelize';
-import { CreatePedidoDto } from '../pedido/dto/create-pedido.dto';
-import { Pedido } from 'src/models/pedido.model';
 
 @Injectable()
 export class ContaService {

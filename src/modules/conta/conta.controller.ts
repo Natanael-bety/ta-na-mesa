@@ -59,19 +59,4 @@ export class ContaController {
   restaure(@Param('contaId') contaId: string): Promise<void> {
     return this.contaService.restaure(contaId);
   }
-
-  @Post('/mesa/:mesaId/conta/pedido')
-  createPedido(
-    @Param('mesaId') mesaId: string,
-    @Param('usuarioId') usuarioId: string,
-    @Body() createContaDto: CreateContaDto,
-    @Body() createPedidoDto: CreatePedidoDto,
-  ): Promise<Pedido> {
-    return this.contaService.findContaWithMesa(
-      mesaId,
-      createContaDto,
-      usuarioId,
-      createPedidoDto,
-    );
-  }
 }
