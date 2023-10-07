@@ -83,7 +83,7 @@ export class PedidoController {
     @Body() createContaDto: CreateContaDto,
     @Body() createPedidoDto: CreatePedidoDto,
   ): Promise<Pedido> {
-    return this.pedidoService.findContaWithMesa(
+    return this.pedidoService.CreatePedidoWithContaAndMesa(
       mesaId,
       createContaDto,
       usuarioId,

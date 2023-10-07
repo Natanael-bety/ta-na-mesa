@@ -15,8 +15,6 @@ import { CreateContaDto } from './dto/create-conta.dto';
 import { UpdateContaDto } from './dto/update-conta.dto';
 import { Conta } from 'src/models/conta.model';
 import { TotalCountInterceptor } from 'src/config/interceptors/total-count.interceptor';
-import { CreatePedidoDto } from '../pedido/dto/create-pedido.dto';
-import { Pedido } from 'src/models/pedido.model';
 
 @Controller('contas')
 export class ContaController {

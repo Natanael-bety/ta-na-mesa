@@ -185,11 +185,11 @@ export class PedidoService {
       throw new BadRequestException(e.message);
     }
   }
-  async findContaWithMesa(
+  async CreatePedidoWithContaAndMesa(
     mesaId: string,
-    createContaDto: CreateContaDto,
+    { ...createContaDto }: CreateContaDto,
     usuarioId: string,
-    createPedidoDto: CreatePedidoDto,
+    { ...createPedidoDto }: CreatePedidoDto,
   ): Promise<Pedido> {
     try {
       const contaAberta: Conta = await this.contaService.findOneByMesa(mesaId);
@@ -203,9 +203,7 @@ export class PedidoService {
       }
       const pedidoCriado: Pedido = await this.create(
         usuarioId,
-        (
-          await contaAberta
-        ).id,
+        contaAberta.id,
         createPedidoDto,
       );
 
