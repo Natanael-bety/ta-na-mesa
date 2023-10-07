@@ -9,6 +9,7 @@ import { CreateContaDto } from '../conta/dto/create-conta.dto';
 import { Conta } from 'src/models/conta.model';
 import { ContaService } from '../conta/conta.service';
 import { MesaService } from '../mesa/mesa.service';
+import { Includeable } from 'sequelize';
 
 @Injectable()
 export class PedidoService {
@@ -49,6 +50,19 @@ export class PedidoService {
     }
   }
 
+  async findAll() {
+    try {
+      const { count, rows } = await this.pedidoModel.findAndCountAll();
+
+      return {
+        data: rows,
+        totalCount: count,
+      };
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
   async findOne(pedidoId: string): Promise<Pedido> {
     const pedido = await this.pedidoModel.findOne({
       where: {
@@ -63,22 +77,22 @@ export class PedidoService {
     return pedido;
   }
 
-  async findPedidoConta(pedidoId: string, contaId: string): Promise<Pedido> {
+  async findById(
+    pedidoId: string,
+    { include }: { include?: Includeable | Includeable[] } = {},
+  ): Promise<Pedido> {
     const pedido = await this.pedidoModel.findOne({
       where: {
         id: pedidoId,
       },
+      include,
     });
 
-    const conta = await this.contaService.findOne(contaId);
-
-    if (!pedido || !conta) {
-      throw new NotFoundError('Pedido ou conta não encontrada');
+    if (!pedido) {
+      throw new NotFoundError('Pedido não encontrada');
     }
 
-    const pedidoConta = new Pedido({ id: pedido.id, conta: conta });
-
-    return pedidoConta;
+    return pedido;
   }
 
   async update(

@@ -10,7 +10,7 @@ import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UPLOAD_PRESETS } from '../cloudinary/constants';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { Includeable, Transaction, WhereOptions } from 'sequelize';
+import { Includeable, Transaction } from 'sequelize';
 import { ImagemService } from '../imagem/imagem.service';
 import { Imagem } from 'src/models/imagem.model';
 import { MemoryStoredFile } from 'nestjs-form-data';

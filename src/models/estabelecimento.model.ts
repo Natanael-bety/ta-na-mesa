@@ -12,6 +12,7 @@ import { Usuario } from './usuario.model';
 import { Mesa } from './mesa.model';
 import { Imagem } from './imagem.model';
 import { Produto } from './produto.model';
+import { Pedido } from './pedido.model';
 @Table
 export class Estabelecimento extends Model<Estabelecimento> {
   @Column({
@@ -42,6 +43,9 @@ export class Estabelecimento extends Model<Estabelecimento> {
 
   @HasMany(() => Mesa)
   mesas: Mesa[];
+
+  @HasMany(() => Pedido)
+  pedidos: Pedido[];
 
   @DeletedAt
   deletionDate: Date;

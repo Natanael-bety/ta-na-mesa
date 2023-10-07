@@ -162,6 +162,18 @@ export class ProdutoService {
     return produto;
   }
 
+  async getByEstabelecimentoId(estabelecimentoId: string): Promise<Produto> {
+    const estabelecimento = await this.produtoModel.findOne({
+      where: { id: estabelecimentoId },
+    });
+
+    if (!estabelecimento) {
+      throw new NotFoundError('Estabelecimento não encontrado');
+    }
+
+    return estabelecimento;
+  }
+
   async update(produtoId: string, updateProdutoDto: UpdateProdutoDto) {
     const produto = await this.getById(produtoId, {
       include: { model: Imagem },

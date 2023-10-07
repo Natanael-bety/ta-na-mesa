@@ -11,6 +11,7 @@ import { PedidoService } from '../pedido/pedido.service';
 import { ProdutoService } from '../produtos/produto.service';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
 import { catchError } from 'rxjs';
+import { Includeable } from 'sequelize';
 
 @Injectable()
 export class PedidoProdutoService {
@@ -74,31 +75,6 @@ export class PedidoProdutoService {
     }
 
     return pedidoProduto;
-  }
-
-  async findPedidoProduto(
-    pedidoProdutoId: string,
-    pedidoId: string,
-    contaId: string,
-  ): Promise<PedidoProduto> {
-    const pedido = await this.pedidoService.findPedidoConta(pedidoId, contaId);
-
-    try {
-      const pedidoProduto = await this.pedidoProdutoModel.findOne({
-        where: {
-          id: pedidoProdutoId,
-          pedido,
-        },
-      });
-
-      if (!pedidoProduto) {
-        throw new NotFoundError('Não encontrado');
-      }
-
-      return pedidoProduto;
-    } catch (e) {
-      throw new BadRequestException(e.message);
-    }
   }
 
   async update(

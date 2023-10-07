@@ -8,6 +8,7 @@ import {
   HasMany,
   Sequelize,
   DeletedAt,
+  HasOne,
 } from 'sequelize-typescript';
 import { MESA_STATUS } from 'src/constants/mesa';
 import { Estabelecimento } from './estabelecimento.model';
@@ -15,6 +16,7 @@ import { Conta } from './conta.model';
 import { Usuario } from './usuario.model';
 import { Chamada } from './chamada.model';
 import { timeStamp } from 'console';
+import { Pedido } from './pedido.model';
 
 @Table({ modelName: 'Mesas' })
 export class Mesa extends Model<Mesa> {
@@ -61,6 +63,9 @@ export class Mesa extends Model<Mesa> {
 
   @HasMany(() => Chamada)
   chamadas: Chamada[];
+
+  @HasMany(() => Pedido)
+  pedidos: Pedido[];
 
   @DeletedAt
   deletionDate: Date;

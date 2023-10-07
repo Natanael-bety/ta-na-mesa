@@ -12,6 +12,8 @@ import { STATUS_PEDIDO } from '../constants/pedido';
 import { PedidoProduto } from './pedido-produto.model';
 import { Usuario } from './usuario.model';
 import { Conta } from './conta.model';
+import { Mesa } from './mesa.model';
+import { Estabelecimento } from './estabelecimento.model';
 
 @Table({ modelName: 'Pedidos' })
 export class Pedido extends Model<Pedido> {
@@ -74,6 +76,20 @@ export class Pedido extends Model<Pedido> {
 
   @BelongsTo(() => Conta)
   conta: Conta;
+
+  @ForeignKey(() => Mesa)
+  @Column({ type: DataType.UUID })
+  mesaId: string;
+
+  @BelongsTo(() => Mesa)
+  mesa: Mesa;
+
+  @ForeignKey(() => Estabelecimento)
+  @Column({ type: DataType.UUID })
+  estabelecimentoId: Estabelecimento;
+
+  @BelongsTo(() => Estabelecimento)
+  estabelecimento: Estabelecimento;
 
   @DeletedAt
   deletionDate: Date;

@@ -62,16 +62,6 @@ export class ContaService {
     return conta;
   }
 
-  // async findLest(): Promise<Conta | null> {
-  //   const lestConta: Conta = this.contaModelw
-
-  //   if (!lestConta) {
-  //     throw new NotFoundException('Conta não encontrada');
-  //   }
-
-  //   return lestConta;
-  // }
-
   async update(
     contaId: string,
     updateContaDto: UpdateContaDto,

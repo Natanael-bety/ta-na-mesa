@@ -5,8 +5,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Pedido } from '../../models/pedido.model';
 import { UsuarioModule } from '../usuario/usuario.module';
 import { ContaModule } from '../conta/conta.module';
-import { Conta } from '../../models/conta.model';
 import { MesaModule } from '../mesa/mesa.module';
+import { EstabelecimentoModule } from '../estabelecimento/estabelecimento.module';
 
 @Module({
   controllers: [PedidoController],
@@ -16,6 +16,7 @@ import { MesaModule } from '../mesa/mesa.module';
     UsuarioModule,
     ContaModule,
     MesaModule,
+    EstabelecimentoModule,
   ],
   exports: [PedidoService],
 })
