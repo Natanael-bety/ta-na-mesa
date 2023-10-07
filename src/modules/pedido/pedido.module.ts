@@ -13,8 +13,8 @@ import { EstabelecimentoModule } from '../estabelecimento/estabelecimento.module
   providers: [PedidoService],
   imports: [
     SequelizeModule.forFeature([Pedido]),
-    UsuarioModule,
     ContaModule,
+    UsuarioModule,
     MesaModule,
     EstabelecimentoModule,
   ],

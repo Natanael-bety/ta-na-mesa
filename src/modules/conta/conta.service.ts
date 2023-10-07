@@ -9,14 +9,12 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Conta } from 'src/models/conta.model';
 import { MesaService } from '../mesa/mesa.service';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
-import { PedidoService } from '../pedido/pedido.service';
 
 @Injectable()
 export class ContaService {
   constructor(
     @InjectModel(Conta) private readonly contaModel: typeof Conta,
     private readonly mesaService: MesaService,
-    private readonly pedidoService: PedidoService,
   ) {}
   async create(
     { valorTotal, aberta }: CreateContaDto,

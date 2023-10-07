@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Put,
+  Query,
 } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
@@ -41,6 +42,19 @@ export class PedidoController {
   @Get(':pedidoId')
   findOne(@Param('pedidoId') pedidoId: string): Promise<Pedido> {
     return this.pedidoService.findOne(pedidoId);
+  }
+
+  @Get('/:estabelecimentoId')
+  async getPedidosUltimas24Horas(
+    @Param('estanelecimentoId') estabelecimentoId: string,
+    @Query('numeroMesa') numeroMesa: number,
+  ) {
+    const pedidosUltimas24Horas =
+      await this.pedidoService.getPedidosUltimas24Horas(
+        estabelecimentoId,
+        numeroMesa,
+      );
+    return { pedidos: pedidosUltimas24Horas };
   }
 
   @Put(':pedidoId')

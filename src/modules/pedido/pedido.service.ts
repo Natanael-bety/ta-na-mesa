@@ -10,6 +10,8 @@ import { Conta } from 'src/models/conta.model';
 import { ContaService } from '../conta/conta.service';
 import { MesaService } from '../mesa/mesa.service';
 import { Includeable } from 'sequelize';
+import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
+import { LessThan, Like, MoreThan } from 'typeorm';
 
 @Injectable()
 export class PedidoService {
@@ -18,6 +20,7 @@ export class PedidoService {
     private readonly usuarioService: UsuarioService,
     private readonly contaService: ContaService,
     private readonly mesaService: MesaService,
+    private readonly estabelecimentoService: EstabelecimentoService,
   ) {}
   async create(
     usuarioId: string,
@@ -50,6 +53,32 @@ export class PedidoService {
     } catch (e) {
       throw new BadRequestException(e.message);
     }
+  }
+
+  async getPedidosUltimas24Horas(
+    estabelecimentoId: string,
+    numeroMesa: number,
+  ) {
+    const estabeleciemnto = await this.estabelecimentoService.getById(
+      estabelecimentoId,
+    );
+    const dataAtual = new Date();
+    const data24HorasAtras = new Date(dataAtual);
+    data24HorasAtras.setHours(data24HorasAtras.getHours() - 24);
+
+    const whereConditions: any = {
+      estabeleciemnto,
+      dataCriacao: LessThan(dataAtual),
+      novaDataCriacao: MoreThan(data24HorasAtras),
+    };
+
+    if (numeroMesa) {
+      whereConditions.numeroMesa = Like(`%${numeroMesa}%`);
+    }
+
+    return this.pedidoModel.findOne({
+      where: whereConditions,
+    });
   }
 
   async findAll() {
