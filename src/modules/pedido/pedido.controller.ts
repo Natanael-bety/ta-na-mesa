@@ -25,7 +25,7 @@ export class PedidoController {
   @Post('/conta/:usuarioId')
   create(
     @Param('usuarioId') usuarioId: string,
-    contaId: string,
+    @Param('contaId') contaId: string,
     @Body() createPedidoDto: CreatePedidoDto,
   ): Promise<Pedido> {
     return this.pedidoService.create(usuarioId, contaId, createPedidoDto);
