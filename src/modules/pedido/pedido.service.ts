@@ -10,6 +10,7 @@ import { Conta } from 'src/models/conta.model';
 import { ContaService } from '../conta/conta.service';
 import { MesaService } from '../mesa/mesa.service';
 import { Includeable } from 'sequelize';
+import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
 
 @Injectable()
 export class PedidoService {
@@ -18,6 +19,7 @@ export class PedidoService {
     private readonly usuarioService: UsuarioService,
     private readonly contaService: ContaService,
     private readonly mesaService: MesaService,
+    private readonly estabelecimentoService: EstabelecimentoService,
   ) {}
   async create(
     usuarioId: string,

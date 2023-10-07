@@ -86,7 +86,7 @@ export class Pedido extends Model<Pedido> {
 
   @ForeignKey(() => Estabelecimento)
   @Column({ type: DataType.UUID })
-  estabelecimentoId: Estabelecimento;
+  estabelecimentoId: string;
 
   @BelongsTo(() => Estabelecimento)
   estabelecimento: Estabelecimento;
