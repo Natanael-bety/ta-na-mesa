@@ -111,4 +111,19 @@ export class UsuarioService {
   async remove(usuarioId: string) {
     await this.usuarioModel.destroy({ where: { id: usuarioId } });
   }
+
+  async getColaboradereEndEstabeleciemnto(estabelecimentoId: string) {
+    try {
+      const { count, rows } = await this.usuarioModel.findAndCountAll({
+        where: { estabelecimentoId },
+      });
+
+      return {
+        data: rows,
+        totalCount: count,
+      };
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
 }

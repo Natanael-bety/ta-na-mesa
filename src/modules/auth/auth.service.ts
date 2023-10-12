@@ -8,6 +8,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { IsEmail } from 'class-validator';
 import { EstabelecimentoService } from '../estabelecimento/estabelecimento.service';
 import { NotFoundError } from 'src/common/error/types/notFound.error';
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class AuthService {
@@ -84,5 +85,18 @@ export class AuthService {
     } catch (e) {
       throw new BadRequestException(e.message);
     }
+  }
+
+  async findAllColaboradore(estabelecimentoId: string) {
+    const estabelecimento =
+      await this.usuarioService.getColaboradereEndEstabeleciemnto(
+        estabelecimentoId,
+      );
+
+    if (!estabelecimento) {
+      throw new NotFoundError('Usuario não encontrado');
+    }
+
+    return estabelecimento;
   }
 }
