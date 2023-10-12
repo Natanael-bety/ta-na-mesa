@@ -90,7 +90,7 @@ export class PedidoController {
     );
   }
 
-  @Post('/mesa/:mesaId/conta/pedido')
+  @Post('/mesa/:mesaId/conta/:usuarioId')
   createPedido(
     @Param('mesaId') mesaId: string,
     @Param('usuarioId') usuarioId: string,
