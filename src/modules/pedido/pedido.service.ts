@@ -62,23 +62,27 @@ export class PedidoService {
     const estabeleciemnto = await this.estabelecimentoService.getById(
       estabelecimentoId,
     );
-    const dataAtual = new Date();
-    const data24HorasAtras = new Date(dataAtual);
-    data24HorasAtras.setHours(data24HorasAtras.getHours() - 24);
+    try {
+      const dataAtual = new Date();
+      const data24HorasAtras = new Date(dataAtual);
+      data24HorasAtras.setHours(data24HorasAtras.getHours() - 24);
 
-    const whereConditions: any = {
-      estabeleciemnto,
-      dataCriacao: LessThan(dataAtual),
-      novaDataCriacao: MoreThan(data24HorasAtras),
-    };
+      const whereConditions: any = {
+        estabeleciemnto,
+        dataCriacao: LessThan(dataAtual),
+        novaDataCriacao: MoreThan(data24HorasAtras),
+      };
 
-    if (numeroMesa) {
-      whereConditions.numeroMesa = Like(`%${numeroMesa}%`);
+      if (numeroMesa) {
+        whereConditions.numeroMesa = Like(`%${numeroMesa}%`);
+      }
+
+      return this.pedidoModel.findOne({
+        where: whereConditions,
+      });
+    } catch (e) {
+      throw new BadRequestException(e.message);
     }
-
-    return this.pedidoModel.findOne({
-      where: whereConditions,
-    });
   }
 
   async findAll() {

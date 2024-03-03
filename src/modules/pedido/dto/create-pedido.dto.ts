@@ -4,6 +4,8 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
+  IsString,
 } from 'class-validator';
 import { STATUS_PEDIDO } from 'src/constants/pedido';
 
@@ -39,4 +41,8 @@ export class CreatePedidoDto {
   @IsNotEmpty()
   @IsDateString()
   alteradoEm: Date;
+
+  @IsOptional()
+  @IsString()
+  estabelecimentoId?: string;
 }
